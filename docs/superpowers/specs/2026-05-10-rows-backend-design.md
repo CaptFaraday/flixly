@@ -211,9 +211,9 @@ jobs:
 
 | API | Calls per build | Daily limit | Headroom |
 |---|---|---|---|
-| TMDb | ~90 | None (per-second only, ~50/s) | Unlimited |
-| OMDb | ~80 | 1000/day | 12× |
-| Output size | ~390 entries × 1KB | — | ~400KB raw, ~120KB gzipped over the wire |
+| TMDb | ~120 (10 discover + ~110 details/credits/release-dates across ~230 movies, with simple per-run dedupe) | None (per-second only, ~50/s) | Unlimited |
+| OMDb | ~230 (one per unique imdb_id across all rows; deduped via in-run cache) | 1000/day | 4× |
+| Output size | ~230 unique movie entries × ~1KB | — | ~250KB raw, ~80KB gzipped over the wire |
 
 ---
 
