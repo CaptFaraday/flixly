@@ -26,7 +26,7 @@ export class RDClient {
     return cached;
   }
 
-  /** Add a magnet, then unrestrict the largest video file in it. Returns CDN URL. */
+  /** Add a magnet, then unrestrict the LARGEST video file (by bytes). Returns CDN URL. */
   async unrestrict(infoHash: string): Promise<string> {
     const magnet = `magnet:?xt=urn:btih:${infoHash}`;
     const addBody = new URLSearchParams({ magnet });
@@ -47,12 +47,35 @@ export class RDClient {
     }
     if (info.status !== 'downloaded') throw new Error('RD: torrent not cached or stalled');
 
-    // Pick largest file's link
     const links: string[] = info.links;
     if (!links?.length) throw new Error('RD: no links returned');
 
-    // unrestrict the largest link
-    const unBody = new URLSearchParams({ link: links[0] });
+    // Pick the largest video file. info.files = [{id, path, bytes, selected}, ...]
+    // Only "selected: 1" files map to the links array, in order of selection.
+    const files: Array<{ id: number; path: string; bytes: number; selected: number }> = info.files ?? [];
+    const selected = files.filter((f) => f.selected === 1);
+    let chosenIdx = 0;
+    if (selected.length === links.length && selected.length > 0) {
+      // Find index of largest video file (by extension, then bytes)
+      const VIDEO_EXT = /\.(mkv|mp4|webm|avi|m4v|mov)$/i;
+      let bestIdx = -1;
+      let bestBytes = -1;
+      selected.forEach((f, idx) => {
+        if (VIDEO_EXT.test(f.path) && f.bytes > bestBytes) {
+          bestBytes = f.bytes;
+          bestIdx = idx;
+        }
+      });
+      if (bestIdx >= 0) chosenIdx = bestIdx;
+      else {
+        // No video extension matched — just take the largest file overall
+        let bIdx = 0, bBytes = -1;
+        selected.forEach((f, idx) => { if (f.bytes > bBytes) { bBytes = f.bytes; bIdx = idx; } });
+        chosenIdx = bIdx;
+      }
+    }
+
+    const unBody = new URLSearchParams({ link: links[chosenIdx] });
     const unR = await this.req('/unrestrict/link', { method: 'POST', body: unBody });
     const { download } = (await unR.json()) as { download: string };
     return download;
