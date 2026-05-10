@@ -94,15 +94,48 @@ Power users can add additional addons (Comet, MediaFusion, custom) in v0.3+ via 
 
 ## Stream selection philosophy
 
-The single biggest UX failure of vanilla Stremio is the stream picker. We replace it with an opinionated auto-pick.
+The single biggest UX failure of vanilla Stremio is the stream picker. We replace it with an opinionated **adaptive** auto-pick — opinionated about quality preferences, adaptive to your network and what your TV can actually play.
+
+### How it adapts
+
+A `Capabilities` module probes the environment on first launch (and re-probes periodically) and caches the results in localStorage:
+
+**Codec probe.** `<video>.canPlayType()` for the codec/container combinations that matter — H264 (baseline/main/high), H265 (main, main10), VP9, AV1, audio codecs (AAC, AC3/E-AC3, Opus), containers (MP4, MKV, WebM). Result: a static map of "what this TV's Chromium can actually play in `<video>`." Stored as `caps.codecs` with `caps.probedAt` timestamp.
+
+**Bandwidth probe.** On launch, fetch a known ~5MB file from Cloudflare/CDN, time it, compute sustained Mbps. Repeat on a 30-min cooldown. Stored as `caps.bandwidthMbps` with `caps.probedAt`. Falls back to `navigator.connection.downlink` if the API exists, but the file probe is more accurate.
+
+**Hardware caps.** TV-specific facts (4K display, no Dolby Vision on this model, HDR10 support) — known at build time, baked into a constants file. We won't trust the browser to tell us; we know the TV.
+
+The picker derives `pickConstraints` from these:
+
+```ts
+{
+  maxBitrateMbps: caps.bandwidthMbps * 0.6,   // 40% headroom for buffering
+  allowedCodecs: filterByProbe(caps.codecs),  // only what canPlayType said yes to
+  allowedContainers: ['mp4', 'mkv-if-h264'],  // tightened by probe
+  preferResolution: setting.prefer_4k && caps.bandwidthMbps > 25 ? '4k' : '1080p',
+  rejectOversize: true                        // skip remuxes if bandwidth can't sustain
+}
+```
 
 ### Ranking heuristic (in order)
+
 1. **Must be cached on Real-Debrid** (no waiting for torrent downloads, ever)
-2. **Container compatibility:** prefer MP4 / x264 (Chromium 79 plays it directly). MKV with H264 next. H265 deprioritized until v0.2 codec strategy is decided
-3. **Quality target:** prefer 1080p over 4K by default. Configurable in Settings (`prefer_4k: true` flips it). On a 4K HDR display you might want 4K, but H265 compatibility issues make 1080p the safer MVP default
-4. **File size sanity:** for 1080p, prefer 2–6GB (well-encoded); reject 12GB 1080p remuxes (probably overkill)
-5. **Audio:** prefer English audio if multiple tracks indicated in filename
-6. **Source quality tag:** REMUX > BluRay > WEB-DL > WEBRip > HDTV (parsed from torrent name)
+2. **Codec must pass the probe** — if the TV can't play H265 in `<video>`, H265 sources are rejected, period. No "let's try and see" — silent failure is the worst UX
+3. **Bitrate must fit network** — estimated bitrate (`file_size_bytes * 8 / runtime_seconds`) must be ≤ `maxBitrateMbps`. A 50GB 4K REMUX needs ~30 Mbps sustained; we don't pick it on a 10 Mbps line
+4. **Resolution preference** — 1080p by default. If `prefer_4k` is on AND bandwidth ≥ 25 Mbps AND the codec probe says we can play 4K H265, prefer 4K
+5. **File size sanity** — for 1080p, prefer 2–6 GB (well-encoded); reject 12 GB+ 1080p (REMUX overkill)
+6. **Audio language** — prefer English if multiple tracks
+7. **Source quality tag** — REMUX > BluRay > WEB-DL > WEBRip > HDTV (parsed from torrent name)
+8. **Tie-breaker** — higher seed count (more reliable RD cache hit)
+
+### Probe persistence and re-probe rules
+
+| Probe | Initial | Re-probe trigger |
+|---|---|---|
+| Codec capability | First launch | On app version change (new Chromium build) |
+| Bandwidth | First launch | Every 30 min while app is open; immediately on `navigator.online` flip; immediately on a buffering event during playback |
+| Hardware caps | Constant | Never (fixed at build time per TV model) |
 
 ### What the user sees
 - **Default:** press Play → 1–2 second spinner → playback starts. Done.
@@ -122,7 +155,9 @@ The single biggest UX failure of vanilla Stremio is the stream picker. We replac
 | **Spatial nav** | Owns focus. D-pad in → focus change. Pure logic, no DOM dep | Nothing |
 | **Real-Debrid client** | Talks to RD REST API. `checkCache(hashes)`, `unrestrict(magnet)`. Holds API key | Network |
 | **Source scraper** | Calls Torrentio (and v0.3+ optional addons) to get candidate info-hashes for an IMDb ID | Network |
-| **Stream picker** | Pure function: ranks candidates, returns best stream URL via the ranking heuristic | RD client, scraper |
+| **Capabilities** | Probes codec support (`canPlayType`) + bandwidth (timed CDN fetch). Caches in localStorage. Exposes `pickConstraints()` | Network, localStorage |
+| **Stream picker** | Pure function: takes candidates + capabilities → ranks/filters → returns best stream URL | RD client, scraper, Capabilities |
+| **Name parser** | Parses torrent filenames into structured (resolution, codec, source, audio, group). Pure logic | Nothing |
 | **Subtitle client** | Fetches subtitles from OpenSubtitles addon (and v0.3+ custom sources) | Network |
 | **Suggestion layer** | Fetches `rows.json` from GitHub, parses, exposes typed rows | Network |
 | **Metadata layer** | TMDb client + IndexedDB cache + dedup | Network + cache |
@@ -137,7 +172,7 @@ The single biggest UX failure of vanilla Stremio is the stream picker. We replac
 app/src/
   screens/        Home.tsx, Detail.tsx, Library.tsx, Search.tsx, Player.tsx, Settings.tsx
   nav/            spatial.ts, useFocusable.ts
-  sources/        realdebrid.ts, torrentio.ts, picker.ts, parse-name.ts
+  sources/        realdebrid.ts, torrentio.ts, picker.ts, parse-name.ts, capabilities.ts
   subtitles/      opensubtitles.ts, render.ts
   data/           rows.ts, tmdb.ts, cache.ts
   state/          store.ts, persistence.ts
@@ -265,7 +300,8 @@ The smallest thing worth installing.
 - Home screen: hero + one row + brand shelf (brand shelf list hardcoded initially)
 - Detail screen: hero, metadata, "Play" button
 - Player: HTML5 `<video>`, basic remote controls (play/pause, seek), resume to localStorage
-- **Stream selection: Torrentio → RD cache check → opinionated auto-pick → play. No picker shown.**
+- **Stream selection: Torrentio → RD cache check → adaptive auto-pick (codec probe + bandwidth probe) → play. No picker shown.**
+- Capabilities module: codec probe at startup, bandwidth probe at startup + every 30 min
 - Design tokens applied
 - Settings screen: just a Real-Debrid API key field + a "prefer 4K" toggle
 
@@ -317,7 +353,8 @@ The smallest thing worth installing.
 - **`rows.json` fetch fails:** use last cached version from localStorage
 - **TMDb fetch fails:** items show with what's in `rows.json`; optional details just don't appear
 - **No cached streams on RD:** "No cached streams available right now — try again later." Don't queue an uncached torrent (blocks playback). v0.2 adds an opt-in "queue it" action
-- **Video playback error (codec issue):** offer to "try another source" — opens picker with failing source dimmed
+- **Video playback error (codec issue):** treat as a probe miss — mark that codec as unsupported in localStorage, refilter candidates, try next match. Only show picker if all candidates fail
+- **Buffering during playback:** trigger an immediate bandwidth re-probe; if the new estimate is < current stream's bitrate, offer "switch to a lower-bitrate version" toast that picks again with tighter constraints
 - **localStorage quota:** prune oldest resume entries, retry
 
 Principle: never break the app because something on the internet broke.
@@ -335,5 +372,7 @@ Principle: never break the app because something on the internet broke.
 - **Quality source if OMDb proves limiting** — could add Letterboxd scraping as v0.3 enhancement
 - **Brand shelf items** — final list of 10 production companies to feature; A24, NEON, Studio Ghibli, Pixar, Marvel, Searchlight, Focus Features identified so far; need 3 more
 - **Custom font choice** — Times New Roman is the spec fallback; if licensing permits we may switch to Tiempos or Source Serif Pro for better cinema feel
-- **Container support** — Chromium 79 HTML5 video plays MP4/H264 reliably but is patchy on MKV/H265. Decide in v0.2: transcode-on-debrid, MSE polyfill, or expose WebOS native media pipeline via Luna bus
+- **Container support** — Chromium 79 HTML5 video plays MP4/H264 reliably but is patchy on MKV/H265. Codec probe at startup tells us what works; v0.2 decides whether to plumb the WebOS native media pipeline (via Luna bus) for the codecs `<video>` rejects. Until then, those candidates just get filtered out
+- **HDR passthrough** — TV supports HDR10/HLG natively, but Chromium 79's `<video>` element can't trigger HDR mode from a web context. Real 4K HDR playback requires the WebOS native media pipeline. v0.2+ concern
 - **Embedded subtitles in MKV** — addon-fetched subtitles handle most cases; mux'd subtitles in container files are a v0.3 concern
+- **Bandwidth probe target** — pick a stable CDN-hosted ~5MB file. Cloudflare's `speed.cloudflare.com` endpoints work; alternative: a static asset in our own GitHub Pages
