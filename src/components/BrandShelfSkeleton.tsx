@@ -8,7 +8,9 @@ export function BrandShelfSkeleton() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 18 }}>
         {Array.from({ length: 7 }).map((_, i) => (
-          <Skeleton key={i} height={0} style={{ aspectRatio: '16/9', height: 'auto' }} radius={8} />
+          <div key={i} style={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
+            <div data-skeleton style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: 8 }} />
+          </div>
         ))}
       </div>
     </section>
