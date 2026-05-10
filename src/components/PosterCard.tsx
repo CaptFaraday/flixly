@@ -2,8 +2,8 @@ import './PosterCard.css';
 import { useFocusable } from '../nav/useFocusable';
 import type { Movie } from '../types';
 
-export function PosterCard({ movie, onActivate }: { movie: Movie; onActivate: () => void }) {
-  const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${movie.imdb_id}` });
+export function PosterCard({ movie, rowId, onActivate }: { movie: Movie; rowId: string; onActivate: () => void }) {
+  const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${rowId}-${movie.imdb_id}` });
   return (
     <div ref={ref as any} {...rest} className="poster">
       <div className="poster__inner">

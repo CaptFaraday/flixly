@@ -2,9 +2,9 @@ import './Row.css';
 import type { Movie } from '../types';
 import { PosterCard } from './PosterCard';
 
-interface Props { title: string; subtitle?: string; items: Movie[]; onSelect: (m: Movie) => void; }
+interface Props { id: string; title: string; subtitle?: string; items: Movie[]; onSelect: (m: Movie) => void; }
 
-export function Row({ title, subtitle, items, onSelect }: Props) {
+export function Row({ id, title, subtitle, items, onSelect }: Props) {
   const visible = items.slice(0, 6);
   return (
     <section>
@@ -13,7 +13,7 @@ export function Row({ title, subtitle, items, onSelect }: Props) {
         <h2 className="row__title">{title}</h2>
       </header>
       <div className="row__grid">
-        {visible.map((m) => <PosterCard key={m.imdb_id} movie={m} onActivate={() => onSelect(m)} />)}
+        {visible.map((m) => <PosterCard key={m.imdb_id} rowId={id} movie={m} onActivate={() => onSelect(m)} />)}
       </div>
     </section>
   );

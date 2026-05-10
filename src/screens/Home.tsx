@@ -71,7 +71,7 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
           )}
           {rows.map((row) => (
             <div key={row.id} className="home__section">
-              <Row title={row.title} subtitle={row.subtitle} items={row.items} onSelect={onSelectMovie} />
+              <Row id={row.id} title={row.title} subtitle={row.subtitle} items={row.items} onSelect={onSelectMovie} />
             </div>
           ))}
         </div>
