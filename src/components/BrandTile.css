@@ -23,12 +23,32 @@
   /* background is composed inline (radial gradient + per-brand color) — runtime */
 }
 
-.brand__logo {
+.brand__logo-box {
   width: 70%;
   height: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.brand__logo-img {
+  max-width: 70%;
+  max-height: 60%;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.brand__fallback-text {
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.05;
 }
 
 .brand__gloss {
@@ -39,9 +59,4 @@
   height: 40%;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, transparent 100%);
   pointer-events: none;
-}
-
-.brand__svg {
-  width: 100%;
-  height: 100%;
 }
