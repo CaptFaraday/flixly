@@ -1,3 +1,4 @@
+import './Settings.css';
 import { useFocusable } from '../nav/useFocusable';
 import { settings, setSetting } from '../state/store';
 import type { Settings as SettingsT } from '../types';
@@ -8,8 +9,8 @@ export function Settings({ onNavigate }: { onNavigate: (to: 'home' | 'search' | 
   return (
     <>
       <TopNav current="settings" onNavigate={onNavigate} />
-      <div style={pageStyle}>
-        <h1 style={h1Style}>Settings</h1>
+      <div className="settings">
+        <h1 className="settings__title">Settings</h1>
         <RDKeyField value={s.rd_api_key} />
         <ToggleField label="Prefer 4K when available" value={s.prefer_4k} onChange={(v) => setSetting('prefer_4k', v)} />
         <SelectField
@@ -38,9 +39,9 @@ function RDKeyField({ value }: { value: string }) {
   });
   const masked = value ? `${value.slice(0, 4)}…${value.slice(-4)}` : '(not set)';
   return (
-    <div style={fieldStyle}>
-      <div style={labelStyle}>Real-Debrid API key</div>
-      <div ref={ref as any} {...rest} style={valueStyle}>{masked}</div>
+    <div className="settings__field">
+      <div className="settings__label">Real-Debrid API key</div>
+      <div ref={ref as any} {...rest} className="settings__value">{masked}</div>
     </div>
   );
 }
@@ -48,9 +49,9 @@ function RDKeyField({ value }: { value: string }) {
 function ToggleField({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
   const { ref, ...rest } = useFocusable({ id: `toggle-${label}`, onActivate: () => onChange(!value) });
   return (
-    <div style={fieldStyle}>
-      <div style={labelStyle}>{label}</div>
-      <div ref={ref as any} {...rest} style={valueStyle}>{value ? 'On' : 'Off'}</div>
+    <div className="settings__field">
+      <div className="settings__label">{label}</div>
+      <div ref={ref as any} {...rest} className="settings__value">{value ? 'On' : 'Off'}</div>
     </div>
   );
 }
@@ -71,15 +72,9 @@ function SelectField({ label, value, options, onChange }: {
   });
   const display = options.find(([v]) => v === value)?.[1] ?? value;
   return (
-    <div style={fieldStyle}>
-      <div style={labelStyle}>{label}</div>
-      <div ref={ref as any} {...rest} style={valueStyle}>{display}</div>
+    <div className="settings__field">
+      <div className="settings__label">{label}</div>
+      <div ref={ref as any} {...rest} className="settings__value">{display}</div>
     </div>
   );
 }
-
-const pageStyle: any = { padding: '96px 64px', maxWidth: 800 };
-const h1Style: any = { fontFamily: 'var(--font-display)', fontSize: 48, marginBottom: 32 };
-const fieldStyle: any = { display: 'grid', gridTemplateColumns: '320px 1fr', gap: 24, padding: '14px 0', alignItems: 'center', borderBottom: '1px solid var(--border)' };
-const labelStyle: any = { color: 'var(--text-muted)', letterSpacing: '1.2px', textTransform: 'uppercase', fontSize: 14 };
-const valueStyle: any = { padding: '10px 16px', borderRadius: 4, background: 'var(--surface)', cursor: 'pointer' };
