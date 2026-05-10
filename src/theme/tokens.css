@@ -13,7 +13,7 @@
   --font-display: 'Times New Roman', Georgia, serif;
   --font-ui: 'Helvetica Neue', Arial, sans-serif;
 
-  /* spacing scale (8pt) */
+  /* spacing scale — TV-appropriate, 96px tops the scale (5% of 1920) */
   --s-1: 4px;
   --s-2: 8px;
   --s-3: 16px;
@@ -21,6 +21,8 @@
   --s-5: 32px;
   --s-6: 48px;
   --s-7: 64px;
+  --s-8: 80px;
+  --s-9: 96px;
 
   /* radii */
   --r-sm: 2px;
@@ -43,7 +45,13 @@ html, body, #app {
   -webkit-user-select: none;
 }
 
-html { overflow: hidden; }     /* viewport never scrolls */
+/* Root font-size = 0.5208vw makes 1rem = 10px @ 1920 viewport width.
+   If we ever switch render-resolution, rem-based sizes auto-scale.
+   The clamp keeps things sane in dev (desktop browser at 800px width). */
+html {
+  font-size: clamp(8px, 0.5208vw, 14px);
+  overflow: hidden;             /* viewport never scrolls */
+}
 body {
   overflow-y: auto;             /* content scrolls vertically */
   overflow-x: hidden;
