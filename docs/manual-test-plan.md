@@ -43,3 +43,6 @@ Walk this list after each `npm run deploy`.
 - [ ] Invalid RD key → clear error: "Real-Debrid request failed"
 - [ ] Obscure movie with no streams → "No sources found"
 - [ ] H.265-only movie on H.265-unsupported TV → "All cached versions use a video codec your TV can't play"
+
+## TODOs to verify on first deploy
+- [ ] Verify `instantAvailability` endpoint still works on first deploy; community reports it may be deprecated. If RD has removed it, swap `RDClient.checkCache` for an "add magnet, poll info" probe.
