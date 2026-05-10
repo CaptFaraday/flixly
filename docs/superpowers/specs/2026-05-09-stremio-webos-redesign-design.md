@@ -118,16 +118,32 @@ The picker derives `pickConstraints` from these:
 }
 ```
 
-### Ranking heuristic (in order)
+### Ranking heuristic — hard filters first, then soft sort
 
-1. **Must be cached on Real-Debrid** (no waiting for torrent downloads, ever)
-2. **Codec must pass the probe** — if the TV can't play H265 in `<video>`, H265 sources are rejected, period. No "let's try and see" — silent failure is the worst UX
-3. **Bitrate must fit network** — estimated bitrate (`file_size_bytes * 8 / runtime_seconds`) must be ≤ `maxBitrateMbps`. A 50GB 4K REMUX needs ~30 Mbps sustained; we don't pick it on a 10 Mbps line
-4. **Resolution preference** — 1080p by default. If `prefer_4k` is on AND bandwidth ≥ 25 Mbps AND the codec probe says we can play 4K H265, prefer 4K
-5. **File size sanity** — for 1080p, prefer 2–6 GB (well-encoded); reject 12 GB+ 1080p (REMUX overkill)
-6. **Audio language** — prefer English if multiple tracks
-7. **Source quality tag** — REMUX > BluRay > WEB-DL > WEBRip > HDTV (parsed from torrent name)
-8. **Tie-breaker** — higher seed count (more reliable RD cache hit)
+**Hard filters (a candidate is rejected if it fails any of these):**
+
+1. **Cached on Real-Debrid** — no waiting for torrent downloads, ever
+2. **Video codec passes the probe** — if the TV can't play H265 in `<video>`, H265 sources are out. No "let's try and see"
+3. **Audio codec passes the probe** — if the filename indicates DTS or TrueHD (which Chromium typically can't decode), reject. AAC and (usually) AC3/E-AC3 pass; DTS/FLAC/TrueHD usually fail. v0.2 may add a passthrough path via WebOS native pipeline
+4. **Audio language is acceptable** — parse the filename for language tags. `[ENG]`, `English`, `Multi`, `Dual` all pass. An explicit non-English-only tag like `[Hindi]` or `[Korean]` is rejected (configurable: see "Audio language preference"). When the filename says nothing, assume English (the safe default for US releases)
+5. **Bitrate fits network** — estimated bitrate (`file_size_bytes × 8 / runtime_seconds`) ≤ `maxBitrateMbps`
+6. **Subtitle availability** (per-movie pre-flight) — before any candidate is picked, fire one OpenSubtitles call for the IMDb ID. If subs exist, all candidates are eligible. If NO English subs exist for this title, behavior depends on the `require_subtitles` setting (see below)
+
+**Soft sort (rank the survivors):**
+
+1. **Resolution preference** — 1080p by default; 4K if `prefer_4k` AND bandwidth ≥ 25 Mbps AND H265 in probe
+2. **File size sanity** — for 1080p, prefer 2–6 GB; reject 12 GB+ 1080p (REMUX overkill)
+3. **Source quality tag** — REMUX > BluRay > WEB-DL > WEBRip > HDTV
+4. **Tie-breaker** — higher seed count
+
+### Settings affecting the picker
+
+| Setting | Default | Effect |
+|---|---|---|
+| `prefer_4k` | off | If on, picker prefers 4K when bandwidth + codec allow |
+| `audio_language` | `en` | Required language on the audio track. Falls back to "any" if no `en` candidate is available, with a one-time toast |
+| `require_subtitles` | on | If on, block playback when no subs found and surface "Subtitles unavailable for this title" with options: pick anyway / cancel. If off, play with no subs and show a small warning toast |
+| `allow_unsupported_audio_passthrough` | off | v0.2+. If on, attempt DTS/TrueHD via WebOS native pipeline instead of `<video>` |
 
 ### Probe persistence and re-probe rules
 
@@ -155,9 +171,10 @@ The picker derives `pickConstraints` from these:
 | **Spatial nav** | Owns focus. D-pad in → focus change. Pure logic, no DOM dep | Nothing |
 | **Real-Debrid client** | Talks to RD REST API. `checkCache(hashes)`, `unrestrict(magnet)`. Holds API key | Network |
 | **Source scraper** | Calls Torrentio (and v0.3+ optional addons) to get candidate info-hashes for an IMDb ID | Network |
-| **Capabilities** | Probes codec support (`canPlayType`) + bandwidth (timed CDN fetch). Caches in localStorage. Exposes `pickConstraints()` | Network, localStorage |
-| **Stream picker** | Pure function: takes candidates + capabilities → ranks/filters → returns best stream URL | RD client, scraper, Capabilities |
-| **Name parser** | Parses torrent filenames into structured (resolution, codec, source, audio, group). Pure logic | Nothing |
+| **Capabilities** | Probes video + audio codec support (`canPlayType`) + bandwidth (timed CDN fetch). Caches in localStorage. Exposes `pickConstraints()` | Network, localStorage |
+| **Subtitle pre-flight** | Per-IMDb-ID check that subtitles exist via subtitle client. Cached per movie. Fired in parallel with stream candidate fetching | Subtitle client |
+| **Stream picker** | Pure function: takes candidates + capabilities + subtitle availability → ranks/filters → returns best stream URL or "blocked" reason | RD client, scraper, Capabilities, Subtitle pre-flight |
+| **Name parser** | Parses torrent filenames into structured `{resolution, video_codec, audio_codec, audio_languages, source, group, container}`. Pure logic | Nothing |
 | **Subtitle client** | Fetches subtitles from OpenSubtitles addon (and v0.3+ custom sources) | Network |
 | **Suggestion layer** | Fetches `rows.json` from GitHub, parses, exposes typed rows | Network |
 | **Metadata layer** | TMDb client + IndexedDB cache + dedup | Network + cache |
@@ -300,10 +317,13 @@ The smallest thing worth installing.
 - Home screen: hero + one row + brand shelf (brand shelf list hardcoded initially)
 - Detail screen: hero, metadata, "Play" button
 - Player: HTML5 `<video>`, basic remote controls (play/pause, seek), resume to localStorage
-- **Stream selection: Torrentio → RD cache check → adaptive auto-pick (codec probe + bandwidth probe) → play. No picker shown.**
+- **Stream selection: Torrentio → RD cache check → adaptive auto-pick → play. No picker shown.**
+  - Adaptive on: codec probe (video + audio), bandwidth probe, audio-language filter, subtitle availability pre-flight
 - Capabilities module: codec probe at startup, bandwidth probe at startup + every 30 min
+- Subtitle pre-flight: parallel call to OpenSubtitles for each movie's IMDb ID before commitment to a stream
+- Settings: Real-Debrid API key, `prefer_4k` toggle, `audio_language` (default `en`), `require_subtitles` toggle (default on)
 - Design tokens applied
-- Settings screen: just a Real-Debrid API key field + a "prefer 4K" toggle
+- Settings screen fields: Real-Debrid API key, `prefer_4k`, `audio_language` (en/es/fr/de/ja/any), `require_subtitles`
 
 ### v0.2 — feels like a real app
 - All home rows from `rows.json` rendering correctly
@@ -353,6 +373,9 @@ The smallest thing worth installing.
 - **`rows.json` fetch fails:** use last cached version from localStorage
 - **TMDb fetch fails:** items show with what's in `rows.json`; optional details just don't appear
 - **No cached streams on RD:** "No cached streams available right now — try again later." Don't queue an uncached torrent (blocks playback). v0.2 adds an opt-in "queue it" action
+- **All candidates rejected by hard filters:** show why specifically. Examples: "All cached versions are over your network's capacity," "All cached versions use audio codecs your TV can't play (DTS/TrueHD)," "No English audio track found — switch language preference?". Each error has an actionable next step
+- **Subtitles unavailable for this title** (and `require_subtitles` is on): show a dialog with two options — "Watch without subtitles" (proceeds, remembers the choice for this title) or "Cancel"
+- **Audio track wrong language at runtime** (filename misled us): treat as a probe miss for that file, mark the stream and re-pick. Rare but possible
 - **Video playback error (codec issue):** treat as a probe miss — mark that codec as unsupported in localStorage, refilter candidates, try next match. Only show picker if all candidates fail
 - **Buffering during playback:** trigger an immediate bandwidth re-probe; if the new estimate is < current stream's bitrate, offer "switch to a lower-bitrate version" toast that picks again with tighter constraints
 - **localStorage quota:** prune oldest resume entries, retry
