@@ -54,80 +54,139 @@ const smooth = (e0, e1, x) => {
   return t * t * (3 - 2 * t);
 };
 
-// Draw a stylized "D":
-//   - Vertical bar on the left (rectangle with rounded outer corners)
-//   - Bowl on the right (half-ring shape, thick stroke)
-//   - Inset from edges so it sits in a comfortable optical centre
-function drawD(x, y, size) {
-  // Background: black with a subtle vertical gradient for depth
-  const tBg = y / size;
-  const bgR = Math.round(8 + (1 - tBg) * 4);
-  const bgG = Math.round(8 + (1 - tBg) * 4);
-  const bgB = Math.round(10 + (1 - tBg) * 4);
-
-  // Coordinate space: -1 .. 1 with 0,0 at centre
-  const u = (x / size) * 2 - 1;
+// Cool Flixly launcher mark.
+//
+// Concept: bold italic "F" where each horizontal arm ends in a play-arrow tip,
+// suggesting streaming / forward motion. The F sits on a dark gradient
+// background with a radial red ambient glow that bleeds beyond the letterform
+// for premium depth. Subtle inner sheen on the letterform gives it dimension.
+function drawF(x, y, size) {
+  // ---- Coordinates (-1..1, origin at centre) ----
+  const u0 = (x / size) * 2 - 1;
   const v = (y / size) * 2 - 1;
+  // Italic lean: shift u based on v so the F leans forward (streaming energy)
+  const slant = 0.10;
+  const u = u0 - v * slant;
 
-  // D geometry tuned for visual balance (slightly left of centre).
-  const left = -0.55, right = 0.55, top = -0.65, bottom = 0.65;
-  const stroke = 0.28;       // pen thickness
-  const aaPx = 1 / size * 2; // anti-alias band width in u/v units
+  // ---- Background: dark vignette + subtle radial off-centre highlight ----
+  const distFromCentre = Math.sqrt(u0 * u0 + v * v);
+  // Vignette at edges
+  const vignette = 1 - Math.min(1, Math.max(0, (distFromCentre - 0.3) * 0.6));
+  // Slight cool tint top-left → near-black bottom-right
+  const bgBase = 10 + Math.round((1 - (y / size)) * 6) + Math.round(vignette * 3);
+  let R = bgBase, G = bgBase, B = bgBase + 2;
 
-  let inD = 0;
+  // ---- Red ambient halo behind the F (centered on F's optical centre) ----
+  // Optical centre of the leaning F is roughly at (-0.05, 0).
+  const haloDx = u0 - (-0.05);
+  const haloDy = v - 0;
+  const haloR = Math.sqrt(haloDx * haloDx + haloDy * haloDy);
+  const haloFalloff = Math.max(0, 1 - haloR / 1.2);
+  const haloIntensity = haloFalloff * haloFalloff * 0.55; // 0..0.55
+  R = Math.round(R + (210 - R) * haloIntensity * 0.35);
+  G = Math.round(G + (15 - G) * haloIntensity * 0.20);
+  B = Math.round(B + (25 - B) * haloIntensity * 0.18);
 
-  // Left vertical bar
-  if (u >= left - aaPx && u <= left + stroke + aaPx && v >= top - aaPx && v <= bottom + aaPx) {
-    const horizFade = Math.min(
-      smooth(left - aaPx, left + aaPx, u),
-      smooth(left + stroke + aaPx, left + stroke - aaPx, u),
-    );
-    const vertFade = Math.min(
-      smooth(top - aaPx, top + aaPx, v),
-      smooth(bottom + aaPx, bottom - aaPx, v),
-    );
-    inD = Math.max(inD, horizFade * vertFade);
+  // ---- F geometry ----
+  const left = -0.46;
+  const stroke = 0.30;
+  const top = -0.68, bottom = 0.70;
+  const topArmRight = 0.46;
+  const midArmRight = 0.22;
+  const midArmCenter = 0.02;
+  const aa = 1 / size * 2;
+
+  let inF = 0;
+
+  // Vertical bar
+  const vbarH = Math.min(
+    smooth(left - aa, left + aa, u),
+    smooth(left + stroke + aa, left + stroke - aa, u),
+  );
+  const vbarV = Math.min(
+    smooth(top - aa, top + aa, v),
+    smooth(bottom + aa, bottom - aa, v),
+  );
+  inF = Math.max(inF, vbarH * vbarV);
+
+  // Top horizontal arm — ends in a right-pointing triangle tip (play-arrow style)
+  const topArmTop = top;
+  const topArmBot = top + stroke;
+  // Rect part: left → topArmRight
+  const topRectH = Math.min(
+    smooth(left - aa, left + aa, u),
+    smooth(topArmRight + aa, topArmRight - aa, u),
+  );
+  const topRectV = Math.min(
+    smooth(topArmTop - aa, topArmTop + aa, v),
+    smooth(topArmBot + aa, topArmBot - aa, v),
+  );
+  inF = Math.max(inF, topRectH * topRectV);
+  // Triangle tip: from topArmRight to topArmRight+tipLen, narrowing to a point at midV of the arm
+  {
+    const tipLen = 0.16;
+    const tipMid = (topArmTop + topArmBot) / 2;
+    const halfH = stroke / 2;
+    const t = (u - topArmRight) / tipLen; // 0 at base, 1 at point
+    if (t >= -aa && t <= 1 + aa) {
+      const armHalf = halfH * Math.max(0, 1 - t);
+      const tipH = smooth(-aa, aa, t) * smooth(1 + aa, 1 - aa, t);
+      const tipV = Math.min(
+        smooth(tipMid - armHalf - aa, tipMid - armHalf + aa, v),
+        smooth(tipMid + armHalf + aa, tipMid + armHalf - aa, v),
+      );
+      inF = Math.max(inF, tipH * tipV);
+    }
   }
 
-  // Bowl (half-ring on the right side)
-  // Outer ellipse semi-axes
-  const cx = left + stroke / 2;
-  const ax = right - cx;
-  const ay = (bottom - top) / 2;
-  const cy = (top + bottom) / 2;
-  const dx = u - cx;
-  const dy = v - cy;
-  const outer = (dx * dx) / (ax * ax) + (dy * dy) / (ay * ay);
-  const inner = (dx * dx) / ((ax - stroke) * (ax - stroke)) + (dy * dy) / ((ay - stroke) * (ay - stroke));
-  if (u >= cx - aaPx) {
-    const aaBand = aaPx * 2;
-    const outerEdge = smooth(1 + aaBand, 1 - aaBand, outer);
-    const innerEdge = smooth(1 - aaBand, 1 + aaBand, inner);
-    const ring = Math.min(outerEdge, innerEdge);
-    inD = Math.max(inD, ring);
+  // Middle horizontal arm — same arrow-tip treatment, shorter
+  const midArmTop = midArmCenter - stroke / 2;
+  const midArmBot = midArmCenter + stroke / 2;
+  const midRectH = Math.min(
+    smooth(left - aa, left + aa, u),
+    smooth(midArmRight + aa, midArmRight - aa, u),
+  );
+  const midRectV = Math.min(
+    smooth(midArmTop - aa, midArmTop + aa, v),
+    smooth(midArmBot + aa, midArmBot - aa, v),
+  );
+  inF = Math.max(inF, midRectH * midRectV);
+  {
+    const tipLen = 0.13;
+    const tipMid = (midArmTop + midArmBot) / 2;
+    const halfH = stroke / 2;
+    const t = (u - midArmRight) / tipLen;
+    if (t >= -aa && t <= 1 + aa) {
+      const armHalf = halfH * Math.max(0, 1 - t);
+      const tipH = smooth(-aa, aa, t) * smooth(1 + aa, 1 - aa, t);
+      const tipV = Math.min(
+        smooth(tipMid - armHalf - aa, tipMid - armHalf + aa, v),
+        smooth(tipMid + armHalf + aa, tipMid + armHalf - aa, v),
+      );
+      inF = Math.max(inF, tipH * tipV);
+    }
   }
 
-  // Red colour with a subtle vertical sheen so it doesn't feel flat.
-  const t = (y / size);
-  const r = Math.round(229 + (1 - t) * 14);   // 229..243
-  const g = Math.round(9 + (1 - t) * 12);     // 9..21
-  const b = Math.round(20 + (1 - t) * 18);    // 20..38
+  // ---- F fill: rich red with internal gradient (top-left lighter → bottom-right deeper) ----
+  if (inF > 0) {
+    // Internal sheen: brighter at the upper-left of each stroke
+    const sheen = Math.max(0, Math.min(1, 0.5 - (u + v) * 0.35));
+    const fr = Math.round(225 + sheen * 28); // 225..253
+    const fg = Math.round(9 + sheen * 22);   // 9..31
+    const fb = Math.round(20 + sheen * 30);  // 20..50
 
-  if (inD > 0) {
-    return [
-      Math.round(bgR * (1 - inD) + r * inD),
-      Math.round(bgG * (1 - inD) + g * inD),
-      Math.round(bgB * (1 - inD) + b * inD),
-      255,
-    ];
+    R = Math.round(R * (1 - inF) + fr * inF);
+    G = Math.round(G * (1 - inF) + fg * inF);
+    B = Math.round(B * (1 - inF) + fb * inF);
   }
-  return [bgR, bgG, bgB, 255];
+
+  return [Math.min(255, R), Math.min(255, G), Math.min(255, B), 255];
 }
 
-const small = makePNG(130, drawD);
+const small = makePNG(130, drawF);
 fs.writeFileSync(path.join(ROOT, 'public', 'icon.png'), small);
 console.log('public/icon.png', small.length, 'bytes');
 
-const large = makePNG(256, drawD);
+const large = makePNG(256, drawF);
 fs.writeFileSync(path.join(ROOT, 'public', 'icon-large.png'), large);
 console.log('public/icon-large.png', large.length, 'bytes');

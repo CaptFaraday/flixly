@@ -1,14 +1,14 @@
 {
-  "id": "com.duane.stremio",
+  "id": "com.flixly.tv",
   "version": "0.1.0",
   "vendor": "Duane",
   "type": "web",
   "main": "index.html",
-  "title": "duane",
+  "title": "Flixly",
   "icon": "icon.png",
   "largeIcon": "icon-large.png",
   "iconColor": "red",
-  "appDescription": "Custom Stremio for WebOS",
+  "appDescription": "Flixly — your movies",
   "resolution": "1920x1080",
   "uiRevision": 2
 }
