@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function Detail({ movie, onPlay, onNavigate }: Props) {
-  const playBtn = useFocusable({ id: 'detail-play', onActivate: onPlay });
+  const playBtn = useFocusable({ id: 'detail-play', onActivate: onPlay, autofocus: true });
   const watchBtn = useFocusable({ id: 'detail-watch', onActivate: () => toggleWatchlist(movie.imdb_id) });
   const inList = watchlist.value.includes(movie.imdb_id);
   const { ref: playRef, ...playRest } = playBtn;
