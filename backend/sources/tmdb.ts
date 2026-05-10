@@ -57,6 +57,22 @@ export interface ReleaseDates {
   digital_us: string | undefined;       // ISO YYYY-MM-DD or undefined
 }
 
+// Module-level concurrency limiter so all TmdbClient instances share
+// one in-flight pool. TMDb's documented limit is ~50/sec and we have
+// many parallel callers; cap at 10 in-flight to stay well below.
+const MAX_CONCURRENT = 10;
+let inFlight = 0;
+const waitQueue: Array<() => void> = [];
+async function acquire(): Promise<void> {
+  if (inFlight < MAX_CONCURRENT) { inFlight++; return; }
+  return new Promise((resolve) => waitQueue.push(() => { inFlight++; resolve(); }));
+}
+function release(): void {
+  inFlight--;
+  const next = waitQueue.shift();
+  if (next) next();
+}
+
 export class TmdbClient {
   constructor(private token: string) {}
 
@@ -66,19 +82,27 @@ export class TmdbClient {
       if (v != null) url.searchParams.set(k, String(v));
     }
 
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const r = await fetch(url.toString(), {
-        headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/json' },
-      });
-      if (r.status === 429 && attempt === 0) {
-        const wait = Number(r.headers.get('Retry-After') ?? '1') * 1000;
-        await new Promise((res) => setTimeout(res, wait));
-        continue;
+    await acquire();
+    try {
+      // Retry up to 3 times on 429 with exponential backoff (TMDb's Retry-After
+      // header is not always present, so we use a sensible default).
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const r = await fetch(url.toString(), {
+          headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/json' },
+        });
+        if (r.status === 429 && attempt < 3) {
+          const headerWait = Number(r.headers.get('Retry-After') ?? '0') * 1000;
+          const backoff = Math.max(headerWait, (attempt + 1) * 1000);
+          await new Promise((res) => setTimeout(res, backoff));
+          continue;
+        }
+        if (!r.ok) throw new Error(`TMDb ${r.status}: ${await r.text().catch(() => '')}`);
+        return r.json();
       }
-      if (!r.ok) throw new Error(`TMDb ${r.status}: ${await r.text().catch(() => '')}`);
-      return r.json();
+      throw new Error('TMDb: rate limited and retry failed');
+    } finally {
+      release();
     }
-    throw new Error('TMDb: rate limited and retry failed');
   }
 
   async discover(filters: DiscoverFilters): Promise<DiscoverResponse> {

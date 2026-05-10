@@ -190,7 +190,7 @@ interface BrandConfig {
 
 const BRANDS: BrandConfig[] = [
   { id: 'a24',            title: 'A24',           companyId: 41077,  background_color: '#0d0d0d', voteCountMin: 20 },
-  { id: 'neon',           title: 'NEON',          companyId: 193481, background_color: '#003a3a', voteCountMin: 20 },
+  { id: 'neon',           title: 'NEON',          companyId: 90733,  background_color: '#003a3a', voteCountMin: 20 },
   { id: 'studio-ghibli',  title: 'Studio Ghibli', companyId: 10342,  background_color: '#1e3a5f', voteCountMin: 20 },
   { id: 'pixar',          title: 'Pixar',         companyId: 3,      background_color: '#5b3b1e', voteCountMin: 100 },
   { id: 'marvel',         title: 'Marvel',        companyId: 420,    background_color: '#5a0d0d', voteCountMin: 100 },
