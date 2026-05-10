@@ -1,0 +1,107 @@
+.detail__hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background-size: cover;
+  background-position: center;
+  /* background-image is set inline (runtime: movie.backdrop URL) */
+}
+
+.detail__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    linear-gradient(180deg, transparent 30%, var(--bg) 100%),
+    linear-gradient(90deg, var(--bg) 0%, rgba(10, 10, 10, 0.6) 40%, transparent 70%);
+}
+
+.detail__content {
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  right: 5%;
+}
+
+.detail__title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin: 0 0 16px;
+}
+
+.detail__meta {
+  display: flex;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: rgba(240, 236, 228, 0.85);
+}
+
+/* margin replaces flex gap (unsupported in Chromium 79) */
+.detail__meta-item {
+  margin-right: 20px;
+}
+
+.detail__meta-item--rt {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.detail__overview {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+
+.detail__btns {
+  display: flex;
+}
+
+.detail__btn {
+  padding: 14px 28px;
+  border-radius: var(--r-md);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Sibling combinator replaces the inline marginLeft hack. */
+.detail__btn + .detail__btn {
+  margin-left: var(--s-3);
+}
+
+.detail__btn--primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.detail__btn--secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.detail__cast {
+  margin-top: 32px;
+}
+
+.detail__cast-label {
+  font-size: 14px;
+  opacity: 0.6;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.detail__cast-names {
+  font-size: 20px;
+}

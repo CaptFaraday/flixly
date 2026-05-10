@@ -1,3 +1,4 @@
+import './Detail.css';
 import { useFocusable } from '../nav/useFocusable';
 import { TopNav } from '../components/TopNav';
 import type { Movie } from '../types';
@@ -19,40 +20,29 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      <div style={{ ...heroStyle, backgroundImage: `url(${movie.backdrop})` }}>
-        <div style={overlayStyle} />
+      <div className="detail__hero" style={{ backgroundImage: `url(${movie.backdrop})` }}>
+        <div className="detail__overlay" />
       </div>
-      <div style={contentStyle}>
-        <h1 style={titleStyle}>{movie.title}</h1>
-        <div style={metaStyle}>
-          <span style={metaItemStyle}>{movie.year}</span>
-          <span style={metaItemStyle}>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
-          {movie.scores.rt != null && <span style={{ ...metaItemStyle, color: 'var(--success)', fontWeight: 700 }}>{movie.scores.rt}% RT</span>}
-          {movie.director && <span style={metaItemStyle}>Dir. {movie.director}</span>}
+      <div className="detail__content">
+        <h1 className="detail__title">{movie.title}</h1>
+        <div className="detail__meta">
+          <span className="detail__meta-item">{movie.year}</span>
+          <span className="detail__meta-item">{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
+          {movie.scores.rt != null && <span className="detail__meta-item detail__meta-item--rt">{movie.scores.rt}% RT</span>}
+          {movie.director && <span className="detail__meta-item">Dir. {movie.director}</span>}
         </div>
-        <p style={{ fontSize: 18, lineHeight: 1.6, maxWidth: 720, marginBottom: 32 }}>{movie.overview}</p>
-        <div style={{ display: 'flex' }}>
-          <span ref={playRef as any} {...playRest} style={btnPrimary}>▶ Play</span>
-          <span ref={watchRef as any} {...watchRest} style={{ ...btnSecondary, marginLeft: 12 }}>{inList ? '✓ In Watchlist' : '+ Watchlist'}</span>
+        <p className="detail__overview">{movie.overview}</p>
+        <div className="detail__btns">
+          <span ref={playRef as any} {...playRest} className="detail__btn detail__btn--primary">▶ Play</span>
+          <span ref={watchRef as any} {...watchRest} className="detail__btn detail__btn--secondary">{inList ? '✓ In Watchlist' : '+ Watchlist'}</span>
         </div>
         {movie.cast.length > 0 && (
-          <div style={{ marginTop: 32 }}>
-            <div style={{ fontSize: 14, opacity: 0.6, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>Cast</div>
-            <div style={{ fontSize: 20 }}>{movie.cast.join(' · ')}</div>
+          <div className="detail__cast">
+            <div className="detail__cast-label">Cast</div>
+            <div className="detail__cast-names">{movie.cast.join(' · ')}</div>
           </div>
         )}
       </div>
     </>
   );
 }
-
-const heroStyle: any = { position: 'absolute', top: 0, left: 0, right: 0, height: '50%', backgroundSize: 'cover', backgroundPosition: 'center' };
-const overlayStyle: any = { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, background: 'linear-gradient(180deg, transparent 30%, var(--bg) 100%), linear-gradient(90deg, var(--bg) 0%, rgba(10,10,10,0.6) 40%, transparent 70%)' };
-const contentStyle: any = { position: 'absolute', top: '40%', left: '5%', right: '5%' };
-const titleStyle: any = { fontFamily: 'var(--font-display)', fontSize: 72, fontWeight: 400, letterSpacing: '-2px', lineHeight: 1, margin: '0 0 16px' };
-const metaStyle: any = { display: 'flex', fontSize: 14, letterSpacing: '1.2px', textTransform: 'uppercase', marginBottom: 20, color: 'rgba(240,236,228,0.85)' };
-// margin replaces flex gap (unsupported in Chromium 79)
-const metaItemStyle: any = { marginRight: 20 };
-const btnBase: any = { padding: '14px 28px', borderRadius: 4, fontSize: 18, fontWeight: 700, cursor: 'pointer' };
-const btnPrimary: any = { ...btnBase, background: 'var(--text)', color: 'var(--bg)' };
-const btnSecondary: any = { ...btnBase, background: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' };
