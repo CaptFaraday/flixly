@@ -1,0 +1,47 @@
+.brand {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.brand__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(240, 236, 228, 0.08);
+  box-shadow:
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+  /* background is composed inline (radial gradient + per-brand color) — runtime */
+}
+
+.brand__logo {
+  width: 70%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand__gloss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.brand__svg {
+  width: 100%;
+  height: 100%;
+}
