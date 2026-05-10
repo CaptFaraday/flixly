@@ -33,15 +33,15 @@ const SOURCE_PATTERNS: Array<[RegExp, ParsedName['source']]> = [
 ];
 
 const LANG_PATTERNS: Array<[RegExp, string]> = [
-  [/\benglish|eng\b/i, 'en'],
-  [/\bspanish|esp\b/i, 'es'],
-  [/\bfrench|fre|fra\b/i, 'fr'],
-  [/\bgerman|ger|deu\b/i, 'de'],
-  [/\bjapanese|jpn|jap\b/i, 'ja'],
-  [/\bhindi|hin\b/i, 'hi'],
-  [/\bkorean|kor\b/i, 'ko'],
-  [/\bitalian|ita\b/i, 'it'],
-  [/\bportuguese|por\b/i, 'pt'],
+  [/\b(english|eng)\b/i, 'en'],
+  [/\b(spanish|esp)\b/i, 'es'],
+  [/\b(french|fre|fra)\b/i, 'fr'],
+  [/\b(german|ger|deu)\b/i, 'de'],
+  [/\b(japanese|jpn|jap)\b/i, 'ja'],
+  [/\b(hindi|hin)\b/i, 'hi'],
+  [/\b(korean|kor)\b/i, 'ko'],
+  [/\b(italian|ita)\b/i, 'it'],
+  [/\b(portuguese|por)\b/i, 'pt'],
 ];
 
 const CONTAINER_PATTERNS: Array<[RegExp, ParsedName['container']]> = [
