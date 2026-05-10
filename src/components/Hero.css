@@ -1,0 +1,129 @@
+/* Hero is 70vh tall: enough for big title + meta + description + buttons + breathing. */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.hero__backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center 30%;
+  filter: saturate(0.95) contrast(1.05);
+  /* background-image is set inline (runtime: movie.backdrop URL) */
+}
+
+.hero__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    linear-gradient(180deg, transparent 35%, rgba(10, 10, 10, 0.7) 78%, var(--bg) 100%),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.40) 40%, transparent 65%),
+    radial-gradient(ellipse 55% 45% at 80% 30%, rgba(229, 9, 20, 0.10) 0%, transparent 65%);
+}
+
+.hero__content {
+  position: absolute;
+  bottom: 11%;
+  left: 5%;
+  max-width: 42%;
+  z-index: 5;
+}
+
+.hero__pill {
+  display: inline-block;
+  background: rgba(229, 9, 20, 0.10);
+  border: 1px solid rgba(229, 9, 20, 0.55);
+  color: #ff6171;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
+/* TV-scale title — needs to read from across the room. */
+.hero__title {
+  font-family: var(--font-display);
+  font-size: 116px;
+  font-weight: 400;
+  letter-spacing: -3.5px;
+  line-height: 0.94;
+  margin: 0 0 22px 0;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+}
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 19px;
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+  color: rgba(240, 236, 228, 0.92);
+}
+
+/* margins replace flex gap (unsupported in Chromium 79) */
+.hero__dot {
+  opacity: 0.45;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.hero__rt {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.hero__desc {
+  font-size: 21px;
+  line-height: 1.5;
+  margin-bottom: 0;
+  opacity: 0.88;
+  max-width: 94%;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hero__btns {
+  display: flex;
+  margin-top: 36px;
+}
+
+.hero__btn {
+  padding: 16px 36px;
+  border-radius: var(--r-md);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Sibling combinator replaces the inline marginLeft hack on the second button. */
+.hero__btn + .hero__btn {
+  margin-left: var(--s-4);
+}
+
+.hero__btn--primary {
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.hero__btn--secondary {
+  background: rgba(70, 70, 70, 0.55);
+  color: var(--text);
+  border: 1px solid rgba(240, 236, 228, 0.20);
+}
