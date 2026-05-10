@@ -6,6 +6,7 @@ import { fetchTorrentioCandidates } from '../sources/torrentio';
 import { RDClient } from '../sources/realdebrid';
 import { rankAndPick, type PickReason } from '../sources/picker';
 import { preflightSubtitles, fetchSubtitlesForMovie } from '../subtitles/opensubtitles';
+import { srtUrlToVttBlobUrl } from '../subtitles/render';
 
 type State =
   | { kind: 'preparing'; step: string }
@@ -99,23 +100,37 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     return () => v.removeEventListener('loadedmetadata', onLoaded);
   }, [state.kind, movie.imdb_id]);
 
-  // Subtitle track
+  // Subtitle track — fetch SRT, convert to VTT, attach as Blob URL (CORS-safe)
   useEffect(() => {
     if (state.kind !== 'playing') return;
     const v = videoRef.current;
     if (!v) return;
+    let blobUrl: string | null = null;
+    let trackEl: HTMLTrackElement | null = null;
+    let cancelled = false;
     (async () => {
-      const tracks = await fetchSubtitlesForMovie(movie.imdb_id);
-      const en = tracks.find((t) => t.lang === 'eng' || t.lang === 'en');
-      if (!en) return;
-      const trackEl = document.createElement('track');
-      trackEl.kind = 'subtitles';
-      trackEl.label = 'English';
-      trackEl.srclang = 'en';
-      trackEl.src = en.url;
-      trackEl.default = true;
-      v.appendChild(trackEl);
+      try {
+        const tracks = await fetchSubtitlesForMovie(movie.imdb_id);
+        const en = tracks.find((t) => t.lang === 'eng' || t.lang === 'en');
+        if (!en || cancelled) return;
+        blobUrl = await srtUrlToVttBlobUrl(en.url);
+        if (cancelled) { URL.revokeObjectURL(blobUrl); return; }
+        trackEl = document.createElement('track');
+        trackEl.kind = 'subtitles';
+        trackEl.label = 'English';
+        trackEl.srclang = 'en';
+        trackEl.src = blobUrl;
+        trackEl.default = true;
+        v.appendChild(trackEl);
+      } catch {
+        /* fail silently — subtitles are best-effort */
+      }
     })();
+    return () => {
+      cancelled = true;
+      if (trackEl && v.contains(trackEl)) v.removeChild(trackEl);
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
   }, [state.kind, movie.imdb_id]);
 
   // Esc/back closes

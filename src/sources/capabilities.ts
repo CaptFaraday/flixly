@@ -46,7 +46,7 @@ export async function ensureCapabilities(): Promise<Capabilities> {
   let bandwidthMbps = cached?.bandwidthMbps ?? 0;
   if (bandwidthStale || !cached) {
     try { bandwidthMbps = await probeBandwidthMbps(); }
-    catch { bandwidthMbps = cached?.bandwidthMbps ?? 25; } // pessimistic-ish default if probe fails
+    catch { bandwidthMbps = cached?.bandwidthMbps ?? 50; } // generous default on home wifi; user can lower in settings later
   }
   const fresh: Capabilities = { codecs, bandwidthMbps, probedAt: now };
   writeCache(fresh);
