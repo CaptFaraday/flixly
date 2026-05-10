@@ -28,9 +28,9 @@ export function Hero({ movie, onPlay, onMoreInfo }: Props) {
           </>}
         </div>
         <p style={descStyle}>{movie.overview}</p>
-        <div style={{ display: 'flex', gap: 24, marginTop: 36 }}>
+        <div style={{ display: 'flex', marginTop: 36 }}>
           <span ref={playRef as any} {...playBtn} style={btnPrimary}>▶ Play</span>
-          <span ref={infoRef as any} {...infoBtn} style={btnSecondary}>ⓘ More Info</span>
+          <span ref={infoRef as any} {...infoBtn} style={{ ...btnSecondary, marginLeft: 24 }}>ⓘ More Info</span>
         </div>
       </div>
     </div>
@@ -78,11 +78,12 @@ const titleStyle: any = {
   textShadow: '0 8px 32px rgba(0,0,0,0.65)',
 };
 const metaStyle: any = {
-  display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+  display: 'flex', alignItems: 'center', flexWrap: 'wrap',
   fontSize: 19, letterSpacing: '0.5px', marginBottom: 22,
   color: 'rgba(240,236,228,0.92)',
 };
-const dotStyle: any = { opacity: 0.45 };
+// margins replace flex gap (unsupported in Chromium 79)
+const dotStyle: any = { opacity: 0.45, marginLeft: 12, marginRight: 12 };
 const descStyle: any = {
   fontSize: 21, lineHeight: 1.5, marginBottom: 0,
   opacity: 0.88, maxWidth: '94%',
@@ -91,7 +92,7 @@ const descStyle: any = {
 const btnBase: any = {
   padding: '16px 36px', borderRadius: 4,
   fontSize: 17, fontWeight: 700, letterSpacing: '0.5px',
-  cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 10,
+  cursor: 'pointer', display: 'inline-flex', alignItems: 'center',
 };
 const btnPrimary: any = {
   ...btnBase,
