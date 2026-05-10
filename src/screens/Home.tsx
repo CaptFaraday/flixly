@@ -1,3 +1,4 @@
+import './Home.css';
 import { useEffect, useState } from 'preact/hooks';
 import { TopNav } from '../components/TopNav';
 import { Hero } from '../components/Hero';
@@ -29,11 +30,11 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <main style={mainStyle}>
-          <div style={errorStyle}>
-            <h2 style={errorTitleStyle}>Couldn't load rows</h2>
-            <p style={errorBodyStyle}>{error}</p>
-            <p style={errorHintStyle}>Check your network and relaunch the app.</p>
+        <main className="home">
+          <div className="home__error">
+            <h2 className="home__error-title">Couldn't load rows</h2>
+            <p className="home__error-body">{error}</p>
+            <p className="home__error-hint">Check your network and relaunch the app.</p>
           </div>
         </main>
       </>
@@ -44,11 +45,11 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <main style={mainStyle}>
+        <main className="home">
           <HeroSkeleton />
-          <div style={belowHeroStyle}>
-            <div style={sectionGapStyle}><BrandShelfSkeleton /></div>
-            <RowSkeleton />
+          <div className="home__below-hero">
+            <div className="home__section"><BrandShelfSkeleton /></div>
+            <div className="home__section"><RowSkeleton /></div>
           </div>
         </main>
       </>
@@ -62,14 +63,14 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      <main style={mainStyle}>
+      <main className="home">
         {heroMovie && <Hero movie={heroMovie} onPlay={() => onSelectMovie(heroMovie)} onMoreInfo={() => onSelectMovie(heroMovie)} />}
-        <div style={belowHeroStyle}>
+        <div className="home__below-hero">
           {collections.length > 0 && (
-            <div style={sectionGapStyle}><BrandShelf collections={collections} onSelect={onSelectCollection} /></div>
+            <div className="home__section"><BrandShelf collections={collections} onSelect={onSelectCollection} /></div>
           )}
-          {rows.map((row, i) => (
-            <div key={row.id} style={i < rows.length - 1 ? sectionGapStyle : undefined}>
+          {rows.map((row) => (
+            <div key={row.id} className="home__section">
               <Row title={row.title} subtitle={row.subtitle} items={row.items} onSelect={onSelectMovie} />
             </div>
           ))}
@@ -78,32 +79,3 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     </>
   );
 }
-
-const mainStyle: any = {
-  position: 'relative',
-};
-// Vertical rhythm uses --s-N tokens. --s-7 (64) between sections, --s-5 (32)
-// between hero and first section. Horizontal padding 5% is the TV-safe-zone margin.
-// Flex gap unsupported in Chromium 79 — use marginBottom on each child instead.
-const belowHeroStyle: any = {
-  padding: '0 5% var(--s-7)',
-  marginTop: 'var(--s-5)',
-  position: 'relative',
-  zIndex: 4,
-};
-const sectionGapStyle: any = {
-  marginBottom: 'var(--s-7)',
-};
-const errorStyle: any = {
-  padding: '120px 64px', maxWidth: 700,
-};
-const errorTitleStyle: any = {
-  fontFamily: 'var(--font-display)', fontSize: 56, fontWeight: 400,
-  margin: '0 0 16px', color: 'var(--text)',
-};
-const errorBodyStyle: any = {
-  fontSize: 18, opacity: 0.8, marginBottom: 12,
-};
-const errorHintStyle: any = {
-  fontSize: 18, opacity: 0.55,
-};

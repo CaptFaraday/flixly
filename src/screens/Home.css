@@ -1,0 +1,46 @@
+.home {
+  position: relative;
+}
+
+/* Vertical rhythm uses --s-N tokens. --s-7 between sections, --s-5 between
+   hero and first section. Horizontal padding 5% is the TV-safe-zone margin.
+   Flex gap unsupported in Chromium 79 — use marginBottom on each child. */
+.home__below-hero {
+  padding: 0 5% var(--s-7);
+  margin-top: var(--s-5);
+  position: relative;
+  z-index: 4;
+}
+
+.home__section {
+  margin-bottom: var(--s-7);
+}
+
+/* Last section has no bottom margin — the page padding handles spacing. */
+.home__section:last-child {
+  margin-bottom: 0;
+}
+
+.home__error {
+  padding: 120px var(--s-7);
+  max-width: 700px;
+}
+
+.home__error-title {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 400;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.home__error-body {
+  font-size: 18px;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+.home__error-hint {
+  font-size: 18px;
+  opacity: 0.55;
+}
