@@ -3,3 +3,8 @@ node_modules/
 dist/
 *.ipk
 *.tsbuildinfo
+.env
+.env.local
+.env.*.local
+ipk/
+tv-*.png
