@@ -1,0 +1,57 @@
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--s-7);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 70%,
+    transparent 100%
+  );
+}
+
+/* Netflix-style wordmark: bold sans, tight tracking, vibrant red, slight drop shadow. */
+.topnav__logo {
+  font-family: var(--font-ui);
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(229, 9, 20, 0.45);
+  margin-right: 12px;
+}
+
+.topnav__items {
+  flex: 1;
+  display: flex;
+  margin-left: 56px;
+}
+
+.topnav__item {
+  font-size: 18px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: var(--r-md);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+/* Sibling combinator replaces the inline marginLeft hack we needed
+   when these styles lived in JS objects. */
+.topnav__item + .topnav__item {
+  margin-left: 36px;
+}
+
+.topnav__item--active {
+  opacity: 1;
+  font-weight: 700;
+}
