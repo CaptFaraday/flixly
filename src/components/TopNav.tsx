@@ -31,7 +31,7 @@ function NavItem({ id, active, onActivate }: { id: string; active: boolean; onAc
 }
 
 const navStyle: any = {
-  position: 'absolute', top: 0, left: 0, right: 0, height: 80, zIndex: 30,
+  position: 'fixed', top: 0, left: 0, right: 0, height: 80, zIndex: 30,
   display: 'flex', alignItems: 'center', padding: '0 64px', gap: 56,
   background: 'linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 70%, transparent 100%)',
 };

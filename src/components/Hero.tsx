@@ -39,7 +39,7 @@ export function Hero({ movie, onPlay, onMoreInfo }: Props) {
 
 // Hero is 60% tall: enough for big title + meta + description + buttons + breathing.
 const heroFrameStyle: any = {
-  position: 'absolute', top: 0, left: 0, right: 0, height: '60%',
+  position: 'relative', width: '100%', height: '70vh', minHeight: 600,
   overflow: 'hidden',
 };
 const backdropStyle: any = {

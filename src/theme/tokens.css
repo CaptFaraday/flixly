@@ -39,13 +39,20 @@ html, body, #app {
   color: var(--text);
   font-family: var(--font-ui);
   height: 100%;
-  overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* Atmospheric body background — slight radial wash so the page never feels
-   like a flat black rectangle. Subtle enough that it never competes with hero artwork. */
+html { overflow: hidden; }     /* viewport never scrolls */
+body {
+  overflow-y: auto;             /* content scrolls vertically */
+  overflow-x: hidden;
+  /* Hide scrollbar — TV remote drives scrolling, not a mouse */
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+
+/* Atmospheric body background — keep existing radial gradient */
 body {
   background:
     radial-gradient(ellipse 100% 60% at 50% -10%, #16171b 0%, transparent 65%),

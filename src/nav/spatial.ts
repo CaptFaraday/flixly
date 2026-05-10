@@ -4,6 +4,7 @@ export type Direction = 'up' | 'down' | 'left' | 'right';
 interface Entry {
   id: string;
   rect: Rect;
+  el?: HTMLElement;            // NEW — for scrollIntoView
   onActivate?: () => void;
 }
 
@@ -16,8 +17,8 @@ export class SpatialNav {
 
   get focused(): string | null { return this.currentId; }
 
-  register(id: string, rect: Rect, opts?: { onActivate?: () => void }): void {
-    this.entries.set(id, { id, rect, onActivate: opts?.onActivate });
+  register(id: string, rect: Rect, opts?: { onActivate?: () => void; el?: HTMLElement }): void {
+    this.entries.set(id, { id, rect, onActivate: opts?.onActivate, el: opts?.el });
     if (this.currentId === null) this.setFocus(id);
   }
 
@@ -39,6 +40,13 @@ export class SpatialNav {
     if (this.currentId === id) return;
     this.currentId = id;
     for (const l of this.listeners) l(id);
+    // Scroll the focused element into view, leaving the TopNav visible above.
+    if (id !== null) {
+      const e = this.entries.get(id);
+      if (e?.el && typeof e.el.scrollIntoView === 'function') {
+        e.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
+    }
   }
 
   onFocusChange(fn: FocusListener): () => void {
@@ -74,7 +82,6 @@ export class SpatialNav {
       const dx = cx - fcx;
       const dy = cy - fcy;
 
-      // primary axis check: must be in the right half-plane
       const inDir =
         (direction === 'right' && dx > 0) ||
         (direction === 'left' && dx < 0) ||
@@ -82,7 +89,6 @@ export class SpatialNav {
         (direction === 'up' && dy < 0);
       if (!inDir) continue;
 
-      // weighted distance: penalize off-axis movement
       const onAxis = direction === 'left' || direction === 'right' ? Math.abs(dx) : Math.abs(dy);
       const offAxis = direction === 'left' || direction === 'right' ? Math.abs(dy) : Math.abs(dx);
       const score = onAxis + offAxis * 2;

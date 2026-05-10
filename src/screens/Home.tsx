@@ -29,11 +29,13 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <div style={errorStyle}>
-          <h2 style={errorTitleStyle}>Couldn't load rows</h2>
-          <p style={errorBodyStyle}>{error}</p>
-          <p style={errorHintStyle}>Check your network and relaunch the app.</p>
-        </div>
+        <main style={mainStyle}>
+          <div style={errorStyle}>
+            <h2 style={errorTitleStyle}>Couldn't load rows</h2>
+            <p style={errorBodyStyle}>{error}</p>
+            <p style={errorHintStyle}>Check your network and relaunch the app.</p>
+          </div>
+        </main>
       </>
     );
   }
@@ -42,11 +44,13 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <HeroSkeleton />
-        <div style={belowHeroStyle}>
-          <BrandShelfSkeleton />
-          <RowSkeleton />
-        </div>
+        <main style={mainStyle}>
+          <HeroSkeleton />
+          <div style={belowHeroStyle}>
+            <BrandShelfSkeleton />
+            <RowSkeleton />
+          </div>
+        </main>
       </>
     );
   }
@@ -58,20 +62,27 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      {heroMovie && <Hero movie={heroMovie} onPlay={() => onSelectMovie(heroMovie)} onMoreInfo={() => onSelectMovie(heroMovie)} />}
-      <div style={belowHeroStyle}>
-        {collections.length > 0 && <BrandShelf collections={collections} onSelect={onSelectCollection} />}
-        {rows.map((row) => (
-          <Row key={row.id} title={row.title} subtitle={row.subtitle} items={row.items} onSelect={onSelectMovie} />
-        ))}
-      </div>
+      <main style={mainStyle}>
+        {heroMovie && <Hero movie={heroMovie} onPlay={() => onSelectMovie(heroMovie)} onMoreInfo={() => onSelectMovie(heroMovie)} />}
+        <div style={belowHeroStyle}>
+          {collections.length > 0 && <BrandShelf collections={collections} onSelect={onSelectCollection} />}
+          {rows.map((row) => (
+            <Row key={row.id} title={row.title} subtitle={row.subtitle} items={row.items} onSelect={onSelectMovie} />
+          ))}
+        </div>
+      </main>
     </>
   );
 }
 
+const mainStyle: any = {
+  position: 'relative',
+};
 const belowHeroStyle: any = {
-  position: 'absolute', top: '57%', left: '5%', right: '5%', bottom: '4%',
+  padding: '0 5% 64px',
   display: 'flex', flexDirection: 'column', gap: 44,
+  marginTop: 32,           // gap between hero and first row
+  position: 'relative',
   zIndex: 4,
 };
 const errorStyle: any = {

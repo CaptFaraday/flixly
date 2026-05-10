@@ -23,7 +23,7 @@ export function useFocusable(opts: Options = {}) {
   useEffect(() => {
     if (!ref.current) return;
     const r = ref.current.getBoundingClientRect();
-    navInstance.register(id, { x: r.left, y: r.top, w: r.width, h: r.height }, { onActivate: opts.onActivate });
+    navInstance.register(id, { x: r.left, y: r.top, w: r.width, h: r.height }, { onActivate: opts.onActivate, el: ref.current ?? undefined });
     if (opts.autofocus) navInstance.setFocus(id);
 
     // Re-measure on resize
