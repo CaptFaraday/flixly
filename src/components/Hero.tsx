@@ -28,7 +28,7 @@ export function Hero({ movie, onPlay, onMoreInfo }: Props) {
           </>}
         </div>
         <p style={descStyle}>{movie.overview}</p>
-        <div style={{ display: 'flex', gap: 14, marginTop: 36 }}>
+        <div style={{ display: 'flex', gap: 24, marginTop: 36 }}>
           <span ref={playRef as any} {...playBtn} style={btnPrimary}>▶ Play</span>
           <span ref={infoRef as any} {...infoBtn} style={btnSecondary}>ⓘ More Info</span>
         </div>

@@ -1,6 +1,6 @@
 [data-focused] {
   outline: 3px solid var(--accent);
-  outline-offset: 3px;
+  outline-offset: 2px;
   transform: scale(1.07) translateY(-4px);
   box-shadow: 0 18px 44px rgba(229, 9, 20, 0.45), 0 8px 16px rgba(0, 0, 0, 0.6);
   z-index: 10;
