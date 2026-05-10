@@ -1,0 +1,33 @@
+/* Spacing references the --s-N tokens defined in tokens.css. */
+
+/* Eyebrow (small caps subtitle) sits ABOVE the title with a tiny breathing
+   room (--s-2). Title sits ABOVE the poster grid with a clear --s-4. */
+.row__header {
+  margin-bottom: var(--s-4);
+}
+
+.row__eyebrow {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--s-2);
+}
+
+.row__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.row__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--s-3);
+}
