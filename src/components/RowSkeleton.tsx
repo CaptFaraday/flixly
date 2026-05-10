@@ -8,7 +8,7 @@ export function RowSkeleton() {
         <Skeleton width={220} height={26} radius={4} />
       </div>
       <div className="row-skeleton__grid">
-        {Array.from({ length: 7 }).map((_, i) => (
+        {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="row-skeleton__cell">
             <div data-skeleton className="row-skeleton__cell-fill" />
           </div>

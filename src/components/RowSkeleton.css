@@ -6,14 +6,14 @@
 
 .row-skeleton__grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 18px;
 }
 
 .row-skeleton__cell {
   position: relative;
   width: 100%;
-  padding-top: 56.25%;
+  padding-top: 150%;
 }
 
 .row-skeleton__cell-fill {

@@ -1,8 +1,9 @@
-/* 16:9 via padding-top hack — Chromium 79 lacks the aspect-ratio property. */
+/* 2:3 portrait via padding-top hack — Chromium 79 lacks the aspect-ratio property.
+   Portrait matches TMDb's native poster dimensions so the cover art is uncropped. */
 .poster {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 9/16 */
+  padding-top: 150%; /* 3/2 — height = 1.5x width */
 }
 
 .poster__inner {
@@ -46,7 +47,7 @@
 
 .poster__title {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.3px;
   line-height: 1.1;

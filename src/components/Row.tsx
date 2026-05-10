@@ -5,7 +5,7 @@ import { PosterCard } from './PosterCard';
 interface Props { title: string; subtitle?: string; items: Movie[]; onSelect: (m: Movie) => void; }
 
 export function Row({ title, subtitle, items, onSelect }: Props) {
-  const visible = items.slice(0, 7);
+  const visible = items.slice(0, 6);
   return (
     <section>
       <header className="row__header">
