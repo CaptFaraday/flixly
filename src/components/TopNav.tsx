@@ -10,20 +10,20 @@ export function TopNav({ current, onNavigate }: Props) {
   return (
     <nav style={navStyle}>
       <span style={logoStyle}>FLIXLY</span>
-      <div style={{ flex: 1, display: 'flex', gap: 36 }}>
-        {items.map((id) => <NavItem key={id} id={id} active={current === id} onActivate={() => onNavigate(id)} />)}
+      <div style={{ flex: 1, display: 'flex', marginLeft: 56 }}>
+        {items.map((id, i) => <NavItem key={id} id={id} active={current === id} onActivate={() => onNavigate(id)} first={i === 0} />)}
       </div>
     </nav>
   );
 }
 
-function NavItem({ id, active, onActivate }: { id: string; active: boolean; onActivate: () => void }) {
+function NavItem({ id, active, onActivate, first }: { id: string; active: boolean; onActivate: () => void; first?: boolean }) {
   const { ref, ...rest } = useFocusable({ onActivate, id: `nav-${id}` });
   return (
     <span
       ref={ref as any}
       {...rest}
-      style={{ ...navItemStyle, opacity: active ? 1 : 0.7, fontWeight: active ? 700 : 500 }}
+      style={{ ...navItemStyle, opacity: active ? 1 : 0.7, fontWeight: active ? 700 : 500, marginLeft: first ? 0 : 36 }}
     >
       {id[0].toUpperCase() + id.slice(1)}
     </span>
@@ -32,7 +32,7 @@ function NavItem({ id, active, onActivate }: { id: string; active: boolean; onAc
 
 const navStyle: any = {
   position: 'fixed', top: 0, left: 0, right: 0, height: 80, zIndex: 30,
-  display: 'flex', alignItems: 'center', padding: '0 64px', gap: 56,
+  display: 'flex', alignItems: 'center', padding: '0 64px',
   background: 'linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 70%, transparent 100%)',
 };
 // Netflix-style wordmark: bold sans, tight tracking, vibrant red, slight drop shadow.

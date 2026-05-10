@@ -10,9 +10,9 @@ export function HeroSkeleton() {
         <Skeleton width={'42%'} height={20} radius={4} style={{ marginBottom: 22 }} />
         <Skeleton width={'94%'} height={18} radius={4} style={{ marginBottom: 8 }} />
         <Skeleton width={'88%'} height={18} radius={4} style={{ marginBottom: 32 }} />
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ display: 'flex' }}>
           <Skeleton width={130} height={48} radius={4} />
-          <Skeleton width={170} height={48} radius={4} />
+          <Skeleton width={170} height={48} radius={4} style={{ marginLeft: 12 }} />
         </div>
       </div>
     </div>

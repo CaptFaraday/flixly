@@ -3,7 +3,7 @@ import { Skeleton } from './Skeleton';
 export function RowSkeleton() {
   return (
     <section>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 18 }}>
         <Skeleton width={220} height={26} radius={4} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 18 }}>
