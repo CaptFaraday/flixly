@@ -50,7 +50,7 @@ const titleStyle: any = {
 };
 const metaRowStyle: any = {
   display: 'flex', alignItems: 'center', marginTop: 6,
-  fontSize: 13, letterSpacing: '0.6px',
+  fontSize: 14, letterSpacing: '0.6px',
 };
 const yearStyle: any = { color: 'rgba(240,236,228,0.7)', marginRight: 10 };  // margin instead of gap
 const ratingStyle: any = { color: '#f5b34a', fontWeight: 700 };

@@ -66,7 +66,7 @@ const pillStyle: any = {
   color: '#ff6171',
   padding: '7px 18px',
   borderRadius: 999,
-  fontSize: 13, fontWeight: 700, letterSpacing: '3.5px',
+  fontSize: 14, fontWeight: 700, letterSpacing: '3.5px',
   marginBottom: 28, textTransform: 'uppercase',
 };
 // TV-scale title — needs to read from across the room. Disney+ and Netflix both go big.
@@ -91,7 +91,7 @@ const descStyle: any = {
 };
 const btnBase: any = {
   padding: '16px 36px', borderRadius: 4,
-  fontSize: 17, fontWeight: 700, letterSpacing: '0.5px',
+  fontSize: 18, fontWeight: 700, letterSpacing: '0.5px',
   cursor: 'pointer', display: 'inline-flex', alignItems: 'center',
 };
 const btnPrimary: any = {

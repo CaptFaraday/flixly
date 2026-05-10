@@ -81,5 +81,5 @@ function SelectField({ label, value, options, onChange }: {
 const pageStyle: any = { padding: '96px 64px', maxWidth: 800 };
 const h1Style: any = { fontFamily: 'var(--font-display)', fontSize: 48, marginBottom: 32 };
 const fieldStyle: any = { display: 'grid', gridTemplateColumns: '320px 1fr', gap: 24, padding: '14px 0', alignItems: 'center', borderBottom: '1px solid var(--border)' };
-const labelStyle: any = { color: 'var(--text-muted)', letterSpacing: '1.2px', textTransform: 'uppercase', fontSize: 12 };
+const labelStyle: any = { color: 'var(--text-muted)', letterSpacing: '1.2px', textTransform: 'uppercase', fontSize: 14 };
 const valueStyle: any = { padding: '10px 16px', borderRadius: 4, background: 'var(--surface)', cursor: 'pointer' };

@@ -28,7 +28,7 @@ const headerStyle: any = {
 };
 const eyebrowStyle: any = {
   fontFamily: 'var(--font-ui)',
-  fontSize: 12, fontWeight: 600,
+  fontSize: 14, fontWeight: 600,
   letterSpacing: '2px',
   textTransform: 'uppercase',
   color: 'var(--text-muted)',

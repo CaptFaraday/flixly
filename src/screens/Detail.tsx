@@ -37,8 +37,8 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
         </div>
         {movie.cast.length > 0 && (
           <div style={{ marginTop: 32 }}>
-            <div style={{ fontSize: 12, opacity: 0.6, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>Cast</div>
-            <div style={{ fontSize: 16 }}>{movie.cast.join(' · ')}</div>
+            <div style={{ fontSize: 14, opacity: 0.6, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>Cast</div>
+            <div style={{ fontSize: 20 }}>{movie.cast.join(' · ')}</div>
           </div>
         )}
       </div>
@@ -53,6 +53,6 @@ const titleStyle: any = { fontFamily: 'var(--font-display)', fontSize: 72, fontW
 const metaStyle: any = { display: 'flex', fontSize: 14, letterSpacing: '1.2px', textTransform: 'uppercase', marginBottom: 20, color: 'rgba(240,236,228,0.85)' };
 // margin replaces flex gap (unsupported in Chromium 79)
 const metaItemStyle: any = { marginRight: 20 };
-const btnBase: any = { padding: '14px 28px', borderRadius: 4, fontSize: 14, fontWeight: 700, cursor: 'pointer' };
+const btnBase: any = { padding: '14px 28px', borderRadius: 4, fontSize: 18, fontWeight: 700, cursor: 'pointer' };
 const btnPrimary: any = { ...btnBase, background: 'var(--text)', color: 'var(--bg)' };
 const btnSecondary: any = { ...btnBase, background: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' };

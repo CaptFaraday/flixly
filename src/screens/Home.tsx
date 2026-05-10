@@ -105,5 +105,5 @@ const errorBodyStyle: any = {
   fontSize: 18, opacity: 0.8, marginBottom: 12,
 };
 const errorHintStyle: any = {
-  fontSize: 16, opacity: 0.55,
+  fontSize: 18, opacity: 0.55,
 };
