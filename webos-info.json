@@ -1,0 +1,14 @@
+{
+  "id": "com.duane.stremio",
+  "version": "0.1.0",
+  "vendor": "Duane",
+  "type": "web",
+  "main": "index.html",
+  "title": "duane",
+  "icon": "icon.png",
+  "largeIcon": "icon-large.png",
+  "iconColor": "red",
+  "appDescription": "Custom Stremio for WebOS",
+  "resolution": "1920x1080",
+  "uiRevision": 2
+}
