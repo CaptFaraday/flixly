@@ -2,6 +2,7 @@ import { signal } from '@preact/signals';
 import { useEffect } from 'preact/hooks';
 import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
+import { Detail } from './screens/Detail';
 import { installInputListener } from './nav/input';
 import type { Movie, Collection } from './types';
 
@@ -35,7 +36,11 @@ export function App() {
     case 'settings':
       return <Settings onNavigate={(to) => push({ name: to } as Route)} />;
     case 'detail':
-      return <DetailPlaceholder movie={r.movie} />;
+      return <Detail
+        movie={r.movie}
+        onPlay={() => push({ name: 'player', movie: r.movie })}
+        onNavigate={(to) => push({ name: to } as Route)}
+      />;
     case 'player':
       return <PlayerPlaceholder movie={r.movie} />;
     default:
@@ -43,9 +48,6 @@ export function App() {
   }
 }
 
-function DetailPlaceholder({ movie }: { movie: Movie }) {
-  return <div style={{ padding: 64 }}><h1>{movie.title}</h1><p>Detail screen — Task 22 builds this.</p></div>;
-}
 function PlayerPlaceholder({ movie }: { movie: Movie }) {
   return <div style={{ padding: 64 }}><h1>Playing {movie.title}</h1><p>Player — Task 23+ builds this.</p></div>;
 }
