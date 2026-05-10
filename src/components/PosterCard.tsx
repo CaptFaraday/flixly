@@ -4,22 +4,30 @@ import type { Movie } from '../types';
 export function PosterCard({ movie, onActivate }: { movie: Movie; onActivate: () => void }) {
   const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${movie.imdb_id}` });
   return (
-    <div ref={ref as any} {...rest} style={cardStyle}>
-      <img src={movie.poster} alt="" style={imgStyle} />
-      <div style={infoOverlayStyle}>
-        <div style={titleStyle}>{movie.title}</div>
-        <div style={metaRowStyle}>
-          <span style={yearStyle}>{movie.year}</span>
-          {movie.scores.imdb != null && <span style={ratingStyle}>★ {movie.scores.imdb}</span>}
+    <div ref={ref as any} {...rest} style={wrapperStyle}>
+      <div style={innerStyle}>
+        <img src={movie.poster} alt="" style={imgStyle} />
+        <div style={infoOverlayStyle}>
+          <div style={titleStyle}>{movie.title}</div>
+          <div style={metaRowStyle}>
+            <span style={yearStyle}>{movie.year}</span>
+            {movie.scores.imdb != null && <span style={ratingStyle}>★ {movie.scores.imdb}</span>}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-const cardStyle: any = {
-  aspectRatio: '16/9', borderRadius: 8,
-  overflow: 'hidden', position: 'relative',
+// 16:9 via padding-top hack — Chromium 79 lacks the aspect-ratio property.
+const wrapperStyle: any = {
+  position: 'relative',
+  width: '100%',
+  paddingTop: '56.25%',  // 9/16
+};
+const innerStyle: any = {
+  position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+  borderRadius: 8, overflow: 'hidden',
   background: '#161616', cursor: 'pointer',
   border: '1px solid rgba(240,236,228,0.06)',
   boxShadow: 'inset 0 -1px 0 rgba(0,0,0,0.4)',
@@ -41,10 +49,8 @@ const titleStyle: any = {
   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 };
 const metaRowStyle: any = {
-  display: 'flex', alignItems: 'center', gap: 10, marginTop: 6,
+  display: 'flex', alignItems: 'center', marginTop: 6,
   fontSize: 13, letterSpacing: '0.6px',
 };
-const yearStyle: any = { color: 'rgba(240,236,228,0.7)' };
-const ratingStyle: any = {
-  color: '#f5b34a', fontWeight: 700,
-};
+const yearStyle: any = { color: 'rgba(240,236,228,0.7)', marginRight: 10 };  // margin instead of gap
+const ratingStyle: any = { color: '#f5b34a', fontWeight: 700 };
