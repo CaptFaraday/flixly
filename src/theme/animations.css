@@ -16,3 +16,20 @@
     transform var(--t-fast),
     box-shadow var(--t-fast);
 }
+
+@keyframes flixly-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+[data-skeleton] {
+  background: linear-gradient(
+    90deg,
+    rgba(40, 40, 44, 0.6) 0%,
+    rgba(60, 60, 65, 0.85) 50%,
+    rgba(40, 40, 44, 0.6) 100%
+  );
+  background-size: 200% 100%;
+  animation: flixly-shimmer 1.6s linear infinite;
+  border-radius: 4px;
+}
