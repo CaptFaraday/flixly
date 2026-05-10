@@ -1,0 +1,48 @@
+:root {
+  /* color */
+  --bg: #0a0a0a;
+  --text: #f0ece4;
+  --text-muted: rgba(240, 236, 228, 0.55);
+  --accent: #E50914;
+  --surface: rgba(60, 60, 60, 0.55);
+  --surface-strong: rgba(60, 60, 60, 0.85);
+  --success: #46d369;
+  --border: rgba(240, 236, 228, 0.08);
+
+  /* typography */
+  --font-display: 'Times New Roman', Georgia, serif;
+  --font-ui: 'Helvetica Neue', Arial, sans-serif;
+
+  /* spacing scale (8pt) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 16px;
+  --s-4: 24px;
+  --s-5: 32px;
+  --s-6: 48px;
+  --s-7: 64px;
+
+  /* radii */
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 8px;
+
+  /* motion */
+  --t-fast: 120ms cubic-bezier(0.2, 0, 0.13, 1);
+  --t-med: 240ms cubic-bezier(0.2, 0, 0.13, 1);
+  --t-slow: 480ms cubic-bezier(0.2, 0, 0.13, 1);
+}
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+* { box-sizing: border-box; }
