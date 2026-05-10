@@ -1,0 +1,20 @@
+/* Matches Row's header — same vertical rhythm so all rows feel consistent. */
+.brand-shelf__header {
+  margin-bottom: var(--s-4);
+}
+
+.brand-shelf__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.brand-shelf__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--s-3);
+}
