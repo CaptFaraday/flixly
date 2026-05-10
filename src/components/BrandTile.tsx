@@ -5,29 +5,34 @@ export function BrandTile({ collection, onActivate }: { collection: Collection; 
   const { ref, ...rest } = useFocusable({ onActivate, id: `brand-${collection.id}` });
   const cfg = LOGO_CONFIG[collection.id] ?? LOGO_CONFIG.default;
   return (
-    <div
-      ref={ref as any}
-      {...rest}
-      style={{
-        ...tileStyle,
+    <div ref={ref as any} {...rest} style={wrapperStyle}>
+      <div style={{
+        ...innerStyle,
         background: `radial-gradient(ellipse 90% 70% at 30% 0%, rgba(255,255,255,0.10) 0%, transparent 55%), ${cfg.bg}`,
-      }}
-    >
-      <div style={{ width: '70%', height: '60%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {cfg.logo(collection.title)}
+      }}>
+        <div style={logoBoxStyle}>{cfg.logo(collection.title)}</div>
+        <div style={glossStyle} />
       </div>
-      <div style={glossStyle} />
     </div>
   );
 }
 
-const tileStyle: any = {
-  aspectRatio: '16/9', borderRadius: 8,
+const wrapperStyle: any = {
+  position: 'relative',
+  width: '100%',
+  paddingTop: '56.25%',
+};
+const innerStyle: any = {
+  position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+  borderRadius: 8,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   overflow: 'hidden', cursor: 'pointer',
   border: '1px solid rgba(240,236,228,0.08)',
   boxShadow: 'inset 0 -1px 0 rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.04)',
-  position: 'relative',
+};
+const logoBoxStyle: any = {
+  width: '70%', height: '60%',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
 };
 const glossStyle: any = {
   position: 'absolute', top: 0, left: 0, right: 0, height: '40%',
