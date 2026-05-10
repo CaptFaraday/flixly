@@ -72,17 +72,21 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     return () => { cancelled = true; };
   }, [movie.imdb_id]);
 
-  // Resume tracking
+  // Resume tracking — periodic + final flush on unmount
   useEffect(() => {
     if (state.kind !== 'playing') return;
     const v = videoRef.current;
     if (!v) return;
-    const id = setInterval(() => {
-      if (!v.paused && v.currentTime > 0) {
+    const flush = () => {
+      if (v.currentTime > 0 && v.duration > 0 && v.currentTime < v.duration * 0.95) {
         recordResume(movie.imdb_id, v.currentTime, v.duration || movie.runtime * 60);
       }
-    }, 10_000);
-    return () => clearInterval(id);
+    };
+    const id = setInterval(flush, 10_000);
+    return () => {
+      clearInterval(id);
+      flush();
+    };
   }, [state.kind, movie.imdb_id, movie.runtime]);
 
   // Apply resume position when video metadata loads
