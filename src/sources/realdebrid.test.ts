@@ -3,7 +3,7 @@ import { RDClient } from './realdebrid';
 
 describe('RDClient', () => {
   let client: RDClient;
-  let fetchSpy: ReturnType<typeof vi.spyOn>;
+  let fetchSpy: any;
 
   beforeEach(() => {
     client = new RDClient('test-api-key');
