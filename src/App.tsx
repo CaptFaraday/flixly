@@ -3,6 +3,7 @@ import { useEffect } from 'preact/hooks';
 import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
 import { Detail } from './screens/Detail';
+import { Player } from './screens/Player';
 import { installInputListener } from './nav/input';
 import type { Movie, Collection } from './types';
 
@@ -42,12 +43,8 @@ export function App() {
         onNavigate={(to) => push({ name: to } as Route)}
       />;
     case 'player':
-      return <PlayerPlaceholder movie={r.movie} />;
+      return <Player movie={r.movie} onClose={pop} />;
     default:
       return <div style={{ padding: 64 }}>Coming soon: {r.name}</div>;
   }
-}
-
-function PlayerPlaceholder({ movie }: { movie: Movie }) {
-  return <div style={{ padding: 64 }}><h1>Playing {movie.title}</h1><p>Player — Task 23+ builds this.</p></div>;
 }
