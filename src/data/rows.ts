@@ -1,16 +1,62 @@
 import type { RowsFile } from '../types';
-import sample from '../../public/sample-rows.json';
 
+const ROWS_URL = 'https://raw.githubusercontent.com/CaptFaraday/flixly/main/rows.json';
 const CACHE_KEY = 'rows-cache-v1';
 
+interface FetchResult {
+  data: RowsFile;
+  fromCache: boolean;
+}
+
 /**
- * MVP: bundle sample-rows.json into the build (file:// fetch is blocked in Chromium 79).
- * Plan 2 (rows.json backend) will replace this with a fetch from
- *   https://raw.githubusercontent.com/<user>/<repo>/main/rows.json
- * with localStorage fallback for offline/network-failure cases.
+ * Stale-while-revalidate.
+ *
+ * 1. If we have a localStorage cache, resolve with it IMMEDIATELY (the
+ *    `fromCache: true` result). The UI renders instantly.
+ * 2. In parallel, fire a network fetch. If it succeeds, write the fresh
+ *    payload to localStorage and call onUpdate so the UI can swap in the
+ *    fresh content (skeleton-free, since we already have content rendered).
+ * 3. If there is no cache, await the network fetch and resolve with that.
+ * 4. If the network fetch fails AND we have no cache, throw.
  */
-export async function fetchRows(): Promise<RowsFile> {
-  const data = sample as RowsFile;
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch { /* quota: ignore */ }
-  return data;
+export function fetchRows(opts: { onUpdate?: (data: RowsFile) => void } = {}): Promise<FetchResult> {
+  const cached = readCache();
+
+  const networkPromise = (async (): Promise<RowsFile | null> => {
+    try {
+      const r = await fetch(ROWS_URL, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`rows fetch ${r.status}`);
+      const data = (await r.json()) as RowsFile;
+      writeCache(data);
+      return data;
+    } catch {
+      return null;
+    }
+  })();
+
+  if (cached) {
+    networkPromise.then((fresh) => {
+      if (fresh && opts.onUpdate) {
+        if (JSON.stringify(fresh) !== JSON.stringify(cached)) opts.onUpdate(fresh);
+      }
+    });
+    return Promise.resolve({ data: cached, fromCache: true });
+  }
+
+  return networkPromise.then((fresh) => {
+    if (!fresh) throw new Error('Could not load rows (offline and no cache).');
+    return { data: fresh, fromCache: false };
+  });
+}
+
+function readCache(): RowsFile | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    return raw ? (JSON.parse(raw) as RowsFile) : null;
+  } catch { return null; }
+}
+
+function writeCache(d: RowsFile): void {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(d)); }
+  catch { /* quota exceeded — ignore */ }
 }
