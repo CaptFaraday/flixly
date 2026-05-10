@@ -1,0 +1,34 @@
+name: refresh rows.json
+
+on:
+  schedule:
+    - cron: '0 9 * * *'      # 09:00 UTC daily
+  workflow_dispatch:          # manual trigger
+
+permissions:
+  contents: write             # so the action can commit rows.json back
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npx tsx backend/build-rows.ts
+        env:
+          TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
+          OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
+      - name: commit rows.json
+        run: |
+          git config user.name "flixly-bot"
+          git config user.email "actions@github.com"
+          if git diff --quiet rows.json; then
+            echo "No changes to rows.json"
+          else
+            git add rows.json
+            git commit -m "data: refresh rows.json [$(date -u +%Y-%m-%d)]"
+            git push
+          fi
