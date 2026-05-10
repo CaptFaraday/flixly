@@ -78,10 +78,13 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
 const mainStyle: any = {
   position: 'relative',
 };
+// Vertical rhythm uses --s-N tokens. --s-7 (64) between sections, --s-5 (32)
+// between hero and first section. Horizontal padding 5% is the TV-safe-zone margin.
 const belowHeroStyle: any = {
-  padding: '0 5% 64px',
-  display: 'flex', flexDirection: 'column', gap: 44,
-  marginTop: 32,           // gap between hero and first row
+  padding: '0 5% var(--s-7)',
+  display: 'flex', flexDirection: 'column',
+  gap: 'var(--s-7)',
+  marginTop: 'var(--s-5)',
   position: 'relative',
   zIndex: 4,
 };

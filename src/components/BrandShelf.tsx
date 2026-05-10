@@ -14,12 +14,20 @@ export function BrandShelf({ collections, onSelect }: { collections: Collection[
   );
 }
 
-const headerStyle: any = { marginBottom: 18 };
+// Matches Row's header — same vertical rhythm so all rows feel consistent.
+const headerStyle: any = {
+  marginBottom: 'var(--s-4)',
+};
 const titleStyle: any = {
-  margin: 0, fontFamily: 'var(--font-ui)',
-  fontSize: 24, fontWeight: 700, letterSpacing: '-0.3px',
+  margin: 0,
+  fontFamily: 'var(--font-ui)',
+  fontSize: 28, fontWeight: 700,
+  letterSpacing: '-0.4px',
   color: 'var(--text)',
+  lineHeight: 1.1,
 };
 const gridStyle: any = {
-  display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 18,
+  display: 'grid',
+  gridTemplateColumns: 'repeat(7, 1fr)',
+  gap: 'var(--s-3)',
 };

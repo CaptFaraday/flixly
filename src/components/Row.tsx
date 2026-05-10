@@ -8,8 +8,8 @@ export function Row({ title, subtitle, items, onSelect }: Props) {
   return (
     <section>
       <header style={headerStyle}>
+        {subtitle && <div style={eyebrowStyle}>{subtitle}</div>}
         <h2 style={titleStyle}>{title}</h2>
-        {subtitle && <span style={subStyle}>{subtitle}</span>}
       </header>
       <div style={gridStyle}>
         {visible.map((m) => <PosterCard key={m.imdb_id} movie={m} onActivate={() => onSelect(m)} />)}
@@ -18,18 +18,32 @@ export function Row({ title, subtitle, items, onSelect }: Props) {
   );
 }
 
+// Spacing references the --s-N tokens defined in tokens.css.
+// (--s-2 = 8, --s-3 = 16, --s-4 = 24, --s-5 = 32)
+
+// Eyebrow (small caps subtitle) sits ABOVE the title with a tiny breathing room (--s-2).
+// Title sits ABOVE the poster grid with a clear --s-4 of breathing room.
 const headerStyle: any = {
-  display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 18,
+  marginBottom: 'var(--s-4)',
+};
+const eyebrowStyle: any = {
+  fontFamily: 'var(--font-ui)',
+  fontSize: 12, fontWeight: 600,
+  letterSpacing: '2px',
+  textTransform: 'uppercase',
+  color: 'var(--text-muted)',
+  marginBottom: 'var(--s-2)',
 };
 const titleStyle: any = {
-  margin: 0, fontFamily: 'var(--font-ui)',
-  fontSize: 24, fontWeight: 700, letterSpacing: '-0.3px',
+  margin: 0,
+  fontFamily: 'var(--font-ui)',
+  fontSize: 28, fontWeight: 700,
+  letterSpacing: '-0.4px',
   color: 'var(--text)',
-};
-const subStyle: any = {
-  fontSize: 13, fontWeight: 500, letterSpacing: '1.4px',
-  textTransform: 'uppercase', color: 'var(--text-muted)',
+  lineHeight: 1.1,
 };
 const gridStyle: any = {
-  display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 18,
+  display: 'grid',
+  gridTemplateColumns: 'repeat(7, 1fr)',
+  gap: 'var(--s-3)',
 };
