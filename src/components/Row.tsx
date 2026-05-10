@@ -4,16 +4,32 @@ import { PosterCard } from './PosterCard';
 interface Props { title: string; subtitle?: string; items: Movie[]; onSelect: (m: Movie) => void; }
 
 export function Row({ title, subtitle, items, onSelect }: Props) {
+  const visible = items.slice(0, 7);
   return (
-    <div>
-      <div style={labelStyle}>{title}{subtitle && <span style={subStyle}> · {subtitle}</span>}</div>
+    <section>
+      <header style={headerStyle}>
+        <h2 style={titleStyle}>{title}</h2>
+        {subtitle && <span style={subStyle}>{subtitle}</span>}
+      </header>
       <div style={gridStyle}>
-        {items.slice(0, 7).map((m) => <PosterCard key={m.imdb_id} movie={m} onActivate={() => onSelect(m)} />)}
+        {visible.map((m) => <PosterCard key={m.imdb_id} movie={m} onActivate={() => onSelect(m)} />)}
       </div>
-    </div>
+    </section>
   );
 }
 
-const labelStyle: any = { fontSize: 14, fontWeight: 700, marginBottom: 10, letterSpacing: '-0.2px' };
-const subStyle: any = { fontWeight: 400, opacity: 0.6, marginLeft: 8 };
-const gridStyle: any = { display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 };
+const headerStyle: any = {
+  display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 14,
+};
+const titleStyle: any = {
+  margin: 0, fontFamily: 'var(--font-ui)',
+  fontSize: 18, fontWeight: 700, letterSpacing: '-0.2px',
+  color: 'var(--text)',
+};
+const subStyle: any = {
+  fontSize: 12, fontWeight: 500, letterSpacing: '1.2px',
+  textTransform: 'uppercase', color: 'var(--text-muted)',
+};
+const gridStyle: any = {
+  display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 14,
+};

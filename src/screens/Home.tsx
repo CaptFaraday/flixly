@@ -41,6 +41,10 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
   );
 }
 
-const belowHeroStyle: any = { position: 'absolute', top: '60%', left: '3%', right: '3%', display: 'flex', flexDirection: 'column', gap: 24 };
+const belowHeroStyle: any = {
+  position: 'absolute', top: '53%', left: '4%', right: '4%', bottom: '4%',
+  display: 'flex', flexDirection: 'column', gap: 28,
+  zIndex: 4,
+};
 const loadingStyle: any = { padding: 64, opacity: 0.6 };
 const errorStyle: any = { padding: 64, color: 'var(--accent)' };

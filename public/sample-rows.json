@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T00:00:00Z",
+  "generated_at": "2026-05-10T00:00:00Z",
   "shelves": [
     {
       "id": "just-hit-streaming",
@@ -51,15 +51,7 @@
           "digital_release_date": "2025-02-04",
           "director": "Brady Corbet",
           "cast": ["Adrien Brody", "Felicity Jones", "Guy Pearce"]
-        }
-      ]
-    },
-    {
-      "id": "a24",
-      "display": "collection",
-      "title": "A24",
-      "background_color": "#000000",
-      "items": [
+        },
         {
           "imdb_id": "tt15398776",
           "tmdb_id": 762441,
@@ -87,8 +79,43 @@
           "scores": { "rt": 81, "metacritic": 76, "imdb": 7.0 },
           "director": "Alex Garland",
           "cast": ["Kirsten Dunst", "Wagner Moura"]
+        },
+        {
+          "imdb_id": "tt17489856",
+          "tmdb_id": 933260,
+          "title": "The Substance",
+          "year": 2024,
+          "runtime": 141,
+          "genres": ["Horror", "Drama"],
+          "poster": "https://picsum.photos/seed/substance/640/360",
+          "backdrop": "https://picsum.photos/seed/substance-bd/1920/1080",
+          "overview": "A fading celebrity decides to use a black market drug that creates a younger, better version of herself.",
+          "scores": { "rt": 90, "metacritic": 78, "imdb": 7.4 },
+          "director": "Coralie Fargeat",
+          "cast": ["Demi Moore", "Margaret Qualley"]
+        },
+        {
+          "imdb_id": "tt22939186",
+          "tmdb_id": 866398,
+          "title": "Challengers",
+          "year": 2024,
+          "runtime": 131,
+          "genres": ["Drama", "Romance"],
+          "poster": "https://picsum.photos/seed/challengers/640/360",
+          "backdrop": "https://picsum.photos/seed/challengers-bd/1920/1080",
+          "overview": "Tashi takes her tennis player husband on a journey of self-discovery, ambition, and rivalry.",
+          "scores": { "rt": 88, "metacritic": 82, "imdb": 7.1 },
+          "director": "Luca Guadagnino",
+          "cast": ["Zendaya", "Mike Faist", "Josh O'Connor"]
         }
       ]
-    }
+    },
+    { "id": "a24",            "display": "collection", "title": "A24",          "background_color": "#0d0d0d", "items": [] },
+    { "id": "neon",           "display": "collection", "title": "NEON",         "background_color": "#003a3a", "items": [] },
+    { "id": "studio-ghibli",  "display": "collection", "title": "Studio Ghibli","background_color": "#1e3a5f", "items": [] },
+    { "id": "pixar",          "display": "collection", "title": "Pixar",        "background_color": "#5b3b1e", "items": [] },
+    { "id": "marvel",         "display": "collection", "title": "Marvel",       "background_color": "#5a0d0d", "items": [] },
+    { "id": "searchlight",    "display": "collection", "title": "Searchlight",  "background_color": "#3d4a1e", "items": [] },
+    { "id": "focus-features", "display": "collection", "title": "Focus",        "background_color": "#4a1e3a", "items": [] }
   ]
 }
