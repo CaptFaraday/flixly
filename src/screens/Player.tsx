@@ -1,3 +1,4 @@
+import './Player.css';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Movie, RDStream } from '../types';
 import { settings, recordResume, resumePositions } from '../state/store';
@@ -147,14 +148,14 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   }, [onClose]);
 
   if (state.kind === 'preparing') {
-    return <div style={overlayStyle}><div style={spinnerTextStyle}>{state.step}…</div></div>;
+    return <div className="player__overlay"><div className="player__spinner-text">{state.step}…</div></div>;
   }
   if (state.kind === 'error') {
     return (
-      <div style={overlayStyle}>
-        <h2 style={{ fontSize: 28, marginBottom: 12 }}>Can't play right now</h2>
-        <p style={{ maxWidth: 600, opacity: 0.85 }}>{REASON_TEXT[state.reason]}{state.detail && ` — ${state.detail}`}</p>
-        <button onClick={onClose} style={errorBtnStyle}>Back</button>
+      <div className="player__overlay">
+        <h2 className="player__error-title">Can't play right now</h2>
+        <p className="player__error-body">{REASON_TEXT[state.reason]}{state.detail && ` — ${state.detail}`}</p>
+        <button onClick={onClose} className="player__error-btn">Back</button>
       </div>
     );
   }
@@ -162,14 +163,10 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     <video
       ref={videoRef}
       src={state.stream.url}
-      style={{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, width: '100vw', height: '100vh', background: '#000' }}
+      className="player__video"
       controls
       autoPlay
       crossOrigin="anonymous"
     />
   );
 }
-
-const overlayStyle: any = { position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 64, color: 'var(--text)' };
-const spinnerTextStyle: any = { fontSize: 18, opacity: 0.6, letterSpacing: '1.5px', textTransform: 'uppercase' };
-const errorBtnStyle: any = { marginTop: 24, padding: '12px 24px', background: 'var(--text)', color: 'var(--bg)', border: 'none', borderRadius: 4, fontWeight: 700, cursor: 'pointer' };
