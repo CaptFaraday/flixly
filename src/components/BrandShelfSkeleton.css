@@ -1,0 +1,24 @@
+.brand-shelf-skeleton__header {
+  margin-bottom: 18px;
+}
+
+.brand-shelf-skeleton__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 18px;
+}
+
+.brand-shelf-skeleton__cell {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.brand-shelf-skeleton__cell-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--r-lg);
+}
