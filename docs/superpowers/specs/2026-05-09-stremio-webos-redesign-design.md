@@ -17,6 +17,7 @@ Built for personal use only — sideloaded via WebOS Developer Mode, no LG Conte
 
 - Open the app, see rows of *actually good* movies — primarily films that recently moved from theatrical to home viewing, plus other curated rails
 - Disney+/HBO Max-style layout (hero + brand shelf + poster rows), but with a more cinematic, exclusive feel inspired by Netflix
+- **Press Play, it plays.** When Real-Debrid has a good cached stream, the app just picks it and starts playing — no stream picker by default. The Stremio "pick from 50 sources across 5 addons" experience is what we're explicitly fixing
 - Snappy on a 6-year-old chip — sub-500ms cold start, no jank
 - Fully hackable: every layer (suggestion logic, subtitle sources, stream sources, player overlays, themes) is owned and modifiable
 - Pleasant remote-driven navigation — focus changes feel responsive, predictable, and visually clear
@@ -65,8 +66,14 @@ Sideloaded IPK. Preact + Vite, ~200KB gzipped. Shell loads from local install. D
 ### 2. The suggestion backend (GitHub Action)
 A scheduled workflow runs daily, ~60 seconds. Pulls TMDb + OMDb, builds a `rows.json`, commits to repo. Served via `raw.githubusercontent.com`. No server to own.
 
-### 3. The Stremio addon ecosystem (existing internet services)
-Torrentio + Real-Debrid for streams, an OpenSubtitles-style addon for subtitles. Speaks Stremio's addon protocol over HTTPS. Unchanged, untouched. We hit it only when the user presses Play.
+### 3. Stream + subtitle sources (baked-in, not user-configurable in MVP)
+**Real-Debrid is the debrid backend.** First-class, hardcoded into the app. User provides only an API key in Settings — no addon URLs, no "which RD addon do I install."
+
+**Torrentio is the source scraper.** Hardcoded URL, not exposed as a user-facing addon — its job is finding torrent info-hashes for a given IMDb ID. The app pipes those hashes into Real-Debrid's `instantAvailability` endpoint, takes the cached ones, and unrestricts the best match.
+
+**OpenSubtitles** (or equivalent) is the subtitle source. Also baked in.
+
+Power users can add additional addons (Comet, MediaFusion, custom) in v0.3+ via an advanced setting — but that path is hidden behind "Advanced" and not part of the default experience.
 
 ### Data flow
 
@@ -74,7 +81,7 @@ Torrentio + Real-Debrid for streams, an OpenSubtitles-style addon for subtitles.
 |---|---|
 | **Cold start** | Shell from local IPK (~50ms) → parallel fetch `rows.json` (~100ms with 304s) → render home. localStorage gives us "Continue Watching" + watchlist |
 | **Click into a movie** | Metadata already in `rows.json`. For full cast/similar/etc, fetch from TMDb (cached in IndexedDB, 1-day TTL). No addon traffic yet |
-| **Click Play** | Hit configured stream addons in parallel → URLs (Real-Debrid pre-resolves to direct CDN) → pick best (or show picker) → HTML5 `<video>`. Subtitle addons fetched in parallel. Resume position to localStorage every 10s |
+| **Click Play** | Torrentio → list of info-hashes → RD `instantAvailability` → cached set → ranking heuristic picks one → RD `unrestrict/link` → HTML5 `<video>`. Subtitles fetched in parallel. Resume position to localStorage every 10s. **No picker shown unless user holds the OK button on the Play button to "Show all sources"** |
 
 ### Cache layers
 
@@ -85,16 +92,42 @@ Torrentio + Real-Debrid for streams, an OpenSubtitles-style addon for subtitles.
 
 ---
 
+## Stream selection philosophy
+
+The single biggest UX failure of vanilla Stremio is the stream picker. We replace it with an opinionated auto-pick.
+
+### Ranking heuristic (in order)
+1. **Must be cached on Real-Debrid** (no waiting for torrent downloads, ever)
+2. **Container compatibility:** prefer MP4 / x264 (Chromium 79 plays it directly). MKV with H264 next. H265 deprioritized until v0.2 codec strategy is decided
+3. **Quality target:** prefer 1080p over 4K by default. Configurable in Settings (`prefer_4k: true` flips it). On a 4K HDR display you might want 4K, but H265 compatibility issues make 1080p the safer MVP default
+4. **File size sanity:** for 1080p, prefer 2–6GB (well-encoded); reject 12GB 1080p remuxes (probably overkill)
+5. **Audio:** prefer English audio if multiple tracks indicated in filename
+6. **Source quality tag:** REMUX > BluRay > WEB-DL > WEBRip > HDTV (parsed from torrent name)
+
+### What the user sees
+- **Default:** press Play → 1–2 second spinner → playback starts. Done.
+- **No streams cached on RD:** show "No cached streams available — try again later" rather than queue an uncached download (would block playback). v0.2 may add an "Add to RD queue and notify when ready" action.
+- **Want to override:** long-press OK on Play button → opens stream picker showing all RD-cached candidates with quality/size/source. For when the auto-pick is wrong (rare).
+
+### What we DON'T do
+- Don't show 50 streams by default
+- Don't ask the user to choose between addons
+- Don't expose torrent provider names ("[YTS] Movie 2024") in the default UI — they're an implementation detail
+- Don't make the user understand "Comet vs Torrentio vs MediaFusion" — they shouldn't have to
+
 ## App module breakdown
 
 | Module | Job | Talks to |
 |---|---|---|
 | **Spatial nav** | Owns focus. D-pad in → focus change. Pure logic, no DOM dep | Nothing |
-| **Addon client** | Stremio protocol over HTTP. `fetchStreams()`, `fetchSubtitles()`, `fetchMeta()`. Stateless | Network |
+| **Real-Debrid client** | Talks to RD REST API. `checkCache(hashes)`, `unrestrict(magnet)`. Holds API key | Network |
+| **Source scraper** | Calls Torrentio (and v0.3+ optional addons) to get candidate info-hashes for an IMDb ID | Network |
+| **Stream picker** | Pure function: ranks candidates, returns best stream URL via the ranking heuristic | RD client, scraper |
+| **Subtitle client** | Fetches subtitles from OpenSubtitles addon (and v0.3+ custom sources) | Network |
 | **Suggestion layer** | Fetches `rows.json` from GitHub, parses, exposes typed rows | Network |
 | **Metadata layer** | TMDb client + IndexedDB cache + dedup | Network + cache |
-| **State store** | Signals-based reactive store. Watchlist, resume positions, settings | localStorage |
-| **Player** | HTML5 `<video>` wrapper, controls overlay, subtitle renderer, resume tracker | Addon client, State |
+| **State store** | Signals-based reactive store. Watchlist, resume positions, RD API key, settings | localStorage |
+| **Player** | HTML5 `<video>` wrapper, controls overlay, subtitle renderer, resume tracker | Stream picker, Subtitle client, State |
 | **Theme** | CSS variables, fonts, spacing/motion tokens. One file | Nothing |
 | **Screens** | Home / Detail / Library / Search / Player / Settings. Thin composition | Everything |
 
@@ -104,7 +137,8 @@ Torrentio + Real-Debrid for streams, an OpenSubtitles-style addon for subtitles.
 app/src/
   screens/        Home.tsx, Detail.tsx, Library.tsx, Search.tsx, Player.tsx, Settings.tsx
   nav/            spatial.ts, useFocusable.ts
-  addon/          protocol.ts, client.ts, registry.ts
+  sources/        realdebrid.ts, torrentio.ts, picker.ts, parse-name.ts
+  subtitles/      opensubtitles.ts, render.ts
   data/           rows.ts, tmdb.ts, cache.ts
   state/          store.ts, persistence.ts
   player/         Player.tsx, controls.tsx, subtitles.ts
@@ -231,21 +265,23 @@ The smallest thing worth installing.
 - Home screen: hero + one row + brand shelf (brand shelf list hardcoded initially)
 - Detail screen: hero, metadata, "Play" button
 - Player: HTML5 `<video>`, basic remote controls (play/pause, seek), resume to localStorage
-- Stream fetching: hit one configured Torrentio + Real-Debrid addon, take first stream, play
+- **Stream selection: Torrentio → RD cache check → opinionated auto-pick → play. No picker shown.**
 - Design tokens applied
-- Settings screen for addon URLs
+- Settings screen: just a Real-Debrid API key field + a "prefer 4K" toggle
 
 ### v0.2 — feels like a real app
 - All home rows from `rows.json` rendering correctly
-- Search screen (TMDb autocomplete + addon results)
+- Search screen (TMDb autocomplete)
 - Library / Watchlist screen, Continue Watching row populated from localStorage
-- Stream picker UI with quality/size
-- Subtitle support: fetch from configured subtitle addon, render with WebVTT
+- **Long-press Play to open stream picker** (the escape hatch when auto-pick is wrong)
+- Subtitle support: fetch from OpenSubtitles, render with WebVTT
+- "Add to RD queue" action when no cached streams found, with notification on ready
 - Loading skeletons, empty states, error toasts
-- Multiple addon support
 - Brand shelf items become real curated lists (not just static logos)
+- Container/codec strategy decision (MKV/H265 path)
 
 ### v0.3+ — power-user features
+- **Advanced source addons** (Comet, MediaFusion, custom) for users who want more sources
 - Custom subtitle source plugins (e.g., a SubDL scraper)
 - Skip-intro markers (SponsorBlock-style)
 - Discord rich presence
@@ -276,11 +312,12 @@ The smallest thing worth installing.
 
 ## Error handling principles
 
-- **Addon down:** toast + fall back to next configured addon
+- **Torrentio down:** toast "Couldn't find sources — try again later." Don't pretend
+- **Real-Debrid down or API key invalid:** toast pointing to Settings to re-enter key
 - **`rows.json` fetch fails:** use last cached version from localStorage
 - **TMDb fetch fails:** items show with what's in `rows.json`; optional details just don't appear
-- **No streams found:** detail page says "No streams available — check your addons in Settings"
-- **Video playback error:** show stream picker with failing source dimmed
+- **No cached streams on RD:** "No cached streams available right now — try again later." Don't queue an uncached torrent (blocks playback). v0.2 adds an opt-in "queue it" action
+- **Video playback error (codec issue):** offer to "try another source" — opens picker with failing source dimmed
 - **localStorage quota:** prune oldest resume entries, retry
 
 Principle: never break the app because something on the internet broke.
@@ -289,9 +326,11 @@ Principle: never break the app because something on the internet broke.
 
 ## Open questions / followups
 
-- **Specific addon URLs** for Torrentio + Real-Debrid + OpenSubtitles — to be configured in Settings during MVP setup; not fixed in code
-- **OMDb API key** — free tier needs registration; user to provision
-- **TMDb API key** — free, user to provision
+- **Real-Debrid API key** — user provides in Settings on first run; nothing else to configure for source/debrid in MVP
+- **Torrentio addon URL** — hardcoded in app (their public manifest URL); user-invisible
+- **OpenSubtitles addon URL** — hardcoded in app; user-invisible
+- **OMDb API key** — free tier needs registration; lives in the GitHub Action secret, not on the TV
+- **TMDb API key** — free; lives in the GitHub Action secret AND in the app (read-only public key, OK to ship)
 - **GitHub repo name + visibility** — public or private; affects raw.githubusercontent.com URL
 - **Quality source if OMDb proves limiting** — could add Letterboxd scraping as v0.3 enhancement
 - **Brand shelf items** — final list of 10 production companies to feature; A24, NEON, Studio Ghibli, Pixar, Marvel, Searchlight, Focus Features identified so far; need 3 more
