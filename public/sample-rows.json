@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-05-09T00:00:00Z",
+  "shelves": [
+    {
+      "id": "just-hit-streaming",
+      "display": "row",
+      "title": "Just Hit Streaming",
+      "subtitle": "Theatrical → home, last 60 days",
+      "items": [
+        {
+          "imdb_id": "tt15239678",
+          "tmdb_id": 693134,
+          "title": "Dune: Part Two",
+          "year": 2024,
+          "runtime": 166,
+          "genres": ["Science Fiction", "Adventure"],
+          "poster": "https://picsum.photos/seed/dune2/640/360",
+          "backdrop": "https://picsum.photos/seed/dune2-bd/1920/1080",
+          "overview": "Paul Atreides unites with the Fremen to wage war against those who destroyed his family.",
+          "scores": { "rt": 92, "metacritic": 79, "imdb": 8.5 },
+          "digital_release_date": "2024-04-16",
+          "director": "Denis Villeneuve",
+          "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson"]
+        },
+        {
+          "imdb_id": "tt28607951",
+          "tmdb_id": 1064213,
+          "title": "Anora",
+          "year": 2024,
+          "runtime": 139,
+          "genres": ["Drama", "Comedy"],
+          "poster": "https://picsum.photos/seed/anora/640/360",
+          "backdrop": "https://picsum.photos/seed/anora-bd/1920/1080",
+          "overview": "A young sex worker from Brooklyn meets the son of a Russian oligarch and impulsively marries him.",
+          "scores": { "rt": 91, "metacritic": 89, "imdb": 7.6 },
+          "digital_release_date": "2025-01-14",
+          "director": "Sean Baker",
+          "cast": ["Mikey Madison", "Mark Eydelshteyn"]
+        },
+        {
+          "imdb_id": "tt8999762",
+          "tmdb_id": 549509,
+          "title": "The Brutalist",
+          "year": 2024,
+          "runtime": 215,
+          "genres": ["Drama"],
+          "poster": "https://picsum.photos/seed/brutalist/640/360",
+          "backdrop": "https://picsum.photos/seed/brutalist-bd/1920/1080",
+          "overview": "A visionary Hungarian-Jewish architect arrives in postwar America to rebuild his life.",
+          "scores": { "rt": 93, "metacritic": 90, "imdb": 7.7 },
+          "digital_release_date": "2025-02-04",
+          "director": "Brady Corbet",
+          "cast": ["Adrien Brody", "Felicity Jones", "Guy Pearce"]
+        }
+      ]
+    },
+    {
+      "id": "a24",
+      "display": "collection",
+      "title": "A24",
+      "background_color": "#000000",
+      "items": [
+        {
+          "imdb_id": "tt15398776",
+          "tmdb_id": 762441,
+          "title": "Past Lives",
+          "year": 2023,
+          "runtime": 105,
+          "genres": ["Drama", "Romance"],
+          "poster": "https://picsum.photos/seed/pastlives/640/360",
+          "backdrop": "https://picsum.photos/seed/pastlives-bd/1920/1080",
+          "overview": "Two childhood friends are reunited in NYC for one fateful week.",
+          "scores": { "rt": 96, "metacritic": 94, "imdb": 7.8 },
+          "director": "Celine Song",
+          "cast": ["Greta Lee", "Teo Yoo"]
+        },
+        {
+          "imdb_id": "tt15239696",
+          "tmdb_id": 1027497,
+          "title": "Civil War",
+          "year": 2024,
+          "runtime": 109,
+          "genres": ["Action", "Drama"],
+          "poster": "https://picsum.photos/seed/civilwar/640/360",
+          "backdrop": "https://picsum.photos/seed/civilwar-bd/1920/1080",
+          "overview": "A team of journalists travel across the United States during a rapidly escalating civil war.",
+          "scores": { "rt": 81, "metacritic": 76, "imdb": 7.0 },
+          "director": "Alex Garland",
+          "cast": ["Kirsten Dunst", "Wagner Moura"]
+        }
+      ]
+    }
+  ]
+}
