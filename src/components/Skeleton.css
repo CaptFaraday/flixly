@@ -1,0 +1,6 @@
+/* Width/height/radius are runtime-driven (per-instance), so they stay inline.
+   This file exists for parity with other components — animation comes from
+   the global [data-skeleton] selector in animations.css. */
+.skeleton {
+  display: block;
+}
