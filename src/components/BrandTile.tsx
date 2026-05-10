@@ -42,10 +42,13 @@ const logoStyle: any = { maxWidth: '70%', maxHeight: '60%' };
 function textStyleFor(id: string): any {
   const base: any = {
     color: '#fff', textTransform: 'uppercase', fontWeight: 800,
-    letterSpacing: '0.18em', fontSize: 22,
+    letterSpacing: '0.18em', fontSize: 26,
     textAlign: 'center', lineHeight: 1.05,
   };
-  if (id === 'a24') return { ...base, fontFamily: 'var(--font-display)', fontWeight: 400, letterSpacing: '0.02em', fontStyle: 'italic', fontSize: 30, textTransform: 'none' };
-  if (id === 'neon') return { ...base, fontWeight: 900, letterSpacing: '0.04em', fontSize: 28 };
+  if (id === 'a24') return { ...base, fontFamily: 'var(--font-display)', fontWeight: 400, letterSpacing: '0.02em', fontStyle: 'italic', fontSize: 36, textTransform: 'none' };
+  if (id === 'neon') return { ...base, fontWeight: 900, letterSpacing: '0.04em', fontSize: 30 };
+  if (id === 'studio-ghibli' || id === 'searchlight' || id === 'focus-features') {
+    return { ...base, fontSize: 16, letterSpacing: '0.20em' };
+  }
   return base;
 }

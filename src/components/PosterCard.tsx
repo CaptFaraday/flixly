@@ -29,20 +29,20 @@ const imgStyle: any = {
   filter: 'saturate(0.92) contrast(1.06)',
 };
 const infoOverlayStyle: any = {
-  position: 'absolute', inset: 0,
+  position: 'absolute', top: 0, right: 0, bottom: 0, left: 0,
   background: 'linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.45) 65%, rgba(0,0,0,0.95) 100%)',
   display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
   padding: '10px 12px',
 };
 const titleStyle: any = {
   fontFamily: 'var(--font-display)',
-  fontSize: 16, fontWeight: 600, letterSpacing: '-0.3px',
+  fontSize: 18, fontWeight: 600, letterSpacing: '-0.3px',
   lineHeight: 1.1, color: 'var(--text)',
   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 };
 const metaRowStyle: any = {
-  display: 'flex', alignItems: 'center', gap: 8, marginTop: 4,
-  fontSize: 11, letterSpacing: '0.6px',
+  display: 'flex', alignItems: 'center', gap: 10, marginTop: 6,
+  fontSize: 13, letterSpacing: '0.6px',
 };
 const yearStyle: any = { color: 'rgba(240,236,228,0.7)' };
 const ratingStyle: any = {

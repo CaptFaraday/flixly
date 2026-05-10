@@ -42,8 +42,8 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
 }
 
 const belowHeroStyle: any = {
-  position: 'absolute', top: '53%', left: '4%', right: '4%', bottom: '4%',
-  display: 'flex', flexDirection: 'column', gap: 28,
+  position: 'absolute', top: '57%', left: '5%', right: '5%', bottom: '4%',
+  display: 'flex', flexDirection: 'column', gap: 44,
   zIndex: 4,
 };
 const loadingStyle: any = { padding: 64, opacity: 0.6 };

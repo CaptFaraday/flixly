@@ -162,7 +162,7 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     <video
       ref={videoRef}
       src={state.stream.url}
-      style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', background: '#000' }}
+      style={{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, width: '100vw', height: '100vh', background: '#000' }}
       controls
       autoPlay
       crossOrigin="anonymous"
@@ -170,6 +170,6 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   );
 }
 
-const overlayStyle: any = { position: 'fixed', inset: 0, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 64, color: 'var(--text)' };
+const overlayStyle: any = { position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 64, color: 'var(--text)' };
 const spinnerTextStyle: any = { fontSize: 16, opacity: 0.6, letterSpacing: '1.5px', textTransform: 'uppercase' };
 const errorBtnStyle: any = { marginTop: 24, padding: '12px 24px', background: 'var(--text)', color: 'var(--bg)', border: 'none', borderRadius: 4, fontWeight: 700, cursor: 'pointer' };

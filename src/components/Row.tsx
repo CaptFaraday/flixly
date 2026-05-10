@@ -19,17 +19,17 @@ export function Row({ title, subtitle, items, onSelect }: Props) {
 }
 
 const headerStyle: any = {
-  display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 14,
+  display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 18,
 };
 const titleStyle: any = {
   margin: 0, fontFamily: 'var(--font-ui)',
-  fontSize: 18, fontWeight: 700, letterSpacing: '-0.2px',
+  fontSize: 24, fontWeight: 700, letterSpacing: '-0.3px',
   color: 'var(--text)',
 };
 const subStyle: any = {
-  fontSize: 12, fontWeight: 500, letterSpacing: '1.2px',
+  fontSize: 13, fontWeight: 500, letterSpacing: '1.4px',
   textTransform: 'uppercase', color: 'var(--text-muted)',
 };
 const gridStyle: any = {
-  display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 14,
+  display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 18,
 };

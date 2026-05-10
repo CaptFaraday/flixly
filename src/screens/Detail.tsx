@@ -47,7 +47,7 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
 }
 
 const heroStyle: any = { position: 'absolute', top: 0, left: 0, right: 0, height: '50%', backgroundSize: 'cover', backgroundPosition: 'center' };
-const overlayStyle: any = { position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, var(--bg) 100%), linear-gradient(90deg, var(--bg) 0%, rgba(10,10,10,0.6) 40%, transparent 70%)' };
+const overlayStyle: any = { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, background: 'linear-gradient(180deg, transparent 30%, var(--bg) 100%), linear-gradient(90deg, var(--bg) 0%, rgba(10,10,10,0.6) 40%, transparent 70%)' };
 const contentStyle: any = { position: 'absolute', top: '40%', left: '5%', right: '5%' };
 const titleStyle: any = { fontFamily: 'var(--font-display)', fontSize: 72, fontWeight: 400, letterSpacing: '-2px', lineHeight: 1, margin: '0 0 16px' };
 const metaStyle: any = { display: 'flex', gap: 20, fontSize: 14, letterSpacing: '1.2px', textTransform: 'uppercase', marginBottom: 20, color: 'rgba(240,236,228,0.85)' };
