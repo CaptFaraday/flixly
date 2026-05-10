@@ -1,0 +1,26 @@
+.row-skeleton__header {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 18px;
+}
+
+.row-skeleton__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 18px;
+}
+
+.row-skeleton__cell {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.row-skeleton__cell-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--r-lg);
+}
