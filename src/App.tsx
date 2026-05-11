@@ -4,8 +4,11 @@ import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
 import { Detail } from './screens/Detail';
 import { Player } from './screens/Player';
+import { Search } from './screens/Search';
+import { Library } from './screens/Library';
+import { Collection } from './screens/Collection';
 import { installInputListener } from './nav/input';
-import type { Movie, Collection } from './types';
+import type { Movie, Collection as CollectionType } from './types';
 
 type Route =
   | { name: 'home' }
@@ -13,7 +16,7 @@ type Route =
   | { name: 'library' }
   | { name: 'settings' }
   | { name: 'detail'; movie: Movie }
-  | { name: 'collection'; collection: Collection }
+  | { name: 'collection'; collection: CollectionType }
   | { name: 'player'; movie: Movie };
 
 export const route = signal<Route>({ name: 'home' });
@@ -44,7 +47,21 @@ export function App() {
       />;
     case 'player':
       return <Player movie={r.movie} onClose={pop} />;
-    default:
-      return <div style={{ padding: 64 }}>Coming soon: {r.name}</div>;
+    case 'search':
+      return <Search
+        onNavigate={(to) => push({ name: to } as Route)}
+        onSelectMovie={(movie) => push({ name: 'detail', movie })}
+      />;
+    case 'library':
+      return <Library
+        onNavigate={(to) => push({ name: to } as Route)}
+        onSelectMovie={(movie) => push({ name: 'detail', movie })}
+      />;
+    case 'collection':
+      return <Collection
+        collection={r.collection}
+        onNavigate={(to) => push({ name: to } as Route)}
+        onSelectMovie={(movie) => push({ name: 'detail', movie })}
+      />;
   }
 }
