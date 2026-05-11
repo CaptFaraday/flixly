@@ -16,14 +16,14 @@ type State =
 
 const REASON_TEXT: Record<PickReason | 'rd_error' | 'no_streams' | 'unknown', string> = {
   no_cached: 'No cached versions on Real-Debrid right now. Try again later.',
-  no_compatible_codec: 'All cached versions use a video codec your TV can\'t play in the browser (likely H.265).',
-  no_compatible_audio: 'All cached versions use an audio codec your TV can\'t play (e.g. DTS or TrueHD).',
+  no_compatible_codec: 'All cached versions use a video codec your TV can\'t play in the browser (likely H.265). Try a different title.',
+  no_compatible_audio: 'All cached versions use an audio codec your TV can\'t play (e.g. DTS or TrueHD). Try a different title.',
   no_acceptable_language: 'No cached version with the right audio language. Try changing Audio Language in Settings.',
-  no_acceptable_bitrate: 'All cached versions are too high-bitrate for your network right now.',
-  no_subtitles: 'No subtitles available for this title in your preferred language.',
+  no_acceptable_bitrate: 'All cached versions are too high-bitrate for your network right now. Try again later.',
+  no_subtitles: 'No subtitles available for this title in your preferred language. Try switching Audio Language in Settings.',
   rd_error: 'Real-Debrid request failed. Check your API key in Settings.',
-  no_streams: 'No sources found for this title.',
-  unknown: 'Something went wrong starting playback.',
+  no_streams: 'No sources found for this title. Try again later or check back when the title is more widely available.',
+  unknown: 'Something went wrong starting playback. Try relaunching the app.',
 };
 
 export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }) {
