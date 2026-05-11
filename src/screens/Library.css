@@ -1,0 +1,25 @@
+.library {
+  padding: calc(80px + var(--s-5)) var(--s-9) var(--s-7);  /* leave room for fixed TopNav */
+}
+
+.library__title {
+  margin: 0 0 var(--s-7);
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  color: var(--text);
+}
+
+.library__section + .library__section {
+  margin-top: var(--s-7);
+}
+
+.library__row-title {
+  margin: 0 0 var(--s-4);
+  font-family: var(--font-ui);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text);
+}
