@@ -1,4 +1,4 @@
-import { signal } from '@preact/signals';
+import { signal, effect } from '@preact/signals';
 import { useEffect } from 'preact/hooks';
 import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
@@ -8,7 +8,25 @@ import { Search } from './screens/Search';
 import { Library } from './screens/Library';
 import { Collection } from './screens/Collection';
 import { installInputListener } from './nav/input';
+import { focusedId } from './nav/useFocusable';
+import { watchlist, resumePositions, settings } from './state/store';
 import type { Movie, Collection as CollectionType } from './types';
+
+// Test-friendly state introspection. Lets Vitest tests, manual CDP scripts,
+// and on-device smoke tests assert on app state via `window.__flixly`
+// instead of pixel diffs. Only enabled in dev / test contexts where window
+// is defined; harmless on the TV but useful when CDP is connected.
+declare global {
+  interface Window {
+    __flixly?: {
+      route: string;
+      focusedId: string | null;
+      watchlistCount: number;
+      resumeCount: number;
+      hasRdKey: boolean;
+    };
+  }
+}
 
 type Route =
   | { name: 'home' }
@@ -64,4 +82,16 @@ export function App() {
         onSelectMovie={(movie) => push({ name: 'detail', movie })}
       />;
   }
+}
+
+if (typeof window !== 'undefined') {
+  effect(() => {
+    window.__flixly = {
+      route: route.value.name,
+      focusedId: focusedId.value,
+      watchlistCount: watchlist.value.length,
+      resumeCount: Object.keys(resumePositions.value).length,
+      hasRdKey: !!settings.value.rd_api_key,
+    };
+  });
 }
