@@ -1,4 +1,4 @@
-import type { RowsFile } from '../types';
+import type { Movie, RowsFile } from '../types';
 
 const ROWS_URL = 'https://raw.githubusercontent.com/CaptFaraday/flixly/main/rows.json';
 const CACHE_KEY = 'rows-cache-v1';
@@ -59,4 +59,19 @@ function readCache(): RowsFile | null {
 function writeCache(d: RowsFile): void {
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(d)); }
   catch { /* quota exceeded — ignore */ }
+}
+
+/**
+ * Find a movie by imdb_id across all shelves in a RowsFile. Returns undefined
+ * if not found (e.g. a movie that's in the user's resume state but has aged
+ * out of rows.json). Callers should render a placeholder in that case.
+ */
+export function findMovie(rows: RowsFile | null, imdbId: string): Movie | undefined {
+  if (!rows) return undefined;
+  for (const shelf of rows.shelves) {
+    for (const movie of shelf.items) {
+      if (movie.imdb_id === imdbId) return movie;
+    }
+  }
+  return undefined;
 }
