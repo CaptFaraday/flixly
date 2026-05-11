@@ -10,7 +10,8 @@
     "test:watch": "vitest",
     "package": "ares-package dist -o ipk",
     "deploy": "bash scripts/deploy.sh",
-    "build-rows": "tsx backend/build-rows.ts"
+    "build-rows": "tsx backend/build-rows.ts",
+    "smoke": "node scripts/tv-smoke.mjs"
   },
   "dependencies": {
     "@preact/signals": "^1.3.0",
