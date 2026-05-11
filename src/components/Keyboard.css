@@ -1,0 +1,51 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard__row + .keyboard__row {
+  margin-top: var(--s-2);
+}
+
+.keyboard__row--special {
+  margin-top: var(--s-2);
+}
+
+.keyboard__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  height: 56px;
+  padding: 0 var(--s-2);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.keyboard__key + .keyboard__key {
+  margin-left: var(--s-2);
+}
+
+.keyboard__key--special {
+  font-size: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 var(--s-3);
+}
+
+.keyboard__key--wide {
+  min-width: 140px;
+}
