@@ -74,3 +74,16 @@
   color: #f5b34a;
   font-weight: 700;
 }
+
+.poster__progress-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.55);
+}
+.poster__progress-bar {
+  height: 100%;
+  background: var(--accent);
+}
