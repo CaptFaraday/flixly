@@ -20,7 +20,7 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      <div className="detail__hero" style={{ backgroundImage: `url(${movie.backdrop})` }}>
+      <div className="detail__hero" data-screen="detail" style={{ backgroundImage: `url(${movie.backdrop})` }}>
         <div className="detail__overlay" />
       </div>
       <div className="detail__content">

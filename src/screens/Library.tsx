@@ -41,7 +41,7 @@ export function Library({ onNavigate, onSelectMovie }: Props) {
   return (
     <>
       <TopNav current="library" onNavigate={onNavigate} />
-      <main className="library">
+      <main className="library" data-screen="library">
         <h1 className="library__title">Library</h1>
 
         <section className="library__section">

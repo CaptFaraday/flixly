@@ -30,7 +30,7 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <main className="home">
+        <main className="home" data-screen="home">
           <div className="home__error">
             <h2 className="home__error-title">Couldn't load rows</h2>
             <p className="home__error-body">{error}</p>
@@ -45,7 +45,7 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
     return (
       <>
         <TopNav current="home" onNavigate={onNavigate} />
-        <main className="home">
+        <main className="home" data-screen="home">
           <HeroSkeleton />
           <div className="home__below-hero">
             <div className="home__section"><BrandShelfSkeleton /></div>
@@ -63,7 +63,7 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      <main className="home">
+      <main className="home" data-screen="home">
         {heroMovie && <Hero movie={heroMovie} onPlay={() => onSelectMovie(heroMovie)} onMoreInfo={() => onSelectMovie(heroMovie)} />}
         <div className="home__below-hero">
           {collections.length > 0 && (

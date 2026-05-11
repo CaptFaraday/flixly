@@ -69,7 +69,7 @@ export function Search({ onNavigate, onSelectMovie }: Props) {
   return (
     <>
       <TopNav current="search" onNavigate={onNavigate} />
-      <main className="search">
+      <main className="search" data-screen="search">
         <aside className="search__pane">
           <div className="search__query">{query || <span className="search__placeholder">Type to search</span>}</div>
           <Keyboard

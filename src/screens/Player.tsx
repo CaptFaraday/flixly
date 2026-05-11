@@ -148,11 +148,11 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   }, [onClose]);
 
   if (state.kind === 'preparing') {
-    return <div className="player__overlay"><div className="player__spinner-text">{state.step}…</div></div>;
+    return <div className="player__overlay" data-screen="player"><div className="player__spinner-text">{state.step}…</div></div>;
   }
   if (state.kind === 'error') {
     return (
-      <div className="player__overlay">
+      <div className="player__overlay" data-screen="player">
         <h2 className="player__error-title">Can't play right now</h2>
         <p className="player__error-body">{REASON_TEXT[state.reason]}{state.detail && ` — ${state.detail}`}</p>
         <button onClick={onClose} className="player__error-btn">Back</button>
@@ -164,6 +164,7 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       ref={videoRef}
       src={state.stream.url}
       className="player__video"
+      data-screen="player"
       controls
       autoPlay
       crossOrigin="anonymous"

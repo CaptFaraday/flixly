@@ -17,7 +17,7 @@ export function Collection({ collection, onNavigate, onSelectMovie }: Props) {
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />
-      <main className="collection">
+      <main className="collection" data-screen="collection">
         <header
           className="collection__header"
           style={{ background: `radial-gradient(ellipse 90% 80% at 50% 30%, rgba(255,255,255,0.08) 0%, transparent 60%), ${bg}` }}

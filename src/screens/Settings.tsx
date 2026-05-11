@@ -9,7 +9,7 @@ export function Settings({ onNavigate }: { onNavigate: (to: 'home' | 'search' | 
   return (
     <>
       <TopNav current="settings" onNavigate={onNavigate} />
-      <div className="settings">
+      <div className="settings" data-screen="settings">
         <h1 className="settings__title">Settings</h1>
         <RDKeyField value={s.rd_api_key} />
         <ToggleField label="Prefer 4K when available" value={s.prefer_4k} onChange={(v) => setSetting('prefer_4k', v)} />
