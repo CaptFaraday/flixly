@@ -6,11 +6,14 @@ const IMG = 'https://image.tmdb.org/t/p';
 function getApiKey(): string {
   // In a Vite build, import.meta.env.VITE_TMDB_API_KEY is statically inlined.
   // In Vitest, Vite's SSR transform writes a fresh import.meta.env literal per
-  // module, so test stubs of process.env are the only viable runtime override.
-  const fromMeta = (import.meta as any).env?.VITE_TMDB_API_KEY as string | undefined;
-  if (fromMeta) return fromMeta;
+  // module, so test stubs of process.env are the only viable runtime override —
+  // we check process.env first so vi.stubEnv() in tests wins over the value
+  // statically inlined from .env. Browsers have no process global, so this is
+  // a no-op there and import.meta.env wins as intended.
   const fromProc = (globalThis as any).process?.env?.VITE_TMDB_API_KEY as string | undefined;
-  return fromProc ?? '';
+  if (fromProc) return fromProc;
+  const fromMeta = (import.meta as any).env?.VITE_TMDB_API_KEY as string | undefined;
+  return fromMeta ?? '';
 }
 
 export async function searchMovies(query: string): Promise<Movie[]> {
