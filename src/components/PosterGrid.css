@@ -1,0 +1,12 @@
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--s-3);
+}
+
+.poster-grid__empty {
+  padding: var(--s-5) 0;
+  color: var(--text-muted);
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
