@@ -45,5 +45,6 @@ export function useFocusable(opts: Options = {}) {
     focused: focusedId.value === id,
     'data-focusable': id,
     'data-focused': focusedId.value === id ? '' : undefined,
+    'data-testid': id,  // mirror of data-focusable for testing-library queries
   };
 }
