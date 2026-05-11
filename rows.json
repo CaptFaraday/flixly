@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-10T20:42:58.264Z",
+  "generated_at": "2026-05-11T12:15:25.981Z",
   "shelves": [
     {
       "id": "just-hit-streaming",
@@ -18,7 +18,7 @@
             "Adventure"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/xQRNN12LePQqqIbhP6xP5X212HG.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/y8vQKqARUYPktoQTp1kLuHqBZkh.jpg",
           "overview": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction.",
           "scores": {
             "rt": 94,
@@ -217,7 +217,7 @@
             "Adventure"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/xQRNN12LePQqqIbhP6xP5X212HG.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/y8vQKqARUYPktoQTp1kLuHqBZkh.jpg",
           "overview": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction.",
           "scores": {
             "rt": 94,
@@ -1047,7 +1047,7 @@
             "imdb": 7.1
           },
           "digital_release_date": "2025-07-01",
-          "director": "Danny Philippou",
+          "director": "Michael Philippou",
           "cast": [
             "Billy Barratt",
             "Sally Hawkins",
@@ -1108,32 +1108,6 @@
           ]
         },
         {
-          "imdb_id": "tt13560574",
-          "tmdb_id": 760104,
-          "title": "X",
-          "year": 2022,
-          "runtime": 106,
-          "genres": [
-            "Horror",
-            "Thriller"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/lopZSVtXzhFY603E9OqF7O1YKsh.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/70Rm9ItxKuEKN8iu6rNjfwAYUCJ.jpg",
-          "overview": "In 1979, a group of young filmmakers set out to make an adult film in rural Texas, but when their reclusive, elderly hosts catch them in the act, the cast find themselves fighting for their lives.",
-          "scores": {
-            "rt": 94,
-            "metacritic": 80,
-            "imdb": 6.5
-          },
-          "digital_release_date": "2022-04-12",
-          "director": "Ti West",
-          "cast": [
-            "Mia Goth",
-            "Jenna Ortega",
-            "Brittany Snow"
-          ]
-        },
-        {
           "imdb_id": "tt30057084",
           "tmdb_id": 1097549,
           "title": "Babygirl",
@@ -1157,6 +1131,31 @@
             "Nicole Kidman",
             "Harris Dickinson",
             "Antonio Banderas"
+          ]
+        },
+        {
+          "imdb_id": "tt13560574",
+          "tmdb_id": 760104,
+          "title": "X",
+          "year": 2022,
+          "runtime": 106,
+          "genres": [
+            "Horror"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/lopZSVtXzhFY603E9OqF7O1YKsh.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/70Rm9ItxKuEKN8iu6rNjfwAYUCJ.jpg",
+          "overview": "In 1979, a group of young filmmakers set out to make an adult film in rural Texas, but when their reclusive, elderly hosts catch them in the act, the cast find themselves fighting for their lives.",
+          "scores": {
+            "rt": 94,
+            "metacritic": 80,
+            "imdb": 6.5
+          },
+          "digital_release_date": "2022-04-12",
+          "director": "Ti West",
+          "cast": [
+            "Mia Goth",
+            "Jenna Ortega",
+            "Brittany Snow"
           ]
         },
         {
@@ -1415,7 +1414,7 @@
             "imdb": 7.4
           },
           "digital_release_date": "2020-02-25",
-          "director": "Josh Safdie",
+          "director": "Benny Safdie",
           "cast": [
             "Adam Sandler",
             "LaKeith Stanfield",
@@ -2383,7 +2382,7 @@
             "imdb": 7.1
           },
           "digital_release_date": "2012-06-21",
-          "director": "Brenda Chapman",
+          "director": "Mark Andrews",
           "cast": [
             "Kelly Macdonald",
             "Emma Thompson",
@@ -2969,7 +2968,7 @@
             "imdb": 8.4
           },
           "digital_release_date": "2019-07-30",
-          "director": "Anthony Russo",
+          "director": "Joe Russo",
           "cast": [
             "Robert Downey Jr.",
             "Chris Evans",
