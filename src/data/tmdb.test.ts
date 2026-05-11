@@ -6,10 +6,17 @@ describe('TMDb browser client', () => {
 
   beforeEach(() => {
     fetchSpy = vi.spyOn(globalThis, 'fetch');
-    // Ensure the API key env is set for the duration of the test
-    (import.meta as any).env = { ...(import.meta as any).env, VITE_TMDB_API_KEY: 'test-key' };
+    // Ensure the API key env is set for the duration of the test.
+    // Vite's SSR transform overrides import.meta.env per module, so a direct
+    // assignment to (import.meta as any).env in this test file does not reach
+    // the implementation module. vi.stubEnv mutates process.env which the
+    // implementation reads as a fallback.
+    vi.stubEnv('VITE_TMDB_API_KEY', 'test-key');
   });
-  afterEach(() => vi.restoreAllMocks());
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.restoreAllMocks();
+  });
 
   describe('searchMovies', () => {
     it('returns empty array for empty query without hitting network', async () => {
