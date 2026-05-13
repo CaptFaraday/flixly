@@ -15,7 +15,7 @@ const ROW_3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 export function Keyboard({ onChar, onBackspace, onClear, onSpace }: Props) {
   return (
     <div className="keyboard">
-      <div className="keyboard__row">{ROW_1.map((c) => <Key key={c} char={c} onActivate={() => onChar(c)} />)}</div>
+      <div className="keyboard__row">{ROW_1.map((c, i) => <Key key={c} char={c} onActivate={() => onChar(c)} autofocus={i === 0} />)}</div>
       <div className="keyboard__row">{ROW_2.map((c) => <Key key={c} char={c} onActivate={() => onChar(c)} />)}</div>
       <div className="keyboard__row">{ROW_3.map((c) => <Key key={c} char={c} onActivate={() => onChar(c)} />)}</div>
       <div className="keyboard__row keyboard__row--special">
@@ -27,8 +27,8 @@ export function Keyboard({ onChar, onBackspace, onClear, onSpace }: Props) {
   );
 }
 
-function Key({ char, onActivate }: { char: string; onActivate: () => void }) {
-  const { ref, ...rest } = useFocusable({ id: `kbd-${char}`, onActivate });
+function Key({ char, onActivate, autofocus }: { char: string; onActivate: () => void; autofocus?: boolean }) {
+  const { ref, ...rest } = useFocusable({ id: `kbd-${char}`, onActivate, autofocus });
   return <span ref={ref as any} {...rest} className="keyboard__key">{char}</span>;
 }
 

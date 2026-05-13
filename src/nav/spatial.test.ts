@@ -46,6 +46,32 @@ describe('SpatialNav', () => {
     expect(nav.focused).toBe('a');
   });
 
+  it('unregister of focused element jumps to the spatially NEAREST remaining entry, not first-by-insertion-order', () => {
+    // Regression for the "focus snaps to nav-home on every interaction" bug.
+    // Previously, when the focused element unregistered, the engine picked
+    // `entries.keys().next().value` — the first-inserted entry — which in
+    // the real app was always a TopNav item registered early on. The new
+    // behavior picks the spatially nearest entry by center-to-center distance.
+    nav.register('top-nav', rect(0, 0, 100, 33));      // registered first
+    nav.register('row-A', rect(0, 500, 100, 100));     // far from top-nav, near row-B
+    nav.register('row-B', rect(120, 500, 100, 100));   // focused, gets unregistered
+    nav.register('row-C', rect(240, 500, 100, 100));
+
+    nav.setFocus('row-B');
+    nav.unregister('row-B');
+
+    // Nearest to row-B by Euclidean center-to-center is row-A (dx=120)
+    // or row-C (dx=120) — both tied. NOT top-nav (~509 px away).
+    expect(['row-A', 'row-C']).toContain(nav.focused);
+    expect(nav.focused).not.toBe('top-nav');
+  });
+
+  it('unregister sets focus to null when no entries remain', () => {
+    nav.register('only', rect(0, 0));
+    nav.unregister('only');
+    expect(nav.focused).toBe(null);
+  });
+
   it('manually setFocus to a registered id', () => {
     nav.register('a', rect(0, 0));
     nav.register('b', rect(120, 0));

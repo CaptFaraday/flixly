@@ -28,11 +28,28 @@ export class SpatialNav {
   }
 
   unregister(id: string): void {
+    const removed = this.entries.get(id);
     this.entries.delete(id);
-    if (this.currentId === id) {
-      const next = this.entries.keys().next().value ?? null;
-      this.setFocus(next);
+    if (this.currentId !== id) return;
+    if (this.entries.size === 0) { this.setFocus(null); return; }
+    // When the focused element disappears, jump focus to the spatially
+    // NEAREST remaining entry (by center-to-center distance). The previous
+    // implementation took `entries.keys().next().value` — i.e. first by Map
+    // insertion order — which in practice was always the first thing the
+    // app ever registered (the leftmost TopNav item). That produced
+    // "focus snaps to nav-home" on every interaction.
+    if (!removed) { this.setFocus(this.entries.keys().next().value ?? null); return; }
+    const ocx = removed.rect.x + removed.rect.w / 2;
+    const ocy = removed.rect.y + removed.rect.h / 2;
+    let best: Entry | null = null;
+    let bestDist = Infinity;
+    for (const e of this.entries.values()) {
+      const cx = e.rect.x + e.rect.w / 2;
+      const cy = e.rect.y + e.rect.h / 2;
+      const d = Math.hypot(cx - ocx, cy - ocy);
+      if (d < bestDist) { bestDist = d; best = e; }
     }
+    this.setFocus(best?.id ?? null);
   }
 
   setFocus(id: string | null): void {

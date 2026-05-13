@@ -32,6 +32,7 @@ export function Settings({ onNavigate }: { onNavigate: (to: 'home' | 'search' | 
 function RDKeyField({ value }: { value: string }) {
   const { ref, ...rest } = useFocusable({
     id: 'set-rd-key',
+    autofocus: true,
     onActivate: () => {
       const next = window.prompt('Real-Debrid API key', value);
       if (next != null) setSetting('rd_api_key', next.trim());

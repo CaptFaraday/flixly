@@ -5,7 +5,7 @@ import type { Movie } from '../types';
 interface Props { movie: Movie; onPlay: () => void; onMoreInfo: () => void; }
 
 export function Hero({ movie, onPlay, onMoreInfo }: Props) {
-  const { ref: playRef, ...playBtn } = useFocusable({ onActivate: onPlay, id: 'hero-play' });
+  const { ref: playRef, ...playBtn } = useFocusable({ onActivate: onPlay, id: 'hero-play', autofocus: true });
   const { ref: infoRef, ...infoBtn } = useFocusable({ onActivate: onMoreInfo, id: 'hero-info' });
 
   return (

@@ -20,13 +20,27 @@ export function useFocusable(opts: Options = {}) {
   const ref = useRef<HTMLElement | null>(null);
   const [id] = useState(() => opts.id ?? makeId());
 
+  // Hold the latest onActivate in a ref. The useEffect below registers a
+  // stable trampoline (`() => onActivateRef.current?.()`) once per mount, so
+  // it never tears down when the parent passes a fresh inline closure each
+  // render. Without this, every parent re-render would unregister this
+  // focusable; the spatial engine's unregister-of-current path then snaps
+  // focus to whatever happens to be first in its entries Map — usually the
+  // leftmost TopNav item — producing the "focus jumps to top on every
+  // keystroke" symptom.
+  const onActivateRef = useRef(opts.onActivate);
+  onActivateRef.current = opts.onActivate;
+
   useEffect(() => {
     if (!ref.current) return;
     const r = ref.current.getBoundingClientRect();
-    navInstance.register(id, { x: r.left, y: r.top, w: r.width, h: r.height }, { onActivate: opts.onActivate, el: ref.current ?? undefined });
+    navInstance.register(
+      id,
+      { x: r.left, y: r.top, w: r.width, h: r.height },
+      { onActivate: () => onActivateRef.current?.(), el: ref.current ?? undefined },
+    );
     if (opts.autofocus) navInstance.setFocus(id);
 
-    // Re-measure on resize
     const ro = new ResizeObserver(() => {
       if (!ref.current) return;
       const r2 = ref.current.getBoundingClientRect();
@@ -38,13 +52,17 @@ export function useFocusable(opts: Options = {}) {
       ro.disconnect();
       navInstance.unregister(id);
     };
-  }, [id, opts.onActivate]);
+  // Intentionally omits opts.onActivate and opts.autofocus from deps. The
+  // former is bridged via onActivateRef. The latter is a first-mount intent
+  // only; flipping it later should not seize focus.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return {
     ref,
     focused: focusedId.value === id,
     'data-focusable': id,
     'data-focused': focusedId.value === id ? '' : undefined,
-    'data-testid': id,  // mirror of data-focusable for testing-library queries
+    'data-testid': id,
   };
 }

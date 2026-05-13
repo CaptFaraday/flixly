@@ -41,6 +41,7 @@ export function Collection({ collection, onNavigate, onSelectMovie }: Props) {
             idPrefix={`collection-${collection.id}`}
             onSelect={onSelectMovie}
             emptyText="No films available right now. Check back tomorrow."
+            autofocusFirst
           />
         </div>
       </main>

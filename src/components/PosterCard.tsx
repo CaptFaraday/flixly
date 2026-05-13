@@ -7,10 +7,17 @@ interface Props {
   rowId: string;
   onActivate: () => void;
   progress?: number;  // 0..1 — when set, renders a resume bar at the bottom
+  autofocus?: boolean;
 }
 
-export function PosterCard({ movie, rowId, onActivate, progress }: Props) {
-  const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${rowId}-${movie.imdb_id}` });
+export function PosterCard({ movie, rowId, onActivate, progress, autofocus }: Props) {
+  // Fall back to tmdb_id when imdb_id is missing — TMDb search results are
+  // un-hydrated until the user selects one, so `movie.imdb_id` is undefined
+  // for every result. Without this, every card got the literal id
+  // "poster-search-undefined", collided in spatial.ts's entries Map, and
+  // lit up every result simultaneously via `data-focused`.
+  const cardId = movie.imdb_id || String(movie.tmdb_id);
+  const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${rowId}-${cardId}`, autofocus });
   return (
     <div ref={ref as any} {...rest} className="poster">
       <div className="poster__inner">

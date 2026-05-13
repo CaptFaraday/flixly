@@ -52,6 +52,7 @@ export function Library({ onNavigate, onSelectMovie }: Props) {
             onSelect={onSelectMovie}
             progressMap={progressMap}
             emptyText="Nothing in progress. Movies you start will appear here."
+            autofocusFirst={continueWatching.length > 0}
           />
         </section>
 
@@ -62,6 +63,7 @@ export function Library({ onNavigate, onSelectMovie }: Props) {
             idPrefix="wl"
             onSelect={onSelectMovie}
             emptyText="Your watchlist is empty. Press + Watchlist from any movie's detail page."
+            autofocusFirst={continueWatching.length === 0 && watchlistMovies.length > 0}
           />
         </section>
       </main>
