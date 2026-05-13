@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-12T11:23:55.031Z",
+  "generated_at": "2026-05-13T11:32:58.027Z",
   "shelves": [
     {
       "id": "just-hit-streaming",
@@ -64,7 +64,7 @@
           "tmdb_id": 1327819,
           "title": "Hoppers",
           "year": 2026,
-          "runtime": 105,
+          "runtime": 104,
           "genres": [
             "Animation",
             "Adventure",
@@ -264,7 +264,7 @@
           "tmdb_id": 1327819,
           "title": "Hoppers",
           "year": 2026,
-          "runtime": 105,
+          "runtime": 104,
           "genres": [
             "Animation",
             "Adventure",
@@ -432,7 +432,7 @@
             "Thriller"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/tVvpFIoteRHNnoZMhdnwIVwJpCA.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/52AkwEfQiJl2HuTPMZ2yC5Bdr9I.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/kKF4gEiBDArhONlCcunHVgBp3bA.jpg",
           "overview": "When an elusive thief whose high-stakes heists unfold along the iconic 101 freeway in Los Angeles eyes the score of a lifetime, with hopes of this being his final job, his path collides with a disillusioned insurance broker who is facing her own crossroads. Determined to crack the case, a relentless detective closes in on the operation, raising the stakes even higher.",
           "scores": {
             "metacritic": 68,
@@ -575,32 +575,6 @@
           ]
         },
         {
-          "imdb_id": "tt31728330",
-          "tmdb_id": 1292695,
-          "title": "They Will Kill You",
-          "year": 2026,
-          "runtime": 94,
-          "genres": [
-            "Action",
-            "Comedy",
-            "Horror"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/6oI4oQKTWMVUlr8Ivqydp28Ruu6.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/qnTdOizsXBzYu3uIbfhHSfE29TE.jpg",
-          "overview": "A woman answers a help wanted ad to be a housekeeper in a mysterious New York City high-rise, unaware that she is entering a community that has seen a number of disappearances over the years and may be under the grip of a Satanic cult.",
-          "scores": {
-            "metacritic": 50,
-            "imdb": 6.5
-          },
-          "digital_release_date": "2026-04-28",
-          "director": "Kirill Sokolov",
-          "cast": [
-            "Zazie Beetz",
-            "Myha'la",
-            "Patricia Arquette"
-          ]
-        },
-        {
           "imdb_id": "tt4357198",
           "tmdb_id": 467905,
           "title": "How to Make a Killing",
@@ -623,6 +597,31 @@
             "Glen Powell",
             "Margaret Qualley",
             "Jessica Henwick"
+          ]
+        },
+        {
+          "imdb_id": "tt33714084",
+          "tmdb_id": 1367642,
+          "title": "Reminders of Him",
+          "year": 2026,
+          "runtime": 114,
+          "genres": [
+            "Romance",
+            "Drama"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/7L6rceYgzQ0NeHD7PRDNrRoQ291.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/5rxEnsgriw8z065q51lrvPKYmCL.jpg",
+          "overview": "When Diem's custodial grandparents adamantly refuse Kenna's attempts to see her daughter, Kenna discovers unexpected compassion, and then something truer and deeper, with former NFL player and local bar owner Ledger. As their secret romance develops, so do the dangers for both of them, leading Kenna toward heartbreak and, ultimately, the hope for a second chance.",
+          "scores": {
+            "metacritic": 49,
+            "imdb": 6.3
+          },
+          "digital_release_date": "2026-04-14",
+          "director": "Vanessa Caswill",
+          "cast": [
+            "Maika Monroe",
+            "Tyriq Withers",
+            "Rudy Pankow"
           ]
         },
         {
@@ -684,9 +683,10 @@
           "year": 2026,
           "runtime": 102,
           "genres": [
-            "Adventure",
             "Animation",
             "Family",
+            "Adventure",
+            "Drama",
             "Fantasy"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/tHhxWxge06goXU6ZQH1hj7vK8Hd.jpg",
@@ -977,30 +977,30 @@
           ]
         },
         {
-          "imdb_id": "tt27200708",
-          "tmdb_id": 1102883,
-          "title": "Mother Mary",
-          "year": 2026,
-          "runtime": 112,
+          "imdb_id": "tt6710474",
+          "tmdb_id": 545611,
+          "title": "Everything Everywhere All at Once",
+          "year": 2022,
+          "runtime": 140,
           "genres": [
-            "Drama",
-            "Fantasy",
-            "Music",
-            "Thriller"
+            "Action",
+            "Adventure",
+            "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/qMgUI6pxkPtIuoXX4DcJ6X7bdt2.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/isKS6cjAbvfNoCI3pzHsLn1LZmx.jpg",
-          "overview": "Long-buried wounds rise to the surface when iconic pop star Mother Mary reunites with her estranged best friend and former costume designer Sam Anselm on the eve of her comeback performance.",
+          "poster": "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/6zV1AJUj0EzsJV05Ru2lfAWIn3R.jpg",
+          "overview": "An aging Chinese immigrant is swept up in an insane adventure, where she alone can save what's important to her by connecting with the lives she could have led in other universes.",
           "scores": {
-            "metacritic": 60,
-            "imdb": 4
+            "rt": 93,
+            "metacritic": 81,
+            "imdb": 7.7
           },
-          "digital_release_date": "2026-04-16",
-          "director": "David Lowery",
+          "digital_release_date": "2022-06-07",
+          "director": "Daniel Scheinert",
           "cast": [
-            "Anne Hathaway",
-            "Michaela Coel",
-            "Hunter Schafer"
+            "Michelle Yeoh",
+            "Stephanie Hsu",
+            "Ke Huy Quan"
           ]
         },
         {
@@ -1056,30 +1056,55 @@
           ]
         },
         {
-          "imdb_id": "tt6710474",
-          "tmdb_id": 545611,
-          "title": "Everything Everywhere All at Once",
+          "imdb_id": "tt13560574",
+          "tmdb_id": 760104,
+          "title": "X",
           "year": 2022,
-          "runtime": 140,
+          "runtime": 106,
           "genres": [
-            "Action",
-            "Adventure",
-            "Science Fiction"
+            "Horror"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/6zV1AJUj0EzsJV05Ru2lfAWIn3R.jpg",
-          "overview": "An aging Chinese immigrant is swept up in an insane adventure, where she alone can save what's important to her by connecting with the lives she could have led in other universes.",
+          "poster": "https://image.tmdb.org/t/p/w500/lopZSVtXzhFY603E9OqF7O1YKsh.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/70Rm9ItxKuEKN8iu6rNjfwAYUCJ.jpg",
+          "overview": "In 1979, a group of young filmmakers set out to make an adult film in rural Texas, but when their reclusive, elderly hosts catch them in the act, the cast find themselves fighting for their lives.",
           "scores": {
-            "rt": 93,
-            "metacritic": 81,
-            "imdb": 7.7
+            "rt": 94,
+            "metacritic": 80,
+            "imdb": 6.5
           },
-          "digital_release_date": "2022-06-07",
-          "director": "Daniel Scheinert",
+          "digital_release_date": "2022-04-14",
+          "director": "Ti West",
           "cast": [
-            "Michelle Yeoh",
-            "Stephanie Hsu",
-            "Ke Huy Quan"
+            "Mia Goth",
+            "Jenna Ortega",
+            "Brittany Snow"
+          ]
+        },
+        {
+          "imdb_id": "tt27200708",
+          "tmdb_id": 1102883,
+          "title": "Mother Mary",
+          "year": 2026,
+          "runtime": 112,
+          "genres": [
+            "Drama",
+            "Fantasy",
+            "Music",
+            "Thriller"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/qMgUI6pxkPtIuoXX4DcJ6X7bdt2.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/pRrH098VPYiUtDwKOm2mVXVQZdf.jpg",
+          "overview": "Long-buried wounds rise to the surface when iconic pop star Mother Mary reunites with her estranged best friend and former costume designer Sam Anselm on the eve of her comeback performance.",
+          "scores": {
+            "metacritic": 60,
+            "imdb": 4
+          },
+          "digital_release_date": "2026-04-16",
+          "director": "David Lowery",
+          "cast": [
+            "Anne Hathaway",
+            "Michaela Coel",
+            "Hunter Schafer"
           ]
         },
         {
@@ -1110,6 +1135,31 @@
           ]
         },
         {
+          "imdb_id": "tt32246771",
+          "tmdb_id": 1151031,
+          "title": "Bring Her Back",
+          "year": 2025,
+          "runtime": 104,
+          "genres": [
+            "Horror"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/1Q3GlCXGYWELifxANYZ5OVMRVZl.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/2IIKts2A9vnUdM9tTC76B8tDmuZ.jpg",
+          "overview": "Following the death of their father, a brother and sister are sent to live with a foster mother, only to learn that she is hiding a terrifying secret.",
+          "scores": {
+            "rt": 89,
+            "metacritic": 75,
+            "imdb": 7.1
+          },
+          "digital_release_date": "2025-07-01",
+          "director": "Michael Philippou",
+          "cast": [
+            "Billy Barratt",
+            "Sally Hawkins",
+            "Mischa Heywood"
+          ]
+        },
+        {
           "imdb_id": "tt30057084",
           "tmdb_id": 1097549,
           "title": "Babygirl",
@@ -1133,56 +1183,6 @@
             "Nicole Kidman",
             "Harris Dickinson",
             "Antonio Banderas"
-          ]
-        },
-        {
-          "imdb_id": "tt32246771",
-          "tmdb_id": 1151031,
-          "title": "Bring Her Back",
-          "year": 2025,
-          "runtime": 104,
-          "genres": [
-            "Horror"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/1Q3GlCXGYWELifxANYZ5OVMRVZl.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/2IIKts2A9vnUdM9tTC76B8tDmuZ.jpg",
-          "overview": "Following the death of their father, a brother and sister are sent to live with a foster mother, only to learn that she is hiding a terrifying secret.",
-          "scores": {
-            "rt": 89,
-            "metacritic": 75,
-            "imdb": 7.1
-          },
-          "digital_release_date": "2025-07-01",
-          "director": "Danny Philippou",
-          "cast": [
-            "Billy Barratt",
-            "Sally Hawkins",
-            "Mischa Heywood"
-          ]
-        },
-        {
-          "imdb_id": "tt13560574",
-          "tmdb_id": 760104,
-          "title": "X",
-          "year": 2022,
-          "runtime": 106,
-          "genres": [
-            "Horror"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/lopZSVtXzhFY603E9OqF7O1YKsh.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/70Rm9ItxKuEKN8iu6rNjfwAYUCJ.jpg",
-          "overview": "In 1979, a group of young filmmakers set out to make an adult film in rural Texas, but when their reclusive, elderly hosts catch them in the act, the cast find themselves fighting for their lives.",
-          "scores": {
-            "rt": 94,
-            "metacritic": 80,
-            "imdb": 6.5
-          },
-          "digital_release_date": "2022-04-14",
-          "director": "Ti West",
-          "cast": [
-            "Mia Goth",
-            "Jenna Ortega",
-            "Brittany Snow"
           ]
         },
         {
@@ -1239,28 +1239,28 @@
           ]
         },
         {
-          "imdb_id": "tt18925334",
-          "tmdb_id": 949423,
-          "title": "Pearl",
-          "year": 2022,
-          "runtime": 102,
+          "imdb_id": "tt4975722",
+          "tmdb_id": 376867,
+          "title": "Moonlight",
+          "year": 2016,
+          "runtime": 111,
           "genres": [
-            "Horror"
+            "Drama"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/8rmx3Wh6fQdSL2nzTmdFn9thcK8.jpg",
-          "overview": "Trapped on her family’s isolated farm, Pearl must tend to her ailing father under the bitter and overbearing watch of her devout mother. Lusting for a glamorous life like she’s seen in the movies, Pearl’s ambitions, temptations, and repressions collide.",
+          "poster": "https://image.tmdb.org/t/p/w500/qLnfEmPrDjJfPyyddLJPkXmshkp.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/jm1oD3eB08LImSwL1LrzF9AJQ5b.jpg",
+          "overview": "The tender, heartbreaking story of a young man’s struggle to find himself, told across three defining chapters in his life as he experiences the ecstasy, pain, and beauty of falling in love, while grappling with his own sexuality.",
           "scores": {
-            "rt": 93,
-            "metacritic": 76,
-            "imdb": 7
+            "rt": 98,
+            "metacritic": 99,
+            "imdb": 7.4
           },
-          "digital_release_date": "2022-10-25",
-          "director": "Ti West",
+          "digital_release_date": "2016-10-21",
+          "director": "Barry Jenkins",
           "cast": [
-            "Mia Goth",
-            "David Corenswet",
-            "Tandi Wright"
+            "Trevante Rhodes",
+            "André Holland",
+            "Janelle Monáe"
           ]
         },
         {
@@ -1290,107 +1290,28 @@
           ]
         },
         {
-          "imdb_id": "tt4975722",
-          "tmdb_id": 376867,
-          "title": "Moonlight",
-          "year": 2016,
-          "runtime": 111,
-          "genres": [
-            "Drama"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/qLnfEmPrDjJfPyyddLJPkXmshkp.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/jm1oD3eB08LImSwL1LrzF9AJQ5b.jpg",
-          "overview": "The tender, heartbreaking story of a young man’s struggle to find himself, told across three defining chapters in his life as he experiences the ecstasy, pain, and beauty of falling in love, while grappling with his own sexuality.",
-          "scores": {
-            "rt": 98,
-            "metacritic": 99,
-            "imdb": 7.4
-          },
-          "digital_release_date": "2016-10-21",
-          "director": "Barry Jenkins",
-          "cast": [
-            "Trevante Rhodes",
-            "André Holland",
-            "Janelle Monáe"
-          ]
-        },
-        {
-          "imdb_id": "tt13833688",
-          "tmdb_id": 785084,
-          "title": "The Whale",
+          "imdb_id": "tt18925334",
+          "tmdb_id": 949423,
+          "title": "Pearl",
           "year": 2022,
-          "runtime": 117,
+          "runtime": 102,
           "genres": [
-            "Drama"
+            "Horror"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/jQ0gylJMxWSL490sy0RrPj1Lj7e.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/46FRuCeAn6TrS4F1P4F9zhyCpyo.jpg",
-          "overview": "A reclusive English teacher suffering from severe obesity attempts to reconnect with his estranged teenage daughter for one last chance at redemption.",
+          "poster": "https://image.tmdb.org/t/p/w500/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/8rmx3Wh6fQdSL2nzTmdFn9thcK8.jpg",
+          "overview": "Trapped on her family’s isolated farm, Pearl must tend to her ailing father under the bitter and overbearing watch of her devout mother. Lusting for a glamorous life like she’s seen in the movies, Pearl’s ambitions, temptations, and repressions collide.",
           "scores": {
-            "rt": 64,
-            "metacritic": 60,
-            "imdb": 7.6
+            "rt": 93,
+            "metacritic": 76,
+            "imdb": 7
           },
-          "digital_release_date": "2023-02-21",
-          "director": "Darren Aronofsky",
+          "digital_release_date": "2022-10-25",
+          "director": "Ti West",
           "cast": [
-            "Brendan Fraser",
-            "Sadie Sink",
-            "Ty Simpkins"
-          ]
-        },
-        {
-          "imdb_id": "tt8866456",
-          "tmdb_id": 896536,
-          "title": "The Legend of Ochi",
-          "year": 2025,
-          "runtime": 95,
-          "genres": [
-            "Family",
-            "Fantasy",
-            "Adventure"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/qYyEelO4JfOwE0Ui5KsrCE0O8UA.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/yMatVGaUxw3Vi3Z0RsLetvcSYko.jpg",
-          "overview": "In a remote village on the island of Carpathia, a shy farm girl named Yuri is raised to fear an elusive animal species known as ochi. But when Yuri discovers a wounded baby ochi has been left behind, she escapes on a quest to bring him home.",
-          "scores": {
-            "rt": 76,
-            "metacritic": 67,
-            "imdb": 5.8
-          },
-          "digital_release_date": "2025-05-20",
-          "director": "Isaiah Saxon",
-          "cast": [
-            "Helena Zengel",
-            "Willem Dafoe",
-            "Emily Watson"
-          ]
-        },
-        {
-          "imdb_id": "tt28443655",
-          "tmdb_id": 1153714,
-          "title": "Death of a Unicorn",
-          "year": 2025,
-          "runtime": 107,
-          "genres": [
-            "Horror",
-            "Fantasy",
-            "Comedy"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/xWlF2i51zUq7BUq4iJte1g9NyIM.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/4rLaMBcCJ1pMq72vCulBMPsbAyh.jpg",
-          "overview": "A father and daughter accidentally hit and kill a unicorn while en route to a weekend retreat, where his billionaire boss seeks to exploit the creature’s miraculous curative properties.",
-          "scores": {
-            "rt": 52,
-            "metacritic": 51,
-            "imdb": 5.8
-          },
-          "digital_release_date": "2025-04-29",
-          "director": "Alex Scharfman",
-          "cast": [
-            "Paul Rudd",
-            "Jenna Ortega",
-            "Will Poulter"
+            "Mia Goth",
+            "David Corenswet",
+            "Tandi Wright"
           ]
         },
         {
@@ -1421,30 +1342,109 @@
           ]
         },
         {
-          "imdb_id": "tt7160372",
-          "tmdb_id": 467244,
-          "title": "The Zone of Interest",
-          "year": 2023,
-          "runtime": 105,
+          "imdb_id": "tt11214558",
+          "tmdb_id": 760329,
+          "title": "The Smashing Machine",
+          "year": 2025,
+          "runtime": 123,
           "genres": [
             "Drama",
             "History",
-            "War"
+            "Action"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/hUu9zyZmDd8VZegKi1iK1Vk0RYS.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/pnTSOKcYnvdpQNQElAtJM1rWOxH.jpg",
-          "overview": "The commandant of Auschwitz, Rudolf Höss, and his wife Hedwig, strive to build a dream life for their family in a house and garden next to the camp.",
+          "poster": "https://image.tmdb.org/t/p/w500/mPuBDGrVIBGOymBxR6rO3iIvBSe.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/hTCr9dDf0EcBGZSUaY0YCeBjBr5.jpg",
+          "overview": "In the late 1990s, up-and-coming mixed martial artist Mark Kerr aspires to become the greatest fighter in the world. However, he must also battle his opioid dependence and a volatile relationship with his girlfriend Dawn.",
           "scores": {
-            "rt": 93,
-            "metacritic": 92,
-            "imdb": 7.3
+            "rt": 71,
+            "metacritic": 65,
+            "imdb": 6.3
           },
-          "digital_release_date": "2024-02-20",
-          "director": "Jonathan Glazer",
+          "digital_release_date": "2025-11-04",
+          "director": "Benny Safdie",
           "cast": [
-            "Christian Friedel",
-            "Sandra Hüller",
-            "Johann Karthaus"
+            "Dwayne Johnson",
+            "Emily Blunt",
+            "Ryan Bader"
+          ]
+        },
+        {
+          "imdb_id": "tt13833688",
+          "tmdb_id": 785084,
+          "title": "The Whale",
+          "year": 2022,
+          "runtime": 117,
+          "genres": [
+            "Drama"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/jQ0gylJMxWSL490sy0RrPj1Lj7e.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/46FRuCeAn6TrS4F1P4F9zhyCpyo.jpg",
+          "overview": "A reclusive English teacher suffering from severe obesity attempts to reconnect with his estranged teenage daughter for one last chance at redemption.",
+          "scores": {
+            "rt": 64,
+            "metacritic": 60,
+            "imdb": 7.6
+          },
+          "digital_release_date": "2023-02-21",
+          "director": "Darren Aronofsky",
+          "cast": [
+            "Brendan Fraser",
+            "Sadie Sink",
+            "Ty Simpkins"
+          ]
+        },
+        {
+          "imdb_id": "tt5727208",
+          "tmdb_id": 473033,
+          "title": "Uncut Gems",
+          "year": 2019,
+          "runtime": 136,
+          "genres": [
+            "Drama",
+            "Thriller",
+            "Crime"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/6XN1vxHc7kUSqNWtaQKN45J5x2v.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/eGljNfNCrPhFYG2RXXmmE0OKu5.jpg",
+          "overview": "A charismatic New York City jeweler always on the lookout for the next big score makes a series of high-stakes bets that could lead to the windfall of a lifetime. Howard must perform a precarious high-wire act, balancing business, family, and encroaching adversaries on all sides in his relentless pursuit of the ultimate win.",
+          "scores": {
+            "rt": 91,
+            "metacritic": 93,
+            "imdb": 7.4
+          },
+          "digital_release_date": "2020-02-25",
+          "director": "Benny Safdie",
+          "cast": [
+            "Adam Sandler",
+            "LaKeith Stanfield",
+            "Julia Fox"
+          ]
+        },
+        {
+          "imdb_id": "tt8866456",
+          "tmdb_id": 896536,
+          "title": "The Legend of Ochi",
+          "year": 2025,
+          "runtime": 95,
+          "genres": [
+            "Family",
+            "Fantasy",
+            "Adventure"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/qYyEelO4JfOwE0Ui5KsrCE0O8UA.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/yMatVGaUxw3Vi3Z0RsLetvcSYko.jpg",
+          "overview": "In a remote village on the island of Carpathia, a shy farm girl named Yuri is raised to fear an elusive animal species known as ochi. But when Yuri discovers a wounded baby ochi has been left behind, she escapes on a quest to bring him home.",
+          "scores": {
+            "rt": 76,
+            "metacritic": 67,
+            "imdb": 5.8
+          },
+          "digital_release_date": "2025-05-20",
+          "director": "Isaiah Saxon",
+          "cast": [
+            "Helena Zengel",
+            "Willem Dafoe",
+            "Emily Watson"
           ]
         }
       ]
@@ -1562,6 +1562,32 @@
           ]
         },
         {
+          "imdb_id": "tt33247023",
+          "tmdb_id": 1337562,
+          "title": "Splitsville",
+          "year": 2025,
+          "runtime": 105,
+          "genres": [
+            "Comedy",
+            "Romance"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/gxCv6kUdywxYzIXX6xYcmX5APUV.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/AbaRJXNmyLjG4tY48k2fhNNmuW4.jpg",
+          "overview": "After Ashley asks for a divorce, good-natured Carey runs to his friends, Julie and Paul, for support. He’s shocked to discover that the secret to their happiness is an open marriage, that is until Carey crosses the line and throws all of their relationships into chaos.",
+          "scores": {
+            "rt": 84,
+            "metacritic": 73,
+            "imdb": 6.4
+          },
+          "digital_release_date": "2025-09-23",
+          "director": "Michael Angelo Covino",
+          "cast": [
+            "Kyle Marvin",
+            "Michael Angelo Covino",
+            "Dakota Johnson"
+          ]
+        },
+        {
           "imdb_id": "tt14549466",
           "tmdb_id": 819876,
           "title": "Crimes of the Future",
@@ -1586,32 +1612,6 @@
             "Viggo Mortensen",
             "Léa Seydoux",
             "Scott Speedman"
-          ]
-        },
-        {
-          "imdb_id": "tt33247023",
-          "tmdb_id": 1337562,
-          "title": "Splitsville",
-          "year": 2025,
-          "runtime": 105,
-          "genres": [
-            "Comedy",
-            "Romance"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/gxCv6kUdywxYzIXX6xYcmX5APUV.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/AbaRJXNmyLjG4tY48k2fhNNmuW4.jpg",
-          "overview": "After Ashley asks for a divorce, good-natured Carey runs to his friends, Julie and Paul, for support. He’s shocked to discover that the secret to their happiness is an open marriage, that is until Carey crosses the line and throws all of their relationships into chaos.",
-          "scores": {
-            "rt": 84,
-            "metacritic": 73,
-            "imdb": 6.4
-          },
-          "digital_release_date": "2025-09-23",
-          "director": "Michael Angelo Covino",
-          "cast": [
-            "Kyle Marvin",
-            "Michael Angelo Covino",
-            "Dakota Johnson"
           ]
         },
         {
@@ -1710,7 +1710,7 @@
             "imdb": 7.6
           },
           "digital_release_date": "2020-10-13",
-          "director": "Suzanne Hillinger",
+          "director": "Alex Gibney",
           "cast": [
             "Alex Gibney",
             "Scott Becker",
@@ -1943,33 +1943,6 @@
           ]
         },
         {
-          "imdb_id": "tt1568921",
-          "tmdb_id": 51739,
-          "title": "The Secret World of Arrietty",
-          "year": 2010,
-          "runtime": 94,
-          "genres": [
-            "Fantasy",
-            "Animation",
-            "Family"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/3lSRaSjDp2nkXMQkzzjpRi3035O.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/7Z7WVzJsSReG8B0CaPk0bvWD7tK.jpg",
-          "overview": "14-year-old Arrietty and the rest of the Clock family live in peaceful anonymity as they make their own home from items \"borrowed\" from the house's human inhabitants. However, life changes for the Clocks when a human boy discovers Arrietty.",
-          "scores": {
-            "rt": 94,
-            "metacritic": 80,
-            "imdb": 7.6
-          },
-          "digital_release_date": "2010-07-16",
-          "director": "Hiromasa Yonebayashi",
-          "cast": [
-            "Mirai Shida",
-            "Ryunosuke Kamiki",
-            "Tomokazu Miura"
-          ]
-        },
-        {
           "imdb_id": "tt0104652",
           "tmdb_id": 11621,
           "title": "Porco Rosso",
@@ -1994,6 +1967,33 @@
             "Shūichirō Moriyama",
             "Tokiko Kato",
             "Bunshi Katsura VI"
+          ]
+        },
+        {
+          "imdb_id": "tt1568921",
+          "tmdb_id": 51739,
+          "title": "The Secret World of Arrietty",
+          "year": 2010,
+          "runtime": 94,
+          "genres": [
+            "Fantasy",
+            "Animation",
+            "Family"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/3lSRaSjDp2nkXMQkzzjpRi3035O.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/7Z7WVzJsSReG8B0CaPk0bvWD7tK.jpg",
+          "overview": "14-year-old Arrietty and the rest of the Clock family live in peaceful anonymity as they make their own home from items \"borrowed\" from the house's human inhabitants. However, life changes for the Clocks when a human boy discovers Arrietty.",
+          "scores": {
+            "rt": 94,
+            "metacritic": 80,
+            "imdb": 7.6
+          },
+          "digital_release_date": "2010-07-16",
+          "director": "Hiromasa Yonebayashi",
+          "cast": [
+            "Mirai Shida",
+            "Ryunosuke Kamiki",
+            "Tomokazu Miura"
           ]
         },
         {
@@ -2024,30 +2024,31 @@
           ]
         },
         {
-          "imdb_id": "tt2576852",
-          "tmdb_id": 149871,
-          "title": "The Tale of The Princess Kaguya",
+          "imdb_id": "tt2013293",
+          "tmdb_id": 149870,
+          "title": "The Wind Rises",
           "year": 2013,
-          "runtime": 137,
+          "runtime": 126,
           "genres": [
             "Animation",
             "Drama",
-            "Fantasy"
+            "History",
+            "Romance"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/cQidJuA546OSSXKWXoiCeINDxuj.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/lMaWlYThCSnsmW3usxWTpSuyZp1.jpg",
-          "overview": "Found inside a shining stalk of bamboo by an old bamboo cutter and his wife, a tiny girl grows rapidly into an exquisite young lady. The mysterious young princess enthrals all who encounter her. But, ultimately, she must confront her fate.",
+          "poster": "https://image.tmdb.org/t/p/w500/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/938lqhAQaO3hmLg44VbUR7OqlMs.jpg",
+          "overview": "A lifelong love of flight inspires Japanese aviation engineer Jiro Horikoshi, whose storied career includes the creation of the A-6M World War II fighter plane.",
           "scores": {
-            "rt": 100,
-            "metacritic": 89,
-            "imdb": 8
+            "rt": 88,
+            "metacritic": 83,
+            "imdb": 7.8
           },
-          "digital_release_date": "2013-11-23",
-          "director": "Isao Takahata",
+          "digital_release_date": "2013-07-20",
+          "director": "Hayao Miyazaki",
           "cast": [
-            "Aki Asakura",
-            "Takeo Chii",
-            "Nobuko Miyamoto"
+            "Hideaki Anno",
+            "Hidetoshi Nishijima",
+            "Miori Takimoto"
           ]
         },
         {
@@ -2080,31 +2081,30 @@
           ]
         },
         {
-          "imdb_id": "tt2013293",
-          "tmdb_id": 149870,
-          "title": "The Wind Rises",
-          "year": 2013,
-          "runtime": 126,
+          "imdb_id": "tt3398268",
+          "tmdb_id": 242828,
+          "title": "When Marnie Was There",
+          "year": 2014,
+          "runtime": 103,
           "genres": [
             "Animation",
             "Drama",
-            "History",
-            "Romance"
+            "Family"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/938lqhAQaO3hmLg44VbUR7OqlMs.jpg",
-          "overview": "A lifelong love of flight inspires Japanese aviation engineer Jiro Horikoshi, whose storied career includes the creation of the A-6M World War II fighter plane.",
+          "poster": "https://image.tmdb.org/t/p/w500/vug1dvDI1tSa60Z8qjCuUE7ntkO.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/86l1gqKjhPn6Ypd8XSSIGx7ZikB.jpg",
+          "overview": "Upon being sent to live with relatives in the countryside due to an illness, an emotionally distant adolescent girl becomes obsessed with an abandoned mansion and infatuated with a girl who lives there - a girl who may or may not be real.",
           "scores": {
-            "rt": 88,
-            "metacritic": 83,
-            "imdb": 7.8
+            "rt": 92,
+            "metacritic": 72,
+            "imdb": 7.6
           },
-          "digital_release_date": "2013-07-20",
-          "director": "Hayao Miyazaki",
+          "digital_release_date": "2014-07-19",
+          "director": "Hiromasa Yonebayashi",
           "cast": [
-            "Hideaki Anno",
-            "Hidetoshi Nishijima",
-            "Miori Takimoto"
+            "Sara Takatsuki",
+            "Kasumi Arimura",
+            "Nanako Matsushima"
           ]
         },
         {
@@ -2134,30 +2134,30 @@
           ]
         },
         {
-          "imdb_id": "tt3398268",
-          "tmdb_id": 242828,
-          "title": "When Marnie Was There",
-          "year": 2014,
-          "runtime": 103,
+          "imdb_id": "tt2576852",
+          "tmdb_id": 149871,
+          "title": "The Tale of The Princess Kaguya",
+          "year": 2013,
+          "runtime": 137,
           "genres": [
             "Animation",
             "Drama",
-            "Family"
+            "Fantasy"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/vug1dvDI1tSa60Z8qjCuUE7ntkO.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/86l1gqKjhPn6Ypd8XSSIGx7ZikB.jpg",
-          "overview": "Upon being sent to live with relatives in the countryside due to an illness, an emotionally distant adolescent girl becomes obsessed with an abandoned mansion and infatuated with a girl who lives there - a girl who may or may not be real.",
+          "poster": "https://image.tmdb.org/t/p/w500/cQidJuA546OSSXKWXoiCeINDxuj.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/lMaWlYThCSnsmW3usxWTpSuyZp1.jpg",
+          "overview": "Found inside a shining stalk of bamboo by an old bamboo cutter and his wife, a tiny girl grows rapidly into an exquisite young lady. The mysterious young princess enthrals all who encounter her. But, ultimately, she must confront her fate.",
           "scores": {
-            "rt": 92,
-            "metacritic": 72,
-            "imdb": 7.6
+            "rt": 100,
+            "metacritic": 89,
+            "imdb": 8
           },
-          "digital_release_date": "2014-07-19",
-          "director": "Hiromasa Yonebayashi",
+          "digital_release_date": "2013-11-23",
+          "director": "Isao Takahata",
           "cast": [
-            "Sara Takatsuki",
-            "Kasumi Arimura",
-            "Nanako Matsushima"
+            "Aki Asakura",
+            "Takeo Chii",
+            "Nobuko Miyamoto"
           ]
         },
         {
@@ -2214,30 +2214,30 @@
           ]
         },
         {
-          "imdb_id": "tt0108432",
-          "tmdb_id": 21057,
-          "title": "Ocean Waves",
-          "year": 1993,
-          "runtime": 72,
+          "imdb_id": "tt0347246",
+          "tmdb_id": 12140,
+          "title": "Ghost in the Shell 2: Innocence",
+          "year": 2004,
+          "runtime": 100,
           "genres": [
             "Animation",
             "Drama",
-            "Romance"
+            "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/fSR1LLMIJZ6WcQEkM82yKy4F9vQ.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/6ryHAHtpcNTExUVekeaNe0xmDbb.jpg",
-          "overview": "At Kichijōji Station, Tokyo, Taku Morisaki glimpses a familiar woman on the platform opposite boarding a train. Later, her photo falls from a shelf as he exits his apartment before flying to Kōchi Prefecture. Picking it up, he looks at it briefly before leaving. As the aeroplane takes off, he narrates the events that brought her into his life...",
+          "poster": "https://image.tmdb.org/t/p/w500/1ZJRbLDVr90KLtKdmTT4WZhT26E.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/8Cbzx17QdJ6xBx2uDkdlpWsemGg.jpg",
+          "overview": "Cyborg detective Batou is assigned to investigate a series of murders committed by gynoids—doll-like cyborgs, which all malfunctioned, killed, then self-destructed afterwards. The brains of the gynoids initialize in order to protect their manufacturer's software, but in one gynoid, which Batou himself neutralized, one file remains: a voice speaking the phrase \"Help me.\"",
           "scores": {
-            "rt": 89,
-            "metacritic": 73,
-            "imdb": 6.6
+            "rt": 65,
+            "metacritic": 68,
+            "imdb": 7.4
           },
-          "digital_release_date": "1993-10-09",
-          "director": "Tomomi Mochizuki",
+          "digital_release_date": "2004-03-06",
+          "director": "Mamoru Oshii",
           "cast": [
-            "Nobuo Tobita",
-            "Yoko Sakamoto",
-            "Toshihiko Seki"
+            "Atsuko Tanaka",
+            "Akio Otsuka",
+            "Koichi Yamadera"
           ]
         },
         {
@@ -2280,7 +2280,7 @@
           "tmdb_id": 1327819,
           "title": "Hoppers",
           "year": 2026,
-          "runtime": 105,
+          "runtime": 104,
           "genres": [
             "Animation",
             "Adventure",
@@ -2362,31 +2362,30 @@
           ]
         },
         {
-          "imdb_id": "tt2380307",
-          "tmdb_id": 354912,
-          "title": "Coco",
-          "year": 2017,
-          "runtime": 105,
+          "imdb_id": "tt0910970",
+          "tmdb_id": 10681,
+          "title": "WALL·E",
+          "year": 2008,
+          "runtime": 98,
           "genres": [
-            "Family",
             "Animation",
-            "Music",
-            "Adventure"
+            "Family",
+            "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/6Ryitt95xrO8KXuqRGm1fUuNwqF.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/g7CHF8gTLGooTbP4GznIGwaqAGL.jpg",
-          "overview": "Despite his family’s baffling generations-old ban on music, Miguel dreams of becoming an accomplished musician like his idol, Ernesto de la Cruz. Desperate to prove his talent, Miguel finds himself in the stunning and colorful Land of the Dead following a mysterious chain of events. Along the way, he meets charming trickster Hector, and together, they set off on an extraordinary journey to unlock the real story behind Miguel's family history.",
+          "poster": "https://image.tmdb.org/t/p/w500/hbhFnRzzg6ZDmm8YAmxBnQpQIPh.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/nYs4ZwnJBK4AgljhvzwNz7fpr3E.jpg",
+          "overview": "After hundreds of years doing what he was built for, WALL•E— a robot designed to clean up the earth—discovers a new purpose in life when he meets a sleek search robot named EVE. EVE comes to realize that WALL•E has inadvertently stumbled upon the key to the planet's future, and races back to space to report to the humans. Meanwhile, WALL•E chases EVE across the galaxy and sets into motion one of the most imaginative adventures ever brought to the big screen.",
           "scores": {
-            "rt": 97,
-            "metacritic": 81,
+            "rt": 95,
+            "metacritic": 95,
             "imdb": 8.4
           },
-          "digital_release_date": "2017-10-27",
-          "director": "Lee Unkrich",
+          "digital_release_date": "2008-06-26",
+          "director": "Andrew Stanton",
           "cast": [
-            "Anthony Gonzalez",
-            "Gael García Bernal",
-            "Benjamin Bratt"
+            "Ben Burtt",
+            "Elissa Knight",
+            "Jeff Garlin"
           ]
         },
         {
@@ -2410,11 +2409,39 @@
             "imdb": 7.1
           },
           "digital_release_date": "2012-06-21",
-          "director": "Brenda Chapman",
+          "director": "Mark Andrews",
           "cast": [
             "Kelly Macdonald",
             "Emma Thompson",
             "Billy Connolly"
+          ]
+        },
+        {
+          "imdb_id": "tt1049413",
+          "tmdb_id": 14160,
+          "title": "Up",
+          "year": 2009,
+          "runtime": 96,
+          "genres": [
+            "Animation",
+            "Comedy",
+            "Family",
+            "Adventure"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/mFvoEwSfLqbcWwFsDjQebn9bzFe.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/hGGC9gKo7CFE3fW07RA587e5kol.jpg",
+          "overview": "Carl Fredricksen spent his entire life dreaming of exploring the globe and experiencing life to its fullest. But at age 78, life seems to have passed him by, until a twist of fate (and a persistent 8-year old Wilderness Explorer named Russell) gives him a new lease on life.",
+          "scores": {
+            "rt": 98,
+            "metacritic": 88,
+            "imdb": 8.3
+          },
+          "digital_release_date": "2009-05-28",
+          "director": "Pete Docter",
+          "cast": [
+            "Ed Asner",
+            "Christopher Plummer",
+            "Jordan Nagai"
           ]
         },
         {
@@ -2445,33 +2472,6 @@
           ]
         },
         {
-          "imdb_id": "tt0910970",
-          "tmdb_id": 10681,
-          "title": "WALL·E",
-          "year": 2008,
-          "runtime": 98,
-          "genres": [
-            "Animation",
-            "Family",
-            "Science Fiction"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/hbhFnRzzg6ZDmm8YAmxBnQpQIPh.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/nYs4ZwnJBK4AgljhvzwNz7fpr3E.jpg",
-          "overview": "After hundreds of years doing what he was built for, WALL•E— a robot designed to clean up the earth—discovers a new purpose in life when he meets a sleek search robot named EVE. EVE comes to realize that WALL•E has inadvertently stumbled upon the key to the planet's future, and races back to space to report to the humans. Meanwhile, WALL•E chases EVE across the galaxy and sets into motion one of the most imaginative adventures ever brought to the big screen.",
-          "scores": {
-            "rt": 95,
-            "metacritic": 95,
-            "imdb": 8.4
-          },
-          "digital_release_date": "2008-06-22",
-          "director": "Andrew Stanton",
-          "cast": [
-            "Ben Burtt",
-            "Elissa Knight",
-            "Jeff Garlin"
-          ]
-        },
-        {
           "imdb_id": "tt0266543",
           "tmdb_id": 12,
           "title": "Finding Nemo",
@@ -2499,31 +2499,31 @@
           ]
         },
         {
-          "imdb_id": "tt1049413",
-          "tmdb_id": 14160,
-          "title": "Up",
-          "year": 2009,
-          "runtime": 96,
+          "imdb_id": "tt2380307",
+          "tmdb_id": 354912,
+          "title": "Coco",
+          "year": 2017,
+          "runtime": 105,
           "genres": [
-            "Animation",
-            "Comedy",
             "Family",
+            "Animation",
+            "Music",
             "Adventure"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/mFvoEwSfLqbcWwFsDjQebn9bzFe.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/hGGC9gKo7CFE3fW07RA587e5kol.jpg",
-          "overview": "Carl Fredricksen spent his entire life dreaming of exploring the globe and experiencing life to its fullest. But at age 78, life seems to have passed him by, until a twist of fate (and a persistent 8-year old Wilderness Explorer named Russell) gives him a new lease on life.",
+          "poster": "https://image.tmdb.org/t/p/w500/6Ryitt95xrO8KXuqRGm1fUuNwqF.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/g7CHF8gTLGooTbP4GznIGwaqAGL.jpg",
+          "overview": "Despite his family’s baffling generations-old ban on music, Miguel dreams of becoming an accomplished musician like his idol, Ernesto de la Cruz. Desperate to prove his talent, Miguel finds himself in the stunning and colorful Land of the Dead following a mysterious chain of events. Along the way, he meets charming trickster Hector, and together, they set off on an extraordinary journey to unlock the real story behind Miguel's family history.",
           "scores": {
-            "rt": 98,
-            "metacritic": 88,
-            "imdb": 8.3
+            "rt": 97,
+            "metacritic": 81,
+            "imdb": 8.4
           },
-          "digital_release_date": "2009-05-28",
-          "director": "Pete Docter",
+          "digital_release_date": "2017-10-27",
+          "director": "Lee Unkrich",
           "cast": [
-            "Ed Asner",
-            "Christopher Plummer",
-            "Jordan Nagai"
+            "Anthony Gonzalez",
+            "Gael García Bernal",
+            "Benjamin Bratt"
           ]
         },
         {
@@ -2583,6 +2583,60 @@
           ]
         },
         {
+          "imdb_id": "tt0120363",
+          "tmdb_id": 863,
+          "title": "Toy Story 2",
+          "year": 1999,
+          "runtime": 92,
+          "genres": [
+            "Animation",
+            "Comedy",
+            "Family"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/7iUDfakacY1HpajP1DtHrCuDB95.jpg",
+          "overview": "Andy heads off to Cowboy Camp, leaving his toys to their own devices. Things shift into high gear when an obsessive toy collector named Al McWhiggen, owner of Al's Toy Barn kidnaps Woody. Andy's toys mount a daring rescue mission, Buzz Lightyear meets his match and Woody has to decide where he and his heart truly belong.",
+          "scores": {
+            "rt": 100,
+            "metacritic": 88,
+            "imdb": 7.9
+          },
+          "digital_release_date": "1999-10-30",
+          "director": "John Lasseter",
+          "cast": [
+            "Tom Hanks",
+            "Tim Allen",
+            "Joan Cusack"
+          ]
+        },
+        {
+          "imdb_id": "tt0435761",
+          "tmdb_id": 10193,
+          "title": "Toy Story 3",
+          "year": 2010,
+          "runtime": 102,
+          "genres": [
+            "Animation",
+            "Family",
+            "Comedy"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/AbbXspMOwdvwWZgVN0nabZq03Ec.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/uAfhsySkr1UzQg1zdg3dZQRz9Fd.jpg",
+          "overview": "Woody, Buzz, and the rest of Andy's toys haven't been played with in years. With Andy about to go to college, the gang find themselves accidentally left at a nefarious day care center. The toys must band together to escape and return home to Andy.",
+          "scores": {
+            "rt": 98,
+            "metacritic": 92,
+            "imdb": 8.3
+          },
+          "digital_release_date": "2010-06-16",
+          "director": "Lee Unkrich",
+          "cast": [
+            "Tom Hanks",
+            "Tim Allen",
+            "Joan Cusack"
+          ]
+        },
+        {
           "imdb_id": "tt0317219",
           "tmdb_id": 920,
           "title": "Cars",
@@ -2636,33 +2690,6 @@
             "Larry the Cable Guy",
             "Owen Wilson",
             "Michael Caine"
-          ]
-        },
-        {
-          "imdb_id": "tt0120363",
-          "tmdb_id": 863,
-          "title": "Toy Story 2",
-          "year": 1999,
-          "runtime": 92,
-          "genres": [
-            "Animation",
-            "Comedy",
-            "Family"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/4rbcp3ng8n1MKHjpeqW0L7Fnpzz.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/7iUDfakacY1HpajP1DtHrCuDB95.jpg",
-          "overview": "Andy heads off to Cowboy Camp, leaving his toys to their own devices. Things shift into high gear when an obsessive toy collector named Al McWhiggen, owner of Al's Toy Barn kidnaps Woody. Andy's toys mount a daring rescue mission, Buzz Lightyear meets his match and Woody has to decide where he and his heart truly belong.",
-          "scores": {
-            "rt": 100,
-            "metacritic": 88,
-            "imdb": 7.9
-          },
-          "digital_release_date": "1999-10-30",
-          "director": "John Lasseter",
-          "cast": [
-            "Tom Hanks",
-            "Tim Allen",
-            "Joan Cusack"
           ]
         },
         {
@@ -2721,33 +2748,6 @@
           ]
         },
         {
-          "imdb_id": "tt0435761",
-          "tmdb_id": 10193,
-          "title": "Toy Story 3",
-          "year": 2010,
-          "runtime": 102,
-          "genres": [
-            "Animation",
-            "Family",
-            "Comedy"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/AbbXspMOwdvwWZgVN0nabZq03Ec.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/uAfhsySkr1UzQg1zdg3dZQRz9Fd.jpg",
-          "overview": "Woody, Buzz, and the rest of Andy's toys haven't been played with in years. With Andy about to go to college, the gang find themselves accidentally left at a nefarious day care center. The toys must band together to escape and return home to Andy.",
-          "scores": {
-            "rt": 98,
-            "metacritic": 92,
-            "imdb": 8.3
-          },
-          "digital_release_date": "2010-06-16",
-          "director": "Lee Unkrich",
-          "cast": [
-            "Tom Hanks",
-            "Tim Allen",
-            "Joan Cusack"
-          ]
-        },
-        {
           "imdb_id": "tt15789038",
           "tmdb_id": 976573,
           "title": "Elemental",
@@ -2756,6 +2756,7 @@
           "genres": [
             "Animation",
             "Comedy",
+            "Drama",
             "Family",
             "Fantasy",
             "Romance"
@@ -2774,33 +2775,6 @@
             "Leah Lewis",
             "Mamoudou Athie",
             "Ronnie del Carmen"
-          ]
-        },
-        {
-          "imdb_id": "tt1979388",
-          "tmdb_id": 105864,
-          "title": "The Good Dinosaur",
-          "year": 2015,
-          "runtime": 93,
-          "genres": [
-            "Adventure",
-            "Animation",
-            "Family"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/8RSkxOO80btfKjyiC5ZiTaCHIT8.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/cF3H9pyUF6dsvqlYUcH0TyBAMTG.jpg",
-          "overview": "An epic journey into the world of dinosaurs where an Apatosaurus named Arlo makes an unlikely human friend.",
-          "scores": {
-            "rt": 76,
-            "metacritic": 66,
-            "imdb": 6.7
-          },
-          "digital_release_date": "2016-02-26",
-          "director": "Peter Sohn",
-          "cast": [
-            "Frances McDormand",
-            "Raymond Ochoa",
-            "Jeffrey Wright"
           ]
         },
         {
@@ -2829,6 +2803,35 @@
             "Cristela Alonzo",
             "Chris Cooper"
           ]
+        },
+        {
+          "imdb_id": "tt2948372",
+          "tmdb_id": 508442,
+          "title": "Soul",
+          "year": 2020,
+          "runtime": 101,
+          "genres": [
+            "Animation",
+            "Family",
+            "Drama",
+            "Music",
+            "Fantasy"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/6jmppcaubzLF8wkXM36ganVISCo.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/rQaHA74pevnGsxcKGaoZVGWe9TC.jpg",
+          "overview": "Joe Gardner is a middle school teacher with a love for jazz music. After a successful audition at the Half Note Club, he suddenly gets into an accident that separates his soul from his body and is transported to the You Seminar, a center in which souls develop and gain passions before being transported to a newborn child. Joe must enlist help from the other souls-in-training, like 22, a soul who has spent eons in the You Seminar, in order to get back to Earth.",
+          "scores": {
+            "rt": 95,
+            "metacritic": 83,
+            "imdb": 8
+          },
+          "digital_release_date": "2020-12-25",
+          "director": "Pete Docter",
+          "cast": [
+            "Jamie Foxx",
+            "Tina Fey",
+            "Graham Norton"
+          ]
         }
       ]
     },
@@ -2838,33 +2841,6 @@
       "title": "Marvel",
       "background_color": "#5a0d0d",
       "items": [
-        {
-          "imdb_id": "tt10676048",
-          "tmdb_id": 609681,
-          "title": "The Marvels",
-          "year": 2023,
-          "runtime": 105,
-          "genres": [
-            "Science Fiction",
-            "Adventure",
-            "Action"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/w4pRLYYbhHn3sh9kqRgPZM6GjyS.jpg",
-          "overview": "When her duties send her to an anomalous wormhole linked to a Kree revolutionary, Carol's powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol's estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.",
-          "scores": {
-            "rt": 63,
-            "metacritic": 50,
-            "imdb": 5.5
-          },
-          "digital_release_date": "2024-01-16",
-          "director": "Nia DaCosta",
-          "cast": [
-            "Brie Larson",
-            "Teyonah Parris",
-            "Iman Vellani"
-          ]
-        },
         {
           "imdb_id": "tt0848228",
           "tmdb_id": 24428,
@@ -2917,6 +2893,33 @@
             "Robert Downey Jr.",
             "Chris Evans",
             "Chris Hemsworth"
+          ]
+        },
+        {
+          "imdb_id": "tt10676048",
+          "tmdb_id": 609681,
+          "title": "The Marvels",
+          "year": 2023,
+          "runtime": 105,
+          "genres": [
+            "Science Fiction",
+            "Adventure",
+            "Action"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/w4pRLYYbhHn3sh9kqRgPZM6GjyS.jpg",
+          "overview": "When her duties send her to an anomalous wormhole linked to a Kree revolutionary, Carol's powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol's estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.",
+          "scores": {
+            "rt": 63,
+            "metacritic": 50,
+            "imdb": 5.5
+          },
+          "digital_release_date": "2024-01-16",
+          "director": "Nia DaCosta",
+          "cast": [
+            "Brie Larson",
+            "Teyonah Parris",
+            "Iman Vellani"
           ]
         },
         {
@@ -3001,6 +3004,33 @@
           ]
         },
         {
+          "imdb_id": "tt0371746",
+          "tmdb_id": 1726,
+          "title": "Iron Man",
+          "year": 2008,
+          "runtime": 126,
+          "genres": [
+            "Action",
+            "Science Fiction",
+            "Adventure"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
+          "overview": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
+          "scores": {
+            "rt": 94,
+            "metacritic": 79,
+            "imdb": 7.9
+          },
+          "digital_release_date": "2008-04-30",
+          "director": "Jon Favreau",
+          "cast": [
+            "Robert Downey Jr.",
+            "Terrence Howard",
+            "Jeff Bridges"
+          ]
+        },
+        {
           "imdb_id": "tt10676052",
           "tmdb_id": 617126,
           "title": "The Fantastic 4: First Steps",
@@ -3051,33 +3081,6 @@
             "Robert Downey Jr.",
             "Gwyneth Paltrow",
             "Don Cheadle"
-          ]
-        },
-        {
-          "imdb_id": "tt0371746",
-          "tmdb_id": 1726,
-          "title": "Iron Man",
-          "year": 2008,
-          "runtime": 126,
-          "genres": [
-            "Action",
-            "Science Fiction",
-            "Adventure"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
-          "overview": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
-          "scores": {
-            "rt": 94,
-            "metacritic": 79,
-            "imdb": 7.9
-          },
-          "digital_release_date": "2008-04-30",
-          "director": "Jon Favreau",
-          "cast": [
-            "Robert Downey Jr.",
-            "Terrence Howard",
-            "Jeff Bridges"
           ]
         },
         {
@@ -3135,30 +3138,30 @@
           ]
         },
         {
-          "imdb_id": "tt6320628",
-          "tmdb_id": 429617,
-          "title": "Spider-Man: Far From Home",
-          "year": 2019,
-          "runtime": 129,
+          "imdb_id": "tt20969586",
+          "tmdb_id": 986056,
+          "title": "Thunderbolts*",
+          "year": 2025,
+          "runtime": 127,
           "genres": [
             "Action",
-            "Adventure",
-            "Science Fiction"
+            "Science Fiction",
+            "Adventure"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/34jW8LvjRplM8Pv06cBFDpLlenR.jpg",
-          "overview": "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
+          "poster": "https://image.tmdb.org/t/p/w500/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/rthMuZfFv4fqEU4JVbgSW9wQ8rs.jpg",
+          "overview": "After finding themselves ensnared in a death trap, seven disillusioned castoffs must embark on a dangerous mission that will force them to confront the darkest corners of their pasts.",
           "scores": {
-            "rt": 91,
-            "metacritic": 69,
-            "imdb": 7.3
+            "rt": 88,
+            "metacritic": 68,
+            "imdb": 7.1
           },
-          "digital_release_date": "2019-09-17",
-          "director": "Jon Watts",
+          "digital_release_date": "2025-07-01",
+          "director": "Jake Schreier",
           "cast": [
-            "Tom Holland",
-            "Jake Gyllenhaal",
-            "Samuel L. Jackson"
+            "Florence Pugh",
+            "Sebastian Stan",
+            "Julia Louis-Dreyfus"
           ]
         },
         {
@@ -3189,33 +3192,6 @@
           ]
         },
         {
-          "imdb_id": "tt20969586",
-          "tmdb_id": 986056,
-          "title": "Thunderbolts*",
-          "year": 2025,
-          "runtime": 127,
-          "genres": [
-            "Action",
-            "Science Fiction",
-            "Adventure"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/rthMuZfFv4fqEU4JVbgSW9wQ8rs.jpg",
-          "overview": "After finding themselves ensnared in a death trap, seven disillusioned castoffs must embark on a dangerous mission that will force them to confront the darkest corners of their pasts.",
-          "scores": {
-            "rt": 88,
-            "metacritic": 68,
-            "imdb": 7.1
-          },
-          "digital_release_date": "2025-07-01",
-          "director": "Jake Schreier",
-          "cast": [
-            "Florence Pugh",
-            "Sebastian Stan",
-            "Julia Louis-Dreyfus"
-          ]
-        },
-        {
           "imdb_id": "tt1300854",
           "tmdb_id": 68721,
           "title": "Iron Man 3",
@@ -3240,6 +3216,33 @@
             "Robert Downey Jr.",
             "Gwyneth Paltrow",
             "Don Cheadle"
+          ]
+        },
+        {
+          "imdb_id": "tt1825683",
+          "tmdb_id": 284054,
+          "title": "Black Panther",
+          "year": 2018,
+          "runtime": 135,
+          "genres": [
+            "Action",
+            "Adventure",
+            "Science Fiction"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/19Ed4XgjahPm4U8JT7SnntERIlt.jpg",
+          "overview": "King T'Challa returns home to the reclusive, technologically advanced African nation of Wakanda to serve as his country's new leader. However, T'Challa soon finds that he is challenged for the throne by factions within his own country as well as without. Using powers reserved to Wakandan kings, T'Challa assumes the Black Panther mantle to join with ex-girlfriend Nakia, the queen-mother, his princess-kid sister, members of the Dora Milaje (the Wakandan 'special forces') and an American secret agent, to prevent Wakanda from being dragged into a world war.",
+          "scores": {
+            "rt": 96,
+            "metacritic": 88,
+            "imdb": 7.3
+          },
+          "digital_release_date": "2018-02-13",
+          "director": "Ryan Coogler",
+          "cast": [
+            "Chadwick Boseman",
+            "Michael B. Jordan",
+            "Lupita Nyong'o"
           ]
         },
         {
@@ -3270,30 +3273,30 @@
           ]
         },
         {
-          "imdb_id": "tt6791350",
-          "tmdb_id": 447365,
-          "title": "Guardians of the Galaxy Vol. 3",
-          "year": 2023,
-          "runtime": 150,
+          "imdb_id": "tt6320628",
+          "tmdb_id": 429617,
+          "title": "Spider-Man: Far From Home",
+          "year": 2019,
+          "runtime": 129,
           "genres": [
-            "Science Fiction",
+            "Action",
             "Adventure",
-            "Action"
+            "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg",
-          "overview": "Peter Quill, still reeling from the loss of Gamora, must rally his team around him to defend the universe along with protecting one of their own. A mission that, if not completed successfully, could quite possibly lead to the end of the Guardians as we know them.",
+          "poster": "https://image.tmdb.org/t/p/w500/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/34jW8LvjRplM8Pv06cBFDpLlenR.jpg",
+          "overview": "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
           "scores": {
-            "rt": 82,
-            "metacritic": 64,
-            "imdb": 7.9
+            "rt": 91,
+            "metacritic": 69,
+            "imdb": 7.3
           },
-          "digital_release_date": "2023-08-02",
-          "director": "James Gunn",
+          "digital_release_date": "2019-09-17",
+          "director": "Jon Watts",
           "cast": [
-            "Chris Pratt",
-            "Zoe Saldaña",
-            "Dave Bautista"
+            "Tom Holland",
+            "Jake Gyllenhaal",
+            "Samuel L. Jackson"
           ]
         },
         {
@@ -3351,29 +3354,29 @@
           ]
         },
         {
-          "imdb_id": "tt1825683",
-          "tmdb_id": 284054,
-          "title": "Black Panther",
-          "year": 2018,
-          "runtime": 135,
+          "imdb_id": "tt9114286",
+          "tmdb_id": 505642,
+          "title": "Black Panther: Wakanda Forever",
+          "year": 2022,
+          "runtime": 162,
           "genres": [
             "Action",
             "Adventure",
             "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/19Ed4XgjahPm4U8JT7SnntERIlt.jpg",
-          "overview": "King T'Challa returns home to the reclusive, technologically advanced African nation of Wakanda to serve as his country's new leader. However, T'Challa soon finds that he is challenged for the throne by factions within his own country as well as without. Using powers reserved to Wakandan kings, T'Challa assumes the Black Panther mantle to join with ex-girlfriend Nakia, the queen-mother, his princess-kid sister, members of the Dora Milaje (the Wakandan 'special forces') and an American secret agent, to prevent Wakanda from being dragged into a world war.",
+          "poster": "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/83H0C66AcvkwpG2738VCTHMY9uv.jpg",
+          "overview": "Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death.  As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.",
           "scores": {
-            "rt": 96,
-            "metacritic": 88,
-            "imdb": 7.3
+            "rt": 84,
+            "metacritic": 67,
+            "imdb": 6.6
           },
-          "digital_release_date": "2018-02-13",
+          "digital_release_date": "2023-02-01",
           "director": "Ryan Coogler",
           "cast": [
-            "Chadwick Boseman",
-            "Michael B. Jordan",
+            "Letitia Wright",
+            "Tenoch Huerta Mejía",
             "Lupita Nyong'o"
           ]
         }
@@ -3464,32 +3467,6 @@
           ]
         },
         {
-          "imdb_id": "tt0454841",
-          "tmdb_id": 9792,
-          "title": "The Hills Have Eyes",
-          "year": 2006,
-          "runtime": 107,
-          "genres": [
-            "Horror",
-            "Thriller"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/2eJL1Ccr1FN3dm9OSDwyd8uaX1b.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/vrFI0I3M8ROZduj9XbFDoQKZyao.jpg",
-          "overview": "Based on Wes Craven's 1977 suspenseful cult classic, The Hills Have Eyes is the story of a family road trip that goes terrifyingly awry when the travelers become stranded in a government atomic zone. Miles from nowhere, the Carter family soon realizes the seemingly uninhabited wasteland is actually the breeding ground of a blood-thirsty mutant family...and they are the prey.",
-          "scores": {
-            "rt": 51,
-            "metacritic": 52,
-            "imdb": 6.4
-          },
-          "digital_release_date": "2006-03-10",
-          "director": "Alexandre Aja",
-          "cast": [
-            "Aaron Stanford",
-            "Dan Byrd",
-            "Emilie de Ravin"
-          ]
-        },
-        {
           "imdb_id": "tt0947798",
           "tmdb_id": 44214,
           "title": "Black Swan",
@@ -3514,6 +3491,33 @@
             "Natalie Portman",
             "Mila Kunis",
             "Vincent Cassel"
+          ]
+        },
+        {
+          "imdb_id": "tt2584384",
+          "tmdb_id": 515001,
+          "title": "Jojo Rabbit",
+          "year": 2019,
+          "runtime": 108,
+          "genres": [
+            "Comedy",
+            "War",
+            "Drama"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/lTyikzfGgRX5ZqIfVeT26APYfRL.jpg",
+          "overview": "Jojo, a lonely German boy during World War II has his world shaken when he learns that his single mother is hiding a Jewish girl in their home. Influenced by a buffoonish imaginary version of Adolf Hitler, he begins to question his beliefs and confront the conflict between propaganda and his own humanity.",
+          "scores": {
+            "rt": 81,
+            "metacritic": 58,
+            "imdb": 7.9
+          },
+          "digital_release_date": "2020-02-04",
+          "director": "Taika Waititi",
+          "cast": [
+            "Roman Griffin Davis",
+            "Thomasin McKenzie",
+            "Scarlett Johansson"
           ]
         },
         {
@@ -3544,30 +3548,29 @@
           ]
         },
         {
-          "imdb_id": "tt2584384",
-          "tmdb_id": 515001,
-          "title": "Jojo Rabbit",
-          "year": 2019,
-          "runtime": 108,
+          "imdb_id": "tt0454841",
+          "tmdb_id": 9792,
+          "title": "The Hills Have Eyes",
+          "year": 2006,
+          "runtime": 107,
           "genres": [
-            "Comedy",
-            "War",
-            "Drama"
+            "Horror",
+            "Thriller"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/lTyikzfGgRX5ZqIfVeT26APYfRL.jpg",
-          "overview": "Jojo, a lonely German boy during World War II has his world shaken when he learns that his single mother is hiding a Jewish girl in their home. Influenced by a buffoonish imaginary version of Adolf Hitler, he begins to question his beliefs and confront the conflict between propaganda and his own humanity.",
+          "poster": "https://image.tmdb.org/t/p/w500/2eJL1Ccr1FN3dm9OSDwyd8uaX1b.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/vrFI0I3M8ROZduj9XbFDoQKZyao.jpg",
+          "overview": "Based on Wes Craven's 1977 suspenseful cult classic, The Hills Have Eyes is the story of a family road trip that goes terrifyingly awry when the travelers become stranded in a government atomic zone. Miles from nowhere, the Carter family soon realizes the seemingly uninhabited wasteland is actually the breeding ground of a blood-thirsty mutant family...and they are the prey.",
           "scores": {
-            "rt": 81,
-            "metacritic": 58,
-            "imdb": 7.9
+            "rt": 51,
+            "metacritic": 52,
+            "imdb": 6.4
           },
-          "digital_release_date": "2020-02-04",
-          "director": "Taika Waititi",
+          "digital_release_date": "2006-03-10",
+          "director": "Alexandre Aja",
           "cast": [
-            "Roman Griffin Davis",
-            "Thomasin McKenzie",
-            "Scarlett Johansson"
+            "Aaron Stanford",
+            "Dan Byrd",
+            "Emilie de Ravin"
           ]
         },
         {
@@ -3678,58 +3681,6 @@
           ]
         },
         {
-          "imdb_id": "tt1600196",
-          "tmdb_id": 154400,
-          "title": "The Drop",
-          "year": 2014,
-          "runtime": 106,
-          "genres": [
-            "Drama",
-            "Crime"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/olQInYvVCW2wycMSU1ogo9Jshml.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/kydclLUnhGMuoCxl6VRfSSwdRRO.jpg",
-          "overview": "Bob Saginowski finds himself at the center of a robbery gone awry and entwined in an investigation that digs deep into the neighborhood's past where friends, families, and foes all work together to make a living - no matter the cost.",
-          "scores": {
-            "rt": 88,
-            "metacritic": 69,
-            "imdb": 7
-          },
-          "digital_release_date": "2014-09-12",
-          "director": "Michaël R. Roskam",
-          "cast": [
-            "Tom Hardy",
-            "Noomi Rapace",
-            "James Gandolfini"
-          ]
-        },
-        {
-          "imdb_id": "tt0171804",
-          "tmdb_id": 226,
-          "title": "Boys Don't Cry",
-          "year": 1999,
-          "runtime": 118,
-          "genres": [
-            "Crime",
-            "Drama"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/eB505ycEhFVfMwGglIzXNUyKAIs.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/yV1s91RyHJIMIJ7KeyHsWJ0ayUv.jpg",
-          "overview": "A young transgender man explores his gender identity and searches for love in rural Nebraska.",
-          "scores": {
-            "rt": 90,
-            "metacritic": 86,
-            "imdb": 7.5
-          },
-          "digital_release_date": "1999-09-02",
-          "director": "Kimberly Peirce",
-          "cast": [
-            "Hilary Swank",
-            "Chloë Sevigny",
-            "Peter Sarsgaard"
-          ]
-        },
-        {
           "imdb_id": "tt5083738",
           "tmdb_id": 375262,
           "title": "The Favourite",
@@ -3780,6 +3731,58 @@
             "Shah Rukh Khan",
             "Kajol",
             "Arjan Aujla"
+          ]
+        },
+        {
+          "imdb_id": "tt1600196",
+          "tmdb_id": 154400,
+          "title": "The Drop",
+          "year": 2014,
+          "runtime": 106,
+          "genres": [
+            "Drama",
+            "Crime"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/olQInYvVCW2wycMSU1ogo9Jshml.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/kydclLUnhGMuoCxl6VRfSSwdRRO.jpg",
+          "overview": "Bob Saginowski finds himself at the center of a robbery gone awry and entwined in an investigation that digs deep into the neighborhood's past where friends, families, and foes all work together to make a living - no matter the cost.",
+          "scores": {
+            "rt": 88,
+            "metacritic": 69,
+            "imdb": 7
+          },
+          "digital_release_date": "2014-09-12",
+          "director": "Michaël R. Roskam",
+          "cast": [
+            "Tom Hardy",
+            "Noomi Rapace",
+            "James Gandolfini"
+          ]
+        },
+        {
+          "imdb_id": "tt0171804",
+          "tmdb_id": 226,
+          "title": "Boys Don't Cry",
+          "year": 1999,
+          "runtime": 118,
+          "genres": [
+            "Crime",
+            "Drama"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/eB505ycEhFVfMwGglIzXNUyKAIs.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/yV1s91RyHJIMIJ7KeyHsWJ0ayUv.jpg",
+          "overview": "A young transgender man explores his gender identity and searches for love in rural Nebraska.",
+          "scores": {
+            "rt": 90,
+            "metacritic": 86,
+            "imdb": 7.5
+          },
+          "digital_release_date": "1999-09-02",
+          "director": "Kimberly Peirce",
+          "cast": [
+            "Hilary Swank",
+            "Chloë Sevigny",
+            "Peter Sarsgaard"
           ]
         },
         {
@@ -3836,32 +3839,6 @@
           ]
         },
         {
-          "imdb_id": "tt1549572",
-          "tmdb_id": 55420,
-          "title": "Another Earth",
-          "year": 2011,
-          "runtime": 92,
-          "genres": [
-            "Drama",
-            "Science Fiction"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/qvGJK3lFzpifAdyIupMNdWNX0qr.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/fJfpZnS2pvFCtyaDqoIgKLASvAT.jpg",
-          "overview": "On the night a duplicate Earth is discovered in the solar system, the lives of a young woman and an accomplished composer become tragically connected after a fatal accident.",
-          "scores": {
-            "rt": 66,
-            "metacritic": 66,
-            "imdb": 6.9
-          },
-          "digital_release_date": "2011-07-22",
-          "director": "Mike Cahill",
-          "cast": [
-            "Brit Marling",
-            "William Mapother",
-            "Matthew-Lee Erlbach"
-          ]
-        },
-        {
           "imdb_id": "tt0838221",
           "tmdb_id": 4538,
           "title": "The Darjeeling Limited",
@@ -3889,29 +3866,54 @@
           ]
         },
         {
-          "imdb_id": "tt0117737",
-          "tmdb_id": 14553,
-          "title": "Stealing Beauty",
-          "year": 1996,
-          "runtime": 116,
+          "imdb_id": "tt0119349",
+          "tmdb_id": 68924,
+          "title": "The Ice Storm",
+          "year": 1997,
+          "runtime": 113,
+          "genres": [
+            "Drama"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/3a6uLta7K8Dzojps4RoJAPHD0km.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/r700X6U2hVX0haLRItATSVn5Rj4.jpg",
+          "overview": "In the weekend after thanksgiving 1973 the Hood family is skidding out of control. Then an ice storm hits, the worst in a century.",
+          "scores": {
+            "rt": 86,
+            "metacritic": 72,
+            "imdb": 7.3
+          },
+          "digital_release_date": "1997-09-27",
+          "director": "Ang Lee",
+          "cast": [
+            "Kevin Kline",
+            "Joan Allen",
+            "Sigourney Weaver"
+          ]
+        },
+        {
+          "imdb_id": "tt1549572",
+          "tmdb_id": 55420,
+          "title": "Another Earth",
+          "year": 2011,
+          "runtime": 92,
           "genres": [
             "Drama",
-            "Romance"
+            "Science Fiction"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/5ugxnyVmBK952bwOcE4M0szNimx.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/bJFapHYlJIhXpfqH8uaNLtUxHwD.jpg",
-          "overview": "Lucy Harmon, an American teenager is arriving in the lush Tuscan countryside to be sculpted by a family friend who lives in a beautiful villa. Lucy visited there four years earlier and exchanged a kiss with an Italian boy with whom she hopes to become reacquainted.",
+          "poster": "https://image.tmdb.org/t/p/w500/qvGJK3lFzpifAdyIupMNdWNX0qr.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/fJfpZnS2pvFCtyaDqoIgKLASvAT.jpg",
+          "overview": "On the night a duplicate Earth is discovered in the solar system, the lives of a young woman and an accomplished composer become tragically connected after a fatal accident.",
           "scores": {
-            "rt": 50,
-            "metacritic": 60,
-            "imdb": 6.5
+            "rt": 66,
+            "metacritic": 66,
+            "imdb": 6.9
           },
-          "digital_release_date": "1996-03-29",
-          "director": "Bernardo Bertolucci",
+          "digital_release_date": "2011-07-22",
+          "director": "Mike Cahill",
           "cast": [
-            "Liv Tyler",
-            "Sinéad Cusack",
-            "Jeremy Irons"
+            "Brit Marling",
+            "William Mapother",
+            "Matthew-Lee Erlbach"
           ]
         }
       ]
@@ -3950,33 +3952,6 @@
           ]
         },
         {
-          "imdb_id": "tt2322441",
-          "tmdb_id": 216015,
-          "title": "Fifty Shades of Grey",
-          "year": 2015,
-          "runtime": 125,
-          "genres": [
-            "Drama",
-            "Romance",
-            "Thriller"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/63kGofUkt1Mx0SIL4XI4Z5AoSgt.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/7IGKrY1f1KfwMipx9wZC4NRgIdF.jpg",
-          "overview": "When college senior Anastasia Steele steps in for her sick roommate to interview prominent businessman Christian Grey for their campus paper, little does she realize the path her life will take. Christian, as enigmatic as he is rich and powerful, finds himself strangely drawn to Ana, and she to him. Though sexually inexperienced, Ana plunges headlong into an affair -- and learns that Christian's true sexual proclivities push the boundaries of pain and pleasure.",
-          "scores": {
-            "rt": 25,
-            "metacritic": 46,
-            "imdb": 4.2
-          },
-          "digital_release_date": "2015-02-11",
-          "director": "Sam Taylor-Johnson",
-          "cast": [
-            "Dakota Johnson",
-            "Jamie Dornan",
-            "Jennifer Ehle"
-          ]
-        },
-        {
           "imdb_id": "tt0808357",
           "tmdb_id": 4588,
           "title": "Lust, Caution",
@@ -4002,6 +3977,33 @@
             "Tony Leung Chiu-wai",
             "Tang Wei",
             "Joan Chen"
+          ]
+        },
+        {
+          "imdb_id": "tt2322441",
+          "tmdb_id": 216015,
+          "title": "Fifty Shades of Grey",
+          "year": 2015,
+          "runtime": 125,
+          "genres": [
+            "Drama",
+            "Romance",
+            "Thriller"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/63kGofUkt1Mx0SIL4XI4Z5AoSgt.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/7IGKrY1f1KfwMipx9wZC4NRgIdF.jpg",
+          "overview": "When college senior Anastasia Steele steps in for her sick roommate to interview prominent businessman Christian Grey for their campus paper, little does she realize the path her life will take. Christian, as enigmatic as he is rich and powerful, finds himself strangely drawn to Ana, and she to him. Though sexually inexperienced, Ana plunges headlong into an affair -- and learns that Christian's true sexual proclivities push the boundaries of pain and pleasure.",
+          "scores": {
+            "rt": 25,
+            "metacritic": 46,
+            "imdb": 4.2
+          },
+          "digital_release_date": "2015-02-11",
+          "director": "Sam Taylor-Johnson",
+          "cast": [
+            "Dakota Johnson",
+            "Jamie Dornan",
+            "Jennifer Ehle"
           ]
         },
         {
@@ -4059,6 +4061,32 @@
           ]
         },
         {
+          "imdb_id": "tt0388795",
+          "tmdb_id": 142,
+          "title": "Brokeback Mountain",
+          "year": 2005,
+          "runtime": 134,
+          "genres": [
+            "Drama",
+            "Romance"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/aByfQOQBNa4CMFwIgq3QrqY2ZHh.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/vXzqV2RtJlT9WhNEM4NYWCEC6ZI.jpg",
+          "overview": "In 1960s Wyoming, two men develop a strong emotional and sexual relationship that endures as a lifelong connection complicating their lives as they get married and start families of their own.",
+          "scores": {
+            "rt": 88,
+            "metacritic": 87,
+            "imdb": 7.7
+          },
+          "digital_release_date": "2005-10-22",
+          "director": "Ang Lee",
+          "cast": [
+            "Heath Ledger",
+            "Jake Gyllenhaal",
+            "Michelle Williams"
+          ]
+        },
+        {
           "imdb_id": "tt0472033",
           "tmdb_id": 12244,
           "title": "9",
@@ -4085,32 +4113,6 @@
             "Elijah Wood",
             "Christopher Plummer",
             "Martin Landau"
-          ]
-        },
-        {
-          "imdb_id": "tt0388795",
-          "tmdb_id": 142,
-          "title": "Brokeback Mountain",
-          "year": 2005,
-          "runtime": 134,
-          "genres": [
-            "Drama",
-            "Romance"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/aByfQOQBNa4CMFwIgq3QrqY2ZHh.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/vXzqV2RtJlT9WhNEM4NYWCEC6ZI.jpg",
-          "overview": "In 1960s Wyoming, two men develop a strong emotional and sexual relationship that endures as a lifelong connection complicating their lives as they get married and start families of their own.",
-          "scores": {
-            "rt": 88,
-            "metacritic": 87,
-            "imdb": 7.7
-          },
-          "digital_release_date": "2005-10-22",
-          "director": "Ang Lee",
-          "cast": [
-            "Heath Ledger",
-            "Jake Gyllenhaal",
-            "Michelle Williams"
           ]
         },
         {
@@ -4301,29 +4303,108 @@
           ]
         },
         {
-          "imdb_id": "tt0446059",
-          "tmdb_id": 7549,
-          "title": "Fearless",
-          "year": 2006,
-          "runtime": 103,
+          "imdb_id": "tt4550098",
+          "tmdb_id": 340666,
+          "title": "Nocturnal Animals",
+          "year": 2016,
+          "runtime": 116,
           "genres": [
             "Drama",
-            "Action"
+            "Thriller"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/yKJ7rjIwOa8XvACELo9eV8IvMPb.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/6epfs9UMFbYuj4UfjHq5EDic8V9.jpg",
-          "overview": "After going through a series of tragic events in his life, martial arts master Huo Yuanjia returns to Tianjin and must fight four international soldiers, in order to safeguard his nation's pride.",
+          "poster": "https://image.tmdb.org/t/p/w500/mdLDgQBD0va09npSQX5Zgo2evXM.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/5d6m8CIBQcHeiwr6R5ou4wxO9Vn.jpg",
+          "overview": "Susan Morrow receives a book manuscript from her ex-husband – a man she left 20 years earlier – asking for her opinion of his writing. As she reads, she is drawn into the fictional life of Tony Hastings, a mathematics professor whose family vacation turns violent.",
           "scores": {
-            "rt": 73,
-            "metacritic": 70,
-            "imdb": 7.6
+            "rt": 74,
+            "metacritic": 67,
+            "imdb": 7.4
           },
-          "digital_release_date": "2006-01-26",
-          "director": "Ronny Yu",
+          "digital_release_date": "2016-11-04",
+          "director": "Tom Ford",
           "cast": [
-            "Jet Li",
-            "Sun Li",
-            "Dong Yong"
+            "Amy Adams",
+            "Jake Gyllenhaal",
+            "Michael Shannon"
+          ]
+        },
+        {
+          "imdb_id": "tt30645201",
+          "tmdb_id": 1149504,
+          "title": "Honey Don't!",
+          "year": 2025,
+          "runtime": 89,
+          "genres": [
+            "Comedy",
+            "Crime",
+            "Mystery",
+            "Thriller"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/fJm3kmd9NLZWypMas7g34oNFgbk.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/cjhq1eBLXgKq1xHDFeUnYzu61H6.jpg",
+          "overview": "Honey O'Donahue, a small-town private investigator, delves into a series of strange deaths tied to a mysterious church.",
+          "scores": {
+            "metacritic": 46,
+            "imdb": 5.2
+          },
+          "digital_release_date": "2025-09-09",
+          "director": "Ethan Coen",
+          "cast": [
+            "Margaret Qualley",
+            "Aubrey Plaza",
+            "Chris Evans"
+          ]
+        },
+        {
+          "imdb_id": "tt9639470",
+          "tmdb_id": 576845,
+          "title": "Last Night in Soho",
+          "year": 2021,
+          "runtime": 117,
+          "genres": [
+            "Horror",
+            "Mystery"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/n1ZRmjlk1BJTY7aASqACfPAaLn2.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/nPWy5KISy7BbUOQcg588dflKzTL.jpg",
+          "overview": "A young girl, passionate about fashion design, is mysteriously able to enter the 1960s where she encounters her idol, a dazzling wannabe singer. But 1960s London is not what it seems, and time seems to be falling apart with shady consequences.",
+          "scores": {
+            "rt": 75,
+            "metacritic": 65,
+            "imdb": 7
+          },
+          "digital_release_date": "2021-11-19",
+          "director": "Edgar Wright",
+          "cast": [
+            "Thomasin McKenzie",
+            "Anya Taylor-Joy",
+            "Matt Smith"
+          ]
+        },
+        {
+          "imdb_id": "tt1563738",
+          "tmdb_id": 51828,
+          "title": "One Day",
+          "year": 2011,
+          "runtime": 107,
+          "genres": [
+            "Drama",
+            "Romance"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/n9jMwSg4IavdD8wqdYnyW5w3Mvp.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/cBXxrN7jcCfXNageCMYPbOjZusl.jpg",
+          "overview": "A romantic comedy centered on Dexter and Emma, who first meet during their graduation in 1988 and proceed to keep in touch regularly. The film follows what they do on July 15 annually, usually doing something together.",
+          "scores": {
+            "rt": 36,
+            "metacritic": 48,
+            "imdb": 7
+          },
+          "digital_release_date": "2011-03-02",
+          "director": "Lone Scherfig",
+          "cast": [
+            "Anne Hathaway",
+            "Jim Sturgess",
+            "Tom Mison"
           ]
         },
         {
@@ -4354,108 +4435,29 @@
           ]
         },
         {
-          "imdb_id": "tt30343021",
-          "tmdb_id": 1371185,
-          "title": "Song Sung Blue",
-          "year": 2025,
-          "runtime": 133,
-          "genres": [
-            "Music",
-            "Romance",
-            "Drama"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/kQzDdxI0F5z16qo2vzDoqdVMl4O.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/wLauNnJYmvVLN0MiOv0tjdiPs0J.jpg",
-          "overview": "Based on a true story, two down-on-their-luck musicians form a joyous Neil Diamond tribute band, proving it's never too late to find love and follow your dreams.",
-          "scores": {
-            "rt": 77,
-            "metacritic": 61,
-            "imdb": 7.2
-          },
-          "digital_release_date": "2026-01-13",
-          "director": "Craig Brewer",
-          "cast": [
-            "Hugh Jackman",
-            "Kate Hudson",
-            "Michael Imperioli"
-          ]
-        },
-        {
-          "imdb_id": "tt31888477",
-          "tmdb_id": 1289936,
-          "title": "Downton Abbey: The Grand Finale",
-          "year": 2025,
-          "runtime": 123,
+          "imdb_id": "tt0446059",
+          "tmdb_id": 7549,
+          "title": "Fearless",
+          "year": 2006,
+          "runtime": 103,
           "genres": [
             "Drama",
-            "Romance"
+            "Action"
           ],
-          "poster": "https://image.tmdb.org/t/p/w500/m1tLlMTCwc6oK6OjWTOI4b32wnA.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/jvzPTf0nhsqAXodYT6ILKb99IA2.jpg",
-          "overview": "When Mary finds herself at the center of a public scandal and the family faces financial strife, the entire household grapples with the threat of social disgrace. The Crawleys must embrace change as the staff prepares for a new chapter with the next generation leading Downton Abbey into the future.",
+          "poster": "https://image.tmdb.org/t/p/w500/yKJ7rjIwOa8XvACELo9eV8IvMPb.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/6epfs9UMFbYuj4UfjHq5EDic8V9.jpg",
+          "overview": "After going through a series of tragic events in his life, martial arts master Huo Yuanjia returns to Tianjin and must fight four international soldiers, in order to safeguard his nation's pride.",
           "scores": {
-            "rt": 91,
-            "metacritic": 66,
-            "imdb": 7.3
+            "rt": 73,
+            "metacritic": 70,
+            "imdb": 7.6
           },
-          "digital_release_date": "2025-09-30",
-          "director": "Simon Curtis",
+          "digital_release_date": "2006-01-26",
+          "director": "Ronny Yu",
           "cast": [
-            "Michelle Dockery",
-            "Hugh Bonneville",
-            "Elizabeth McGovern"
-          ]
-        },
-        {
-          "imdb_id": "tt1563738",
-          "tmdb_id": 51828,
-          "title": "One Day",
-          "year": 2011,
-          "runtime": 107,
-          "genres": [
-            "Drama",
-            "Romance"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/n9jMwSg4IavdD8wqdYnyW5w3Mvp.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/cBXxrN7jcCfXNageCMYPbOjZusl.jpg",
-          "overview": "A romantic comedy centered on Dexter and Emma, who first meet during their graduation in 1988 and proceed to keep in touch regularly. The film follows what they do on July 15 annually, usually doing something together.",
-          "scores": {
-            "rt": 36,
-            "metacritic": 48,
-            "imdb": 7
-          },
-          "digital_release_date": "2011-03-02",
-          "director": "Lone Scherfig",
-          "cast": [
-            "Anne Hathaway",
-            "Jim Sturgess",
-            "Tom Mison"
-          ]
-        },
-        {
-          "imdb_id": "tt4550098",
-          "tmdb_id": 340666,
-          "title": "Nocturnal Animals",
-          "year": 2016,
-          "runtime": 116,
-          "genres": [
-            "Drama",
-            "Thriller"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/mdLDgQBD0va09npSQX5Zgo2evXM.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/5d6m8CIBQcHeiwr6R5ou4wxO9Vn.jpg",
-          "overview": "Susan Morrow receives a book manuscript from her ex-husband – a man she left 20 years earlier – asking for her opinion of his writing. As she reads, she is drawn into the fictional life of Tony Hastings, a mathematics professor whose family vacation turns violent.",
-          "scores": {
-            "rt": 74,
-            "metacritic": 67,
-            "imdb": 7.4
-          },
-          "digital_release_date": "2016-11-04",
-          "director": "Tom Ford",
-          "cast": [
-            "Amy Adams",
-            "Jake Gyllenhaal",
-            "Michael Shannon"
+            "Jet Li",
+            "Sun Li",
+            "Dong Yong"
           ]
         }
       ]
