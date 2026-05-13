@@ -49,5 +49,9 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     setupFiles: ['./src/__tests__/setup.ts'],
+    reporters: [
+      'default',
+      ['tdd-guard-vitest', { projectRoot: resolve(__dirname) }],
+    ],
   },
 });

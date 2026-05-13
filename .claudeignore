@@ -1,0 +1,26 @@
+# Files to hide from implementer-role subagents.
+#
+# Honored by some Claude tooling and IDE plugins. Behavior is not uniform across
+# every Claude entry point — treat this as belt-and-suspenders. The primary
+# control is the dispatch prompt that defines an "implementer" role; this file
+# is the structural backup.
+#
+# WHY: When an implementer subagent can read both the spec AND the test file,
+# the cheapest way to make the test pass is often to weaken the test. Hiding
+# tests forces the implementer to work from the spec alone — the test then
+# becomes an independent verifier instead of a target to defeat.
+#
+# A "writer/reviewer/observer" agent that needs to see tests should override
+# this by reading the file with an absolute path (.claudeignore filters
+# globbing/search context, not direct Reads).
+
+src/**/__tests__/
+src/**/*.test.ts
+src/**/*.test.tsx
+src/**/*.spec.ts
+backend/**/*.test.ts
+
+# Test infrastructure that, if visible, lets an implementer reverse-engineer
+# what the tests stub. Implementers should depend on the real API contract.
+src/__tests__/setup.ts
+src/__tests__/helpers/
