@@ -21,7 +21,7 @@ export function PosterCard({ movie, rowId, onActivate, progress, autofocus }: Pr
   return (
     <div ref={ref as any} {...rest} className="poster">
       <div className="poster__inner">
-        <img src={movie.poster} alt="" className="poster__img" />
+        <img src={movie.poster} alt="" className="poster__img" loading="lazy" decoding="async" />
         <div className="poster__info">
           <div className="poster__title">{movie.title}</div>
           <div className="poster__meta">

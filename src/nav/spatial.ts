@@ -68,9 +68,12 @@ export class SpatialNav {
 
     this.currentId = id;
     for (const l of this.listeners) l(id);
-    // Scroll the focused element into view, leaving the TopNav visible above.
+    // Scroll the focused element into view. `behavior: 'auto'` (instant) is
+    // intentionally used over 'smooth' — on WebOS 6 the smooth scroll
+    // animation is not hardware-accelerated and adds perceptible lag to
+    // every D-pad move. Instant scroll keeps the TV feeling snappy.
     if (newEntry?.el && typeof newEntry.el.scrollIntoView === 'function') {
-      newEntry.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      newEntry.el.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
     }
   }
 
