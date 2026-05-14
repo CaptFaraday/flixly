@@ -55,14 +55,22 @@ export class SpatialNav {
   setFocus(id: string | null): void {
     if (id !== null && !this.entries.has(id)) return;
     if (this.currentId === id) return;
+    // Imperatively toggle the `data-focused` attribute on the OLD and NEW
+    // elements. Doing it here (rather than reading `focusedId.value` inside
+    // `useFocusable`'s render path) means a focus change costs two DOM
+    // attribute writes instead of N component re-renders, where N is the
+    // count of focusables on screen (~80 on Home). This is the difference
+    // between snappy and laggy D-pad on WebOS 6's CPU.
+    const oldEl = this.currentId !== null ? this.entries.get(this.currentId)?.el : undefined;
+    const newEntry = id !== null ? this.entries.get(id) : undefined;
+    if (oldEl) oldEl.removeAttribute('data-focused');
+    if (newEntry?.el) newEntry.el.setAttribute('data-focused', '');
+
     this.currentId = id;
     for (const l of this.listeners) l(id);
     // Scroll the focused element into view, leaving the TopNav visible above.
-    if (id !== null) {
-      const e = this.entries.get(id);
-      if (e?.el && typeof e.el.scrollIntoView === 'function') {
-        e.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-      }
+    if (newEntry?.el && typeof newEntry.el.scrollIntoView === 'function') {
+      newEntry.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     }
   }
 

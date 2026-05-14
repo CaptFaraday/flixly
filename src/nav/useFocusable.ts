@@ -58,11 +58,14 @@ export function useFocusable(opts: Options = {}) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  // Note: we deliberately do NOT read `focusedId.value` here. Doing so would
+  // subscribe every focusable to the focusedId signal and force a Preact
+  // re-render of all ~80 components on every D-pad press, just to update one
+  // attribute on one element. The `data-focused` attribute is now toggled
+  // imperatively in spatial.ts:setFocus, which is O(2) DOM writes per move.
   return {
     ref,
-    focused: focusedId.value === id,
     'data-focusable': id,
-    'data-focused': focusedId.value === id ? '' : undefined,
     'data-testid': id,
   };
 }
