@@ -5,9 +5,9 @@ import { settings, recordResume, resumePositions } from '../state/store';
 import { useFocusable } from '../nav/useFocusable';
 import { ensureCapabilities } from '../sources/capabilities';
 import { fetchTorrentioCandidates } from '../sources/torrentio';
+import { deleteTorrentByHash, checkCached } from '../sources/torbox';
 import { rankAll, type PickReason } from '../sources/picker';
 import type { StreamCandidate } from '../types';
-import { buildMediaOption } from '../native/webos-media';
 import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetchSubtitlesByImdb, pickBestSubForRip, scoreSubMatch } from '../subtitles/opensubtitles';
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
@@ -19,7 +19,7 @@ type State =
 
 const REASON_TEXT: Record<PickReason | 'rd_error' | 'no_streams' | 'unknown', string> = {
   no_cached: 'No cached versions on Real-Debrid right now. Try again later.',
-  no_compatible_codec: 'All cached versions use a video codec your TV can\'t play in the browser (likely H.265). Try a different title.',
+  no_compatible_codec: 'All cached versions use a codec your TV can\'t play. Most often this is DTS or TrueHD audio (LG dropped DTS licensing on 2020+ models). Try a different title.',
   no_compatible_audio: 'All cached versions use an audio codec your TV can\'t play (e.g. DTS or TrueHD). Try a different title.',
   no_acceptable_language: 'No cached version with the right audio language. Try changing Audio Language in Settings.',
   no_acceptable_bitrate: 'All cached versions are too high-bitrate for your network right now. Try again later.',
@@ -60,13 +60,48 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
 
         setState({ kind: 'preparing', step: 'fetching sources' });
         const tFetchStart = performance.now();
-        const [candidates, subLangs] = await Promise.all([
+        const [rawCandidates, subLangs] = await Promise.all([
           fetchTorrentioCandidates(movie.imdb_id, { torbox: s.torbox_api_key, realdebrid: s.rd_api_key }),
           preflightSubtitles(movie.imdb_id),
         ]);
         tStage.fetchCandidatesAndSubLangs = Math.round(performance.now() - tFetchStart);
         if (cancelled) return;
-        if (candidates.length === 0) { setState({ kind: 'error', reason: 'no_streams' }); return; }
+        if (rawCandidates.length === 0) { setState({ kind: 'error', reason: 'no_streams' }); return; }
+
+        // Real-time cache verification against TorBox. Torrentio's
+        // `cachedonly=true` filter relies on its own scraper DB which may
+        // be hours/days stale; TorBox's `/checkcached` endpoint is the
+        // ground truth ("which hashes would stream right now without
+        // queueing"). Filtering here eliminates the 30-sec "downloading
+        // to debrid" placeholder at its source, AND prevents zombie queue
+        // entries because we never trigger createtorrent on uncached hashes.
+        // Bonus: TorBox returns real per-file sizes, more accurate than
+        // Torrentio's videoSize (which is whole-torrent size) for picker
+        // decisions.
+        let candidates = rawCandidates;
+        if (s.torbox_api_key) {
+          const tCheckStart = performance.now();
+          const cached = await checkCached(rawCandidates.map((c) => c.hash), s.torbox_api_key);
+          if (cancelled) return;
+          tStage.checkCached = Math.round(performance.now() - tCheckStart);
+          if (cached.size > 0) {
+            candidates = rawCandidates
+              .filter((c) => cached.has(c.hash.toLowerCase()))
+              .map((c) => {
+                const entry = cached.get(c.hash.toLowerCase());
+                const realBytes = entry?.bestVideoFile?.size;
+                return realBytes && realBytes > 0 ? { ...c, bytes: realBytes } : c;
+              });
+          }
+          // If cached.size === 0 the API call failed (or nothing was cached);
+          // fall through to unfiltered candidates and let multi-candidate
+          // fallback do its job — better than an error screen on transient
+          // TorBox issues.
+          if (candidates.length === 0) {
+            setState({ kind: 'error', reason: 'no_cached', detail: 'No candidates are actually cached on TorBox right now.' });
+            return;
+          }
+        }
 
         const subsAvailable = subLangs.includes(s.audio_language) || subLangs.includes('en');
         const result = rankAll(
@@ -200,8 +235,9 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     const v = videoRef.current;
     if (!v) return;
     const advance = (detail: string) => {
-      console.warn('[flixly:player] candidate', state.index, 'failed:', detail, picks[state.index]?.filename);
-      failuresRef.current.push({ index: state.index, filename: picks[state.index]?.filename ?? '?', detail });
+      const failed = picks[state.index];
+      console.warn('[flixly:player] candidate', state.index, 'failed:', detail, failed?.filename);
+      failuresRef.current.push({ index: state.index, filename: failed?.filename ?? '?', detail });
       // Mirror to window so we can read the full failure log via CDP without
       // waiting for the all-failed error screen.
       try {
@@ -212,6 +248,14 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
           ts: Date.now(),
         };
       } catch { /* */ }
+      // Clean up the TorBox queue entry this candidate created. Without
+      // this, the user's 3 active slots fill with zombies and TorBox
+      // starts serving the "torrent is being downloaded" placeholder for
+      // every new playback. Fire-and-forget — must not block fallback.
+      const apiKey = settings.value.torbox_api_key;
+      if (apiKey && failed?.hash) {
+        deleteTorrentByHash(failed.hash, apiKey).catch(() => { /* swallowed inside */ });
+      }
       setPickIndex((i) => i + 1);
     };
     const onError = () => {
@@ -232,11 +276,35 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         advance(`duration ${Math.round(actualSec)}s vs expected ${expectedSec}s — likely RD copyright placeholder`);
       }
     };
+    // Hang timer: a dead CDN that accepts the TCP handshake but never sends
+    // bytes will spin forever without firing error or loadedmetadata. Arm
+    // on loadstart, clear on either resolution event, advance if it fires.
+    let hangTimer: number | null = null;
+    const HANG_TIMEOUT_MS = 20_000;
+    const armHang = () => {
+      if (hangTimer != null) window.clearTimeout(hangTimer);
+      hangTimer = window.setTimeout(() => {
+        hangTimer = null;
+        advance(`hang: no metadata in ${HANG_TIMEOUT_MS / 1000}s`);
+      }, HANG_TIMEOUT_MS);
+    };
+    const clearHang = () => {
+      if (hangTimer != null) { window.clearTimeout(hangTimer); hangTimer = null; }
+    };
+    const onLoadStartForHang = () => armHang();
+    const onLoadedMetadataClearHang = () => clearHang();
     v.addEventListener('error', onError);
     v.addEventListener('loadedmetadata', onLoadedMetadata);
+    v.addEventListener('loadstart', onLoadStartForHang);
+    v.addEventListener('loadedmetadata', onLoadedMetadataClearHang);
+    v.addEventListener('error', clearHang);
     return () => {
+      clearHang();
       v.removeEventListener('error', onError);
       v.removeEventListener('loadedmetadata', onLoadedMetadata);
+      v.removeEventListener('loadstart', onLoadStartForHang);
+      v.removeEventListener('loadedmetadata', onLoadedMetadataClearHang);
+      v.removeEventListener('error', clearHang);
     };
   }, [state, picks, movie.runtime]);
 
@@ -247,6 +315,15 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     if (!v) return;
     const flush = () => {
       if (v.currentTime > 0 && v.duration > 0 && v.currentTime < v.duration * 0.95) {
+        // Don't record resume from placeholder playback. If the loaded media
+        // is dramatically shorter than the expected runtime (e.g. a 30-sec
+        // "torrent is being downloaded" notice instead of a 109-min film),
+        // saving "you watched 25s of a 30s file" pollutes the resume store
+        // and worse, makes useMediaOption=true on the next candidate render —
+        // which switches <video src> to <source> and the new candidate's URL
+        // is never loaded.
+        const expectedSec = movie.runtime * 60;
+        if (expectedSec > 0 && v.duration < expectedSec * 0.5) return;
         recordResume(movie.imdb_id, v.currentTime, v.duration || movie.runtime * 60, movie);
       }
     };
@@ -256,6 +333,20 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       flush();
     };
   }, [state.kind, movie.imdb_id, movie.runtime]);
+
+  // After React swaps state.stream.url, force the video element to actually
+  // pick up the new source. Setting the `src` attribute to a new value
+  // triggers an auto-reload, but switching between `<video src>` and
+  // `<video><source>` forms (which we do for resume vs fresh plays) does
+  // NOT — the element keeps showing the previously loaded media. Without
+  // this, multi-candidate fallback advances state but the user keeps
+  // seeing the old (placeholder) source forever.
+  useEffect(() => {
+    if (state.kind !== 'playing') return;
+    const v = videoRef.current;
+    if (!v) return;
+    v.load();
+  }, [state.kind === 'playing' ? state.stream.url : '']);
 
   // Apply resume position when metadata loads, then start playback when
   // the browser's media pipeline reports it can play. Per LG webOS docs and
@@ -470,45 +561,28 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       </div>
     );
   }
-  // mediaOption tells webOS's native pipeline to pre-stage at the resume
-  // position (skipping the standard "buffer-from-zero, then seek to resume,
-  // re-buffer" round trip). Only useful for actual resumes — for fresh
-  // plays we use the simpler <video src> form which webOS bridges to its
-  // native pipeline transparently.
-  //
-  // CRITICAL: we always use 'video/mp4' as the MIME prefix even for MKV,
-  // because canPlayType('video/x-matroska') returns "" on Chromium 79
-  // and the browser rejects the <source> element BEFORE the bridged
-  // pipeline gets a chance to play it (networkState=3 NETWORK_NO_SOURCE).
-  // LG's own mediaOption sample uses video/mp4 unconditionally — the
-  // bridged pipeline picks the decoder from magic bytes, not MIME.
-  const resume = state.stream && resumePositions.value[movie.imdb_id];
-  const startPositionSec = resume && resume.position_seconds < resume.duration_seconds * 0.95
-    ? resume.position_seconds
-    : 0;
-  const useMediaOption = startPositionSec > 0;
+  // Always use the bare `<video src>` form. The mediaOption-on-<source>
+  // optimization for resume turns out to be unusable here: Chromium 79's
+  // canPlayType rejects any MIME with the `;mediaOption=...` codec param
+  // (it can't parse the param at the HTML layer, and pre-rejection happens
+  // before the native bridge sees it), so the resume <source> always errors
+  // with "Empty src attribute". Resume position is applied in JS instead
+  // (see the loadedmetadata effect above — v.currentTime = resume position).
+  // We pay ~500ms more on the resume seek vs native pre-staging, but we
+  // gain: src-attribute auto-reload on candidate switch, no canPlayType
+  // pitfalls, no <source>/src form-switch race during multi-candidate
+  // fallback.
 
   return (
     <>
       <video
         ref={videoRef}
-        // For fresh plays: bare src on the <video> element. Proven to work
-        // through the webOS native bridge for every container we support.
-        // For resume plays: we render a <source> child with mediaOption
-        // attached and leave src unset.
-        src={useMediaOption ? undefined : state.stream.url}
+        src={state.stream.url}
         className="player__video"
         data-screen="player"
         preload="auto"
-        crossOrigin="anonymous"
-      >
-        {useMediaOption && (
-          <source
-            src={state.stream.url}
-            type={`video/mp4;mediaOption=${buildMediaOption({ start: startPositionSec })}`}
-          />
-        )}
-      </video>
+      />
+
       <PlayerControls videoRef={videoRef} title={movie.title} onClose={onClose} />
     </>
   );
