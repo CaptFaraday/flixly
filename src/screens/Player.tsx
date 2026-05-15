@@ -7,6 +7,7 @@ import { ensureCapabilities } from '../sources/capabilities';
 import { fetchTorrentioCandidates } from '../sources/torrentio';
 import { rankAll, type PickReason } from '../sources/picker';
 import type { StreamCandidate } from '../types';
+import { buildMediaOption } from '../native/webos-media';
 import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetchSubtitlesByImdb, pickBestSubForRip, scoreSubMatch } from '../subtitles/opensubtitles';
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
@@ -324,6 +325,13 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         }
       }
       if (target < 0) return;
+      // HTMLMediaElement audioTracks API only. We previously also called
+      // Luna selectTrack defensively, but Jellyfin (the canonical webOS app)
+      // uses HTMLMediaElement exclusively, LG discourages direct Luna calls,
+      // and we have no evidence Luna is more reliable for our case. If
+      // audio-track-selection bugs surface in practice, the right move is
+      // to mirror Jellyfin's approach (re-routing the stream with a new
+      // audio index), not to add Luna.
       for (let i = 0; i < tracks.length; i++) tracks[i].enabled = (i === target);
     };
     v.addEventListener('loadedmetadata', onLoaded);
@@ -392,6 +400,14 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         try { (window as any).__flixlyLastSubs = diag; } catch { /* */ }
         console.log('[flixly:subs]', diag);
         if (!chosen) return;
+
+        // HTML <track> + WebVTT blob path. We previously tried Luna
+        // setSubtitleSource for hardware rendering, but verification against
+        // community consensus came up empty: LG's own gist explicitly
+        // discourages direct com.webos.media use, the canonical webOS app
+        // (jellyfin-webos) uses <track> not Luna for subtitles, and the
+        // native pipeline reportedly only accepts WebVTT (we send SRT).
+        // Sticking with the proven path.
         blobUrl = await srtUrlToVttBlobUrl(chosen.url);
         if (cancelled) { URL.revokeObjectURL(blobUrl); return; }
         trackEl = document.createElement('track');
@@ -454,16 +470,34 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       </div>
     );
   }
+  // mediaOption tells webOS's native pipeline to pre-stage at this exact
+  // start position (skipping the standard "buffer-from-zero, then seek to
+  // resume position, re-buffer" round trip). For first-time plays where
+  // resume position = 0, it's a no-op; for resume cases it shaves a real
+  // chunk of startup time. Embedded in <source type="..."> per LG's
+  // "Resuming Media Quickly with mediaOption" guide.
+  const resume = state.stream && resumePositions.value[movie.imdb_id];
+  const startPosition = resume && resume.position_seconds < resume.duration_seconds * 0.95
+    ? resume.position_seconds
+    : 0;
+  const mediaOptionStr = buildMediaOption({ start: startPosition });
+  // Match the file extension to pick a usable MIME prefix. webOS is lenient
+  // about the prefix (it picks decoder by sniffing), but we honor it where
+  // we can.
+  const ext = state.stream.filename.toLowerCase().split('.').pop() || 'mp4';
+  const mime = ext === 'mkv' ? 'video/x-matroska' : ext === 'webm' ? 'video/webm' : 'video/mp4';
+
   return (
     <>
       <video
         ref={videoRef}
-        src={state.stream.url}
         className="player__video"
         data-screen="player"
         preload="auto"
         crossOrigin="anonymous"
-      />
+      >
+        <source src={state.stream.url} type={`${mime};mediaOption=${mediaOptionStr}`} />
+      </video>
       <PlayerControls videoRef={videoRef} title={movie.title} onClose={onClose} />
     </>
   );
