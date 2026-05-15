@@ -6,6 +6,7 @@ import type { Movie } from '../types';
 import { toggleWatchlist, watchlist, settings } from '../state/store';
 import { fetchTorrentioCandidates } from '../sources/torrentio';
 import { fetchSubtitlesByImdb } from '../subtitles/opensubtitles';
+import { recordAvailability, getAvailability } from '../state/availability';
 
 interface Props {
   movie: Movie;
@@ -27,9 +28,19 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
   // real; the benefit didn't materialize.
   useEffect(() => {
     const s = settings.value;
-    void fetchTorrentioCandidates(movie.imdb_id, { torbox: s.torbox_api_key, realdebrid: s.rd_api_key });
+    void fetchTorrentioCandidates(movie.imdb_id, { torbox: s.torbox_api_key, realdebrid: s.rd_api_key })
+      .then((candidates) => {
+        // Record availability for the "Not Available Yet" badge so posters
+        // elsewhere in the app can render the state without each card
+        // re-hitting Torrentio.
+        const hasPlayable = candidates.some((c) => c.directUrl);
+        recordAvailability(movie.imdb_id, hasPlayable);
+      })
+      .catch(() => { /* */ });
     if (s.require_subtitles) void fetchSubtitlesByImdb(movie.imdb_id, 'eng');
   }, [movie.imdb_id]);
+
+  const availabilityState = getAvailability(movie.imdb_id);
 
   const playBtn = useFocusable({ id: 'detail-play', onActivate: onPlay, autofocus: true });
   const watchBtn = useFocusable({ id: 'detail-watch', onActivate: () => toggleWatchlist(movie.imdb_id) });
@@ -45,6 +56,9 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
       </div>
       <div className="detail__content">
         <h1 className="detail__title">{movie.title}</h1>
+        {availabilityState === 'unavailable' && (
+          <div className="detail__not-available">Not Available Yet</div>
+        )}
         <div className="detail__meta">
           <span className="detail__meta-item">{movie.year}</span>
           <span className="detail__meta-item">{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>

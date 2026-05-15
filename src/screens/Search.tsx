@@ -51,6 +51,11 @@ export function Search({ onNavigate, onSelectMovie }: Props) {
     return () => { if (debounceRef.current != null) window.clearTimeout(debounceRef.current); };
   }, [query]);
 
+  // DISABLED — same reason as Home/Library/Collection. Was likely
+  // contributing to TorBox rate-limiting / slot saturation that broke
+  // playback. Search results now show without availability badges
+  // until the user opens Detail for a specific result.
+
   const handleSelectResult = async (m: Movie) => {
     if (hydrating) return;
     setHydrating(true);

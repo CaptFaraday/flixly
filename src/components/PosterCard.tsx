@@ -1,6 +1,7 @@
 import './PosterCard.css';
 import { useFocusable } from '../nav/useFocusable';
 import type { Movie } from '../types';
+import { getAvailability } from '../state/availability';
 
 interface Props {
   movie: Movie;
@@ -18,10 +19,18 @@ export function PosterCard({ movie, rowId, onActivate, progress, autofocus }: Pr
   // lit up every result simultaneously via `data-focused`.
   const cardId = movie.imdb_id || String(movie.tmdb_id);
   const { ref, ...rest } = useFocusable({ onActivate, id: `poster-${rowId}-${cardId}`, autofocus });
+  // Show "Not Available Yet" badge only when we've confirmed the movie has
+  // no playable cached streams. Default state ('unknown' or 'available') is
+  // no badge — we don't preemptively guess. Cache populated by Detail
+  // pre-fetch, persisted to localStorage with a 24h TTL.
+  const isUnavailable = getAvailability(movie.imdb_id) === 'unavailable';
   return (
     <div ref={ref as any} {...rest} className="poster">
       <div className="poster__inner">
         <img src={movie.poster} alt="" className="poster__img" loading="lazy" decoding="async" />
+        {isUnavailable && (
+          <div className="poster__not-available-badge">Not Available Yet</div>
+        )}
         <div className="poster__info">
           <div className="poster__title">{movie.title}</div>
           <div className="poster__meta">

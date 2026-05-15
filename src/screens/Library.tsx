@@ -41,6 +41,9 @@ export function Library({ onNavigate, onSelectMovie }: Props) {
     .map((id) => findMovie(rows, id))
     .filter((m): m is Movie => !!m);
 
+  // DISABLED — see Home.tsx for the rationale. Was likely contributing
+  // to TorBox rate-limiting / slot saturation that broke playback.
+
   return (
     <>
       <TopNav current="library" onNavigate={onNavigate} />

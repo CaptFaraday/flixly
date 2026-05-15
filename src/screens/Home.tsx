@@ -26,6 +26,22 @@ export function Home({ onNavigate, onSelectMovie, onSelectCollection }: Props) {
       .catch((e) => setError(String(e instanceof Error ? e.message : e)));
   }, []);
 
+  // DISABLED: background availability sweep was burning TorBox quota /
+  // potentially saturating slots — Home alone fires ~60 Torrentio queries,
+  // each of which checks TorBox's cache for ~30 hashes (so ~1800
+  // cache-check requests per Home load). Caused playback to start
+  // returning "this torrent is being downloaded" messages, suggesting
+  // either TorBox rate-limiting or the cache-query traffic was
+  // triggering slot allocation.
+  //
+  // Availability cache is still populated by Detail mount (the original
+  // path), so badges appear for movies you've actually visited — just
+  // not for ones you haven't seen yet.
+  //
+  // To re-enable safely, we'd need to either: limit to TorBox-paid-tier
+  // budget, do batch cache lookups (not per-movie), or move to a
+  // backend cron that bakes stream_status into rows.json.
+
   if (error && !data) {
     return (
       <>

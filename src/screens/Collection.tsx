@@ -14,6 +14,7 @@ export function Collection({ collection, onNavigate, onSelectMovie }: Props) {
   const cfg = BRAND_CONFIG[collection.id];
   const bg = cfg?.bg ?? '#161616';
 
+
   return (
     <>
       <TopNav current="home" onNavigate={onNavigate} />

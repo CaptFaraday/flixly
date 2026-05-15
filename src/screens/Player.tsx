@@ -470,33 +470,44 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       </div>
     );
   }
-  // mediaOption tells webOS's native pipeline to pre-stage at this exact
-  // start position (skipping the standard "buffer-from-zero, then seek to
-  // resume position, re-buffer" round trip). For first-time plays where
-  // resume position = 0, it's a no-op; for resume cases it shaves a real
-  // chunk of startup time. Embedded in <source type="..."> per LG's
-  // "Resuming Media Quickly with mediaOption" guide.
+  // mediaOption tells webOS's native pipeline to pre-stage at the resume
+  // position (skipping the standard "buffer-from-zero, then seek to resume,
+  // re-buffer" round trip). Only useful for actual resumes — for fresh
+  // plays we use the simpler <video src> form which webOS bridges to its
+  // native pipeline transparently.
+  //
+  // CRITICAL: we always use 'video/mp4' as the MIME prefix even for MKV,
+  // because canPlayType('video/x-matroska') returns "" on Chromium 79
+  // and the browser rejects the <source> element BEFORE the bridged
+  // pipeline gets a chance to play it (networkState=3 NETWORK_NO_SOURCE).
+  // LG's own mediaOption sample uses video/mp4 unconditionally — the
+  // bridged pipeline picks the decoder from magic bytes, not MIME.
   const resume = state.stream && resumePositions.value[movie.imdb_id];
-  const startPosition = resume && resume.position_seconds < resume.duration_seconds * 0.95
+  const startPositionSec = resume && resume.position_seconds < resume.duration_seconds * 0.95
     ? resume.position_seconds
     : 0;
-  const mediaOptionStr = buildMediaOption({ start: startPosition });
-  // Match the file extension to pick a usable MIME prefix. webOS is lenient
-  // about the prefix (it picks decoder by sniffing), but we honor it where
-  // we can.
-  const ext = state.stream.filename.toLowerCase().split('.').pop() || 'mp4';
-  const mime = ext === 'mkv' ? 'video/x-matroska' : ext === 'webm' ? 'video/webm' : 'video/mp4';
+  const useMediaOption = startPositionSec > 0;
 
   return (
     <>
       <video
         ref={videoRef}
+        // For fresh plays: bare src on the <video> element. Proven to work
+        // through the webOS native bridge for every container we support.
+        // For resume plays: we render a <source> child with mediaOption
+        // attached and leave src unset.
+        src={useMediaOption ? undefined : state.stream.url}
         className="player__video"
         data-screen="player"
         preload="auto"
         crossOrigin="anonymous"
       >
-        <source src={state.stream.url} type={`${mime};mediaOption=${mediaOptionStr}`} />
+        {useMediaOption && (
+          <source
+            src={state.stream.url}
+            type={`video/mp4;mediaOption=${buildMediaOption({ start: startPositionSec })}`}
+          />
+        )}
       </video>
       <PlayerControls videoRef={videoRef} title={movie.title} onClose={onClose} />
     </>
