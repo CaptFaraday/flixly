@@ -10,5 +10,6 @@
   "iconColor": "red",
   "appDescription": "Flixly — your movies",
   "resolution": "1920x1080",
-  "uiRevision": 2
+  "uiRevision": 2,
+  "disableBackHistoryAPI": true
 }
