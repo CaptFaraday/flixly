@@ -561,17 +561,26 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
       </div>
     );
   }
-  // Always use the bare `<video src>` form. The mediaOption-on-<source>
-  // optimization for resume turns out to be unusable here: Chromium 79's
-  // canPlayType rejects any MIME with the `;mediaOption=...` codec param
-  // (it can't parse the param at the HTML layer, and pre-rejection happens
-  // before the native bridge sees it), so the resume <source> always errors
-  // with "Empty src attribute". Resume position is applied in JS instead
-  // (see the loadedmetadata effect above — v.currentTime = resume position).
-  // We pay ~500ms more on the resume seek vs native pre-staging, but we
-  // gain: src-attribute auto-reload on candidate switch, no canPlayType
-  // pitfalls, no <source>/src form-switch race during multi-candidate
-  // fallback.
+  // Always use the bare `<video src>` form for the current implementation.
+  //
+  // mediaOption IS supported per LG's official guide
+  // (https://webostv.developer.lge.com/develop/guides/mediaoption-parameter) —
+  // the webOS-vendored Chromium 79 strips `;mediaOption=...` before canPlayType
+  // evaluation and forwards the JSON payload to the native pipeline. Earlier
+  // attempts to use it caused "Empty src attribute" failures, but that turned
+  // out to be resume contamination from placeholder playback, not mediaOption
+  // rejection. The Simulator does reject the suffix; only real HW handles it.
+  //
+  // We're using the bare form anyway because:
+  // (a) src-attribute changes auto-reload via React's reconciler, simpler for
+  //     multi-candidate fallback than form-switching between <source> and src;
+  // (b) Resume seek via `v.currentTime = ...` on loadedmetadata works fine
+  //     (~500ms slower than native pre-staging but invisible at TV scale).
+  //
+  // Re-introducing mediaOption as a resume optimization is a Bundle B task.
+  // If/when we do: use LG's exact syntax — `encodeURI(JSON.stringify(options))`
+  // (not bare JSON), `option.transmission.playTime.start` in MILLISECONDS,
+  // and set it via `source.setAttribute('type', 'video/mp4;mediaOption=' + …)`.
 
   return (
     <>
