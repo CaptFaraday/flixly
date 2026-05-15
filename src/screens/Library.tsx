@@ -25,8 +25,11 @@ export function Library({ onNavigate, onSelectMovie }: Props) {
     .filter((r) => r.duration_seconds > 0 && r.position_seconds / r.duration_seconds < FINISHED_THRESHOLD)
     .sort((a, b) => b.updated_at - a.updated_at);
 
+  // Prefer the snapshot stored on the resume entry itself (covers movies
+  // that were watched via search but never appeared in rows.json). Fall
+  // back to rows.json lookup for legacy entries that pre-date the snapshot.
   const continueWatching: Movie[] = resumeEntries
-    .map((r) => findMovie(rows, r.imdb_id))
+    .map((r) => r.movie ?? findMovie(rows, r.imdb_id))
     .filter((m): m is Movie => !!m);
 
   const progressMap: Record<string, number> = Object.fromEntries(

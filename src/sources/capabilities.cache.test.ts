@@ -79,7 +79,7 @@ describe('ensureCapabilities', () => {
     expect(caps).toEqual(cached);
   });
 
-  it('re-probes bandwidth when the cache is older than 30 minutes', async () => {
+  it('re-probes bandwidth when the cache is older than the bandwidth TTL', async () => {
     const fakeBlob = new ArrayBuffer(5_000_000);
     const fetchSpy = vi.fn().mockResolvedValue(new Response(fakeBlob));
     globalThis.fetch = fetchSpy as any;
@@ -93,7 +93,7 @@ describe('ensureCapabilities', () => {
         av1: false, aac: true, ac3: false, eac3: false,
       },
       bandwidthMbps: 999,
-      probedAt: 1_000_000_000_000 - (31 * 60 * 1000), // 31 minutes ago
+      probedAt: 1_000_000_000_000 - (7 * 60 * 60 * 1000), // 7 hours ago — beyond the 6-hour TTL
     };
     localStorage.setItem(CACHE_KEY, JSON.stringify(cached));
 
@@ -140,7 +140,7 @@ describe('ensureCapabilities', () => {
         av1: false, aac: true, ac3: false, eac3: false,
       },
       bandwidthMbps: 42,
-      probedAt: 1_000_000_000_000 - (31 * 60 * 1000), // stale → triggers re-probe
+      probedAt: 1_000_000_000_000 - (7 * 60 * 60 * 1000), // 7 hours ago, beyond TTL → triggers re-probe
     };
     localStorage.setItem(CACHE_KEY, JSON.stringify(cached));
 

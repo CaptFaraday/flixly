@@ -8,6 +8,7 @@
   },
   "mutate": [
     "src/nav/spatial.ts",
+    "src/nav/useFocusable.ts",
     "src/sources/parse-name.ts",
     "src/sources/picker.ts",
     "src/sources/capabilities.ts",

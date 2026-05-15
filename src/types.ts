@@ -61,6 +61,11 @@ export interface StreamCandidate {
   bytes: number;
   seeds: number;
   parsed: ParsedName;
+  // When Torrentio is configured with the user's RD key, the response
+  // includes a resolver URL we can hand straight to the <video> element
+  // (it 302-redirects to a time-limited RD CDN URL). Skips the
+  // addMagnet → selectFiles → unrestrict round-trip entirely.
+  directUrl?: string;
 }
 
 export interface RDStream {
@@ -85,7 +90,13 @@ export interface Capabilities {
 }
 
 export interface Settings {
+  // Real-Debrid: kept for backward compat / fallback. RD's May 2026 filter-gate
+  // makes it largely unusable for new content, but existing users may still
+  // want it for niche cached files TorBox doesn't have.
   rd_api_key: string;
+  // TorBox: the primary debrid backend going forward. When set, takes
+  // precedence over rd_api_key in the picker pipeline.
+  torbox_api_key: string;
   prefer_4k: boolean;
   audio_language: 'en' | 'es' | 'fr' | 'de' | 'ja' | 'any';
   require_subtitles: boolean;
@@ -96,4 +107,9 @@ export interface ResumePosition {
   position_seconds: number;
   duration_seconds: number;
   updated_at: number;          // epoch ms
+  // Movie metadata snapshot stored at resume time so Library can render
+  // Continue Watching without depending on rows.json (which only contains
+  // a curated subset — search results / library additions might not be in it).
+  // Optional for backward compat with pre-snapshot resume entries.
+  movie?: Movie;
 }

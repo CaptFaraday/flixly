@@ -115,9 +115,9 @@ describe('localStorage persistence', () => {
     // same parser shape and verify.
 
     it('settings round-trip via JSON', () => {
-      settings.value = { rd_api_key: 'abc', prefer_4k: true, audio_language: 'ja', require_subtitles: false };
+      settings.value = { rd_api_key: 'abc', torbox_api_key: 'tb', prefer_4k: true, audio_language: 'ja', require_subtitles: false };
       const stored = JSON.parse(localStorage.getItem('settings-v1') ?? '{}');
-      expect(stored).toEqual({ rd_api_key: 'abc', prefer_4k: true, audio_language: 'ja', require_subtitles: false });
+      expect(stored).toEqual({ rd_api_key: 'abc', torbox_api_key: 'tb', prefer_4k: true, audio_language: 'ja', require_subtitles: false });
     });
 
     it('watchlist round-trip via JSON', () => {

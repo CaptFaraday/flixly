@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { TopNav } from '../components/TopNav';
 import { Keyboard } from '../components/Keyboard';
 import { PosterGrid } from '../components/PosterGrid';
-import { searchMovies, hydrateImdbId } from '../data/tmdb';
+import { searchMovies, hydrateMovie } from '../data/tmdb';
 import type { Movie } from '../types';
 
 interface Props {
@@ -55,12 +55,12 @@ export function Search({ onNavigate, onSelectMovie }: Props) {
     if (hydrating) return;
     setHydrating(true);
     try {
-      const imdbId = await hydrateImdbId(m.tmdb_id);
-      if (!imdbId) {
+      const full = await hydrateMovie(m);
+      if (!full) {
         setError(`Couldn't open — TMDb doesn't have an IMDb mapping for "${m.title}".`);
         return;
       }
-      onSelectMovie({ ...m, imdb_id: imdbId });
+      onSelectMovie(full);
     } finally {
       setHydrating(false);
     }

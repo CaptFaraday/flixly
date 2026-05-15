@@ -11,6 +11,7 @@ export function Settings({ onNavigate }: { onNavigate: (to: 'home' | 'search' | 
       <TopNav current="settings" onNavigate={onNavigate} />
       <div className="settings" data-screen="settings">
         <h1 className="settings__title">Settings</h1>
+        <TorboxKeyField value={s.torbox_api_key} />
         <RDKeyField value={s.rd_api_key} />
         <ToggleField label="Prefer 4K when available" value={s.prefer_4k} onChange={(v) => setSetting('prefer_4k', v)} />
         <SelectField
@@ -29,19 +30,36 @@ export function Settings({ onNavigate }: { onNavigate: (to: 'home' | 'search' | 
   );
 }
 
+function TorboxKeyField({ value }: { value: string }) {
+  const { ref, ...rest } = useFocusable({
+    id: 'set-torbox-key',
+    autofocus: true,
+    onActivate: () => {
+      const next = window.prompt('TorBox API key', value);
+      if (next != null) setSetting('torbox_api_key', next.trim());
+    },
+  });
+  const masked = value ? `${value.slice(0, 4)}…${value.slice(-4)}` : '(not set)';
+  return (
+    <div className="settings__field">
+      <div className="settings__label">TorBox API key (primary)</div>
+      <div ref={ref as any} {...rest} className="settings__value">{masked}</div>
+    </div>
+  );
+}
+
 function RDKeyField({ value }: { value: string }) {
   const { ref, ...rest } = useFocusable({
     id: 'set-rd-key',
-    autofocus: true,
     onActivate: () => {
-      const next = window.prompt('Real-Debrid API key', value);
+      const next = window.prompt('Real-Debrid API key (legacy fallback)', value);
       if (next != null) setSetting('rd_api_key', next.trim());
     },
   });
   const masked = value ? `${value.slice(0, 4)}…${value.slice(-4)}` : '(not set)';
   return (
     <div className="settings__field">
-      <div className="settings__label">Real-Debrid API key</div>
+      <div className="settings__label">Real-Debrid API key (fallback)</div>
       <div ref={ref as any} {...rest} className="settings__value">{masked}</div>
     </div>
   );

@@ -38,6 +38,37 @@ export async function hydrateImdbId(tmdbId: number): Promise<string | null> {
   }
 }
 
+/**
+ * Fetch the full TMDb movie record (runtime, cast, director, genres, imdb_id)
+ * in one call. Search results are sparse — TMDb's /search endpoint only
+ * returns title/year/poster/overview, not runtime or credits. Without this
+ * the Detail screen shows "0h 0m" and the player's placeholder-detection
+ * threshold falls back to the loose absolute 5-minute rule.
+ */
+export async function hydrateMovie(base: Movie): Promise<Movie | null> {
+  const url = `${BASE}/movie/${base.tmdb_id}?api_key=${encodeURIComponent(getApiKey())}&append_to_response=external_ids,credits`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const data = await r.json();
+    const imdb_id = data.external_ids?.imdb_id ?? '';
+    if (!imdb_id) return null;  // can't play without an IMDb ID anyway
+    const director = (data.credits?.crew ?? []).find((c: any) => c.job === 'Director')?.name;
+    const cast = (data.credits?.cast ?? []).slice(0, 8).map((c: any) => c.name);
+    return {
+      ...base,
+      imdb_id,
+      runtime: Number(data.runtime) || base.runtime,
+      genres: (data.genres ?? []).map((g: any) => g.name),
+      director,
+      cast,
+      overview: data.overview || base.overview,
+    };
+  } catch {
+    return null;
+  }
+}
+
 function tmdbToMovie(r: any): Movie {
   return {
     imdb_id: '',

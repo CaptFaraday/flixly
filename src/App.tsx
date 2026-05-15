@@ -24,6 +24,7 @@ declare global {
       watchlistCount: number;
       resumeCount: number;
       hasRdKey: boolean;
+      hasTorboxKey: boolean;
     };
   }
 }
@@ -92,6 +93,7 @@ if (typeof window !== 'undefined') {
       watchlistCount: watchlist.value.length,
       resumeCount: Object.keys(resumePositions.value).length,
       hasRdKey: !!settings.value.rd_api_key,
+      hasTorboxKey: !!settings.value.torbox_api_key,
     };
   });
 }

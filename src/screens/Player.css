@@ -51,3 +51,82 @@
   height: 100vh;
   background: #000;
 }
+
+/* TV control overlay — large hit targets, generous safe-zone padding,
+   readable from across the room. Bottom + top gradient strips keep the
+   middle of the screen clear so subtitles + faces stay visible. */
+.player__controls {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 100;
+  font-family: var(--font-display);
+  color: var(--text);
+}
+
+.player__title-bar {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+  padding: 48px 80px 96px;
+  pointer-events: auto;
+}
+.player__movie-title {
+  font-size: 38px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.4px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+}
+
+.player__bottom {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.88) 0%, transparent 100%);
+  padding: 96px 80px 56px;
+  pointer-events: auto;
+}
+
+.player__progress-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.player__progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+}
+.player__time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+
+.player__buttons {
+  display: flex;
+  align-items: center;
+}
+/* Margin between buttons (Chromium 79 lacks flex `gap`). */
+.player__buttons > * + * {
+  margin-left: 24px;
+}
+
+.player__btn {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 16px 32px;
+  background: rgba(28, 28, 32, 0.92);
+  border: 1px solid rgba(240, 236, 228, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
