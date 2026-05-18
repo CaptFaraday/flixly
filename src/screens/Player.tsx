@@ -12,7 +12,6 @@ import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetch
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
 import { awaitCanPlay } from './awaitCanPlay';
-import { installPlaybackKeepalive } from './playbackKeepalive';
 import { useStreamingSource } from '../streaming/useStreamingSource';
 
 type State =
@@ -363,19 +362,6 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     if (!v) return;
     v.load();
   }, [state.kind === 'playing' ? state.stream.url : '']);
-
-  // Keep the webOS native pipeline from silently dropping its TCP connection.
-  // After it fills the ~30 s buffer it throttles reads and the socket to the
-  // TorBox CDN dies inside ~80 s — playback freezes with no error event.
-  // A periodic tiny backward seek forces fresh Range requests and keeps the
-  // connection alive. Verified on-device: -0.5 s every 25 s sustained
-  // playback for 5+ minutes vs the ~80 s pre-stall baseline.
-  useEffect(() => {
-    if (state.kind !== 'playing') return;
-    const v = videoRef.current;
-    if (!v) return;
-    return installPlaybackKeepalive(v);
-  }, [state.kind, movie.imdb_id]);
 
   // Apply resume position when metadata loads, then start playback when
   // the browser's media pipeline reports it can play. Per LG webOS docs and
