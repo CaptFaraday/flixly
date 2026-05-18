@@ -50,8 +50,18 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   // playback at the first appended segment's timestamp, no separate
   // currentTime seek required.
   const playingUrl = state.kind === 'playing' ? state.stream.url : '';
-  const resumeSeconds = resumePositions.value[movie.imdb_id]?.position_seconds;
-  const startTimeSeconds = resumeSeconds && resumeSeconds > 5 ? resumeSeconds : undefined;
+  // Capture the resume position ONCE per movie at mount. The resume-tracking
+  // effect below ticks resumePositions every 10 s during playback; if we
+  // read it reactively here, the streaming source would tear down and
+  // re-create itself every 10 s, restarting playback from the new keyframe
+  // (the "MGM logo on a loop" symptom). The ref captures the value at the
+  // first render for this movie and stays stable across the whole play.
+  const startTimeSecondsRef = useRef<number | undefined>(undefined);
+  if (startTimeSecondsRef.current === undefined) {
+    const r = resumePositions.value[movie.imdb_id]?.position_seconds;
+    startTimeSecondsRef.current = r && r > 5 ? r : -1; // -1 sentinel "computed, no resume"
+  }
+  const startTimeSeconds = startTimeSecondsRef.current === -1 ? undefined : startTimeSecondsRef.current;
   const mseUrl = useStreamingSource(playingUrl, { startTimeSeconds, videoRef });
 
   // Stage 1: fetch candidates + rank. Runs once per movie.
