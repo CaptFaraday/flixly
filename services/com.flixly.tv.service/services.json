@@ -1,0 +1,5 @@
+{
+  "id": "com.flixly.tv.service",
+  "description": "Flixly local proxy",
+  "services": [{ "name": "com.flixly.tv.service" }]
+}

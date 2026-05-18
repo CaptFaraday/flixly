@@ -31,7 +31,10 @@ npm run build
 
 echo "→ package"
 mkdir -p ipk
-ares-package dist -o ipk
+# Package both the app (dist/) and the localhost-proxy service so they ship
+# together. The service runs in the background as a JS service on the webOS
+# Luna bus and listens on 127.0.0.1:11470 for the renderer to proxy through.
+ares-package dist services/com.flixly.tv.service -o ipk
 
 IPK=$(ls -t ipk/*.ipk | head -1)
 echo "→ uploading $IPK to $TV_USER@$TV_HOST:/tmp/$IPK_REMOTE_NAME"

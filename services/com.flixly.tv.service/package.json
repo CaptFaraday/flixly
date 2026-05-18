@@ -1,0 +1,6 @@
+{
+  "name": "com.flixly.tv.service",
+  "version": "0.1.0",
+  "description": "Flixly localhost proxy",
+  "main": "launch.js"
+}
