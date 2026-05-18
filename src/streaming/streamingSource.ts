@@ -1,25 +1,3 @@
-// MSE-based streaming source. Hands the <video> element a blob: URL backed
-// by a MediaSource; the network fetch + container demux + per-track fMP4
-// muxing all run in JS via Mediabunny.
-//
-// Why this exists: the webOS native pipeline silently drops idle TCP sockets
-// during read-throttled streaming, freezing playback after ~80 s with no
-// error event. By owning the HTTP layer in JS we sidestep that bug entirely.
-//
-// Architecture:
-//   URL → Mediabunny Input (UrlSource, HTTP Range)
-//       → EncodedPacketSink(videoTrack) → EncodedVideoPacketSource → Output(fMP4) → SourceBuffer(video)
-//       → EncodedPacketSink(audioTrack) → EncodedAudioPacketSource → Output(fMP4) → SourceBuffer(audio)
-//
-// Two SourceBuffers (not one combined) because webOS MSE rejects the
-// hvc1+ac-3 combo MIME but accepts each codec in its own buffer.
-//
-// Tests: pure helpers (codecMime, sourceBufferQueue) are unit-tested.
-// This module's MSE wiring is verified on-device — the industry pattern
-// for MSE code (shaka, hls.js, mediabunny itself all rely on real-browser
-// integration tests rather than mocks, because faithful MSE mocks are a
-// substantial maintenance burden with weak signal).
-
 import {
   Input,
   Output,
@@ -37,8 +15,13 @@ import {
 import { videoMimeForCodec, audioMimeForCodec } from './codecMime';
 import { SourceBufferQueue } from './sourceBufferQueue';
 
+const TARGET_BUFFER_AHEAD_S = 30;
+const BACKPRESSURE_RESUME_AHEAD_S = 20;
+const BACKPRESSURE_POLL_MS = 250;
+
 export interface StreamingSourceOptions {
   startTimeSeconds?: number;
+  getCurrentTime?: () => number;
 }
 
 export interface StreamingSource {
@@ -56,7 +39,7 @@ export function createStreamingSource(
 
   mediaSource.addEventListener('sourceopen', () => {
     if (disposed) return;
-    void runPipeline(mediaSource, url, opts.startTimeSeconds ?? 0, () => disposed);
+    void runPipeline(mediaSource, url, opts, () => disposed);
   }, { once: true });
 
   return {
@@ -71,11 +54,16 @@ export function createStreamingSource(
 async function runPipeline(
   mediaSource: MediaSource,
   url: string,
-  startTimeSeconds: number,
+  opts: StreamingSourceOptions,
   isDisposed: () => boolean,
 ): Promise<void> {
   try {
-    const input = new Input({ formats: ALL_FORMATS, source: new UrlSource(url, { getRetryDelay: (n) => Math.min(2 ** n, 16) }) });
+    const input = new Input({
+      formats: ALL_FORMATS,
+      source: new UrlSource(url, {
+        getRetryDelay: (n: number) => Math.min(2 ** n, 16),
+      }),
+    });
     const videoTrack = await input.getPrimaryVideoTrack();
     const audioTrack = await input.getPrimaryAudioTrack();
     if (isDisposed() || !videoTrack || !videoTrack.codec) return;
@@ -97,11 +85,14 @@ async function runPipeline(
       }
     }
 
+    const getCurrentTime = opts.getCurrentTime ?? (() => 0);
+    const startTimeSeconds = opts.startTimeSeconds ?? 0;
+
     const tasks: Promise<void>[] = [
-      pipeVideo(videoTrack, videoTrack.codec, videoQueue, startTimeSeconds, isDisposed),
+      pipeVideo(videoTrack, videoTrack.codec, videoQueue, startTimeSeconds, getCurrentTime, isDisposed),
     ];
     if (audioSetup && audioTrack) {
-      tasks.push(pipeAudio(audioTrack, audioSetup.mediabunnyCodec, audioSetup.queue, isDisposed));
+      tasks.push(pipeAudio(audioTrack, audioSetup.mediabunnyCodec, audioSetup.queue, getCurrentTime, isDisposed));
     }
 
     await Promise.all(tasks);
@@ -110,9 +101,31 @@ async function runPipeline(
       mediaSource.endOfStream();
     }
   } catch (e) {
-    try { (window as unknown as { __flixlyMseError?: unknown }).__flixlyMseError = e instanceof Error ? { name: e.name, message: e.message } : String(e); }
-    catch { /* */ }
+    try {
+      (window as unknown as { __flixlyMseError?: unknown }).__flixlyMseError =
+        e instanceof Error ? { name: e.name, message: e.message } : String(e);
+    } catch { /* */ }
     console.error('[flixly:mse]', e);
+  }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function applyBackpressure(
+  queue: SourceBufferQueue,
+  getCurrentTime: () => number,
+  isDisposed: () => boolean,
+): Promise<void> {
+  const buf = queue.buffer.buffered;
+  if (buf.length === 0) return;
+  if (buf.end(buf.length - 1) - getCurrentTime() < TARGET_BUFFER_AHEAD_S) return;
+  while (!isDisposed()) {
+    await sleep(BACKPRESSURE_POLL_MS);
+    const b = queue.buffer.buffered;
+    if (b.length === 0) return;
+    if (b.end(b.length - 1) - getCurrentTime() < BACKPRESSURE_RESUME_AHEAD_S) return;
   }
 }
 
@@ -121,6 +134,7 @@ async function pipeVideo(
   codec: NonNullable<InputVideoTrack['codec']>,
   queue: SourceBufferQueue,
   startTimeSeconds: number,
+  getCurrentTime: () => number,
   isDisposed: () => boolean,
 ): Promise<void> {
   const decoderConfig = await track.getDecoderConfig();
@@ -139,15 +153,10 @@ async function pipeVideo(
   output.addVideoTrack(packetSource);
   await output.start();
 
-  // Initial resume seek: start from the nearest keyframe ≤ requested time.
-  // Otherwise iterate from the beginning of the file.
   const firstPacket = startTimeSeconds > 0
     ? await sink.getKeyPacket(startTimeSeconds, { verifyKeyPackets: false }).catch(() => null)
     : null;
 
-  // EncodedVideoPacketSource.add() requires decoderConfig metadata on the
-  // first packet to describe the bitstream shape (codec, codedWidth/Height,
-  // colorSpace, any extradata). Subsequent packets carry no metadata.
   let isFirst = true;
   const addPacket = async (p: Parameters<typeof packetSource.add>[0]) => {
     if (isFirst) {
@@ -156,6 +165,7 @@ async function pipeVideo(
     } else {
       await packetSource.add(p);
     }
+    await applyBackpressure(queue, getCurrentTime, isDisposed);
   };
 
   if (firstPacket) {
@@ -182,6 +192,7 @@ async function pipeAudio(
   track: InputAudioTrack,
   codec: NonNullable<InputAudioTrack['codec']>,
   queue: SourceBufferQueue,
+  getCurrentTime: () => number,
   isDisposed: () => boolean,
 ): Promise<void> {
   const decoderConfig = await track.getDecoderConfig();
@@ -200,13 +211,7 @@ async function pipeAudio(
   output.addAudioTrack(packetSource);
   await output.start();
 
-  // EncodedAudioPacketSource.add() requires decoderConfig metadata on the
-  // first packet (codec, numberOfChannels, sampleRate, optional description).
   let isFirst = true;
-
-  // Audio decodes from any packet boundary; sequential iteration is fine.
-  // MediaSource discards audio before currentTime, so a resume seek into the
-  // middle of the audio will sound clean once the video keyframe lines up.
   for await (const packet of sink.packets()) {
     if (isDisposed()) break;
     if (isFirst) {
@@ -215,6 +220,7 @@ async function pipeAudio(
     } else {
       await packetSource.add(packet);
     }
+    await applyBackpressure(queue, getCurrentTime, isDisposed);
   }
 
   packetSource.close();

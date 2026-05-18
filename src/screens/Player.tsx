@@ -52,7 +52,7 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   const playingUrl = state.kind === 'playing' ? state.stream.url : '';
   const resumeSeconds = resumePositions.value[movie.imdb_id]?.position_seconds;
   const startTimeSeconds = resumeSeconds && resumeSeconds > 5 ? resumeSeconds : undefined;
-  const mseUrl = useStreamingSource(playingUrl, { startTimeSeconds });
+  const mseUrl = useStreamingSource(playingUrl, { startTimeSeconds, videoRef });
 
   // Stage 1: fetch candidates + rank. Runs once per movie.
   useEffect(() => {
