@@ -12,8 +12,6 @@ import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetch
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
 import { awaitCanPlay } from './awaitCanPlay';
-import { useStreamingSource } from '../streaming/useStreamingSource';
-import { probeCandidate } from '../streaming/probeCandidate';
 
 type State =
   | { kind: 'preparing'; step: string }
@@ -42,28 +40,14 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   // Track per-attempt failures so the final error screen can summarize them.
   const failuresRef = useRef<Array<{ index: number; filename: string; detail: string }>>([]);
 
-  // MSE pipeline. createStreamingSource owns the HTTP layer; the <video>
-  // element reads from a blob: MediaSource URL. This sidesteps the webOS
-  // native pipeline's idle-socket-death bug entirely (no long-lived HTTP
-  // connection for the native layer to mismanage). Resume position is
-  // passed in as startTimeSeconds so the pipeline begins at the nearest
-  // keyframe ≤ the resume target — the video element naturally starts
-  // playback at the first appended segment's timestamp, no separate
-  // currentTime seek required.
-  const playingUrl = state.kind === 'playing' ? state.stream.url : '';
-  // Capture the resume position ONCE per movie at mount. The resume-tracking
-  // effect below ticks resumePositions every 10 s during playback; if we
-  // read it reactively here, the streaming source would tear down and
-  // re-create itself every 10 s, restarting playback from the new keyframe
-  // (the "MGM logo on a loop" symptom). The ref captures the value at the
-  // first render for this movie and stays stable across the whole play.
-  const startTimeSecondsRef = useRef<number | undefined>(undefined);
-  if (startTimeSecondsRef.current === undefined) {
-    const r = resumePositions.value[movie.imdb_id]?.position_seconds;
-    startTimeSecondsRef.current = r && r > 5 ? r : -1; // -1 sentinel "computed, no resume"
-  }
-  const startTimeSeconds = startTimeSecondsRef.current === -1 ? undefined : startTimeSecondsRef.current;
-  const mseUrl = useStreamingSource(playingUrl, { startTimeSeconds, videoRef });
+  // Localhost proxy. The <video> element points at our webOS Service
+  // (127.0.0.1:11470) which fetches from the remote CDN, retries 5xx,
+  // walks redirect chains, and streams bytes back. Native pipeline only
+  // talks to localhost — sidesteps the idle-socket-death TCP bug the
+  // native player has against remote CDNs. Same pattern as Stremio/LG TV.
+  const proxyUrl = state.kind === 'playing'
+    ? `http://127.0.0.1:11470/proxy?url=${encodeURIComponent(state.stream.url)}`
+    : '';
 
   // Stage 1: fetch candidates + rank. Runs once per movie.
   useEffect(() => {
@@ -176,34 +160,6 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
           // require_subtitles check earlier in the picker would have already
           // caught the totally-no-subs case.
         }
-
-        // Pre-flight probe: parse the file header of the top candidates
-        // via Mediabunny BEFORE handing a URL to the playback pipeline. Files
-        // that hang on demux (e.g. MKVs whose header is too far into the
-        // file) or whose codecs don't match what the filename suggested
-        // get filtered out here, so the user never sees a load-then-fail
-        // cycle for them.
-        setState({ kind: 'preparing', step: 'verifying source' });
-        const tProbeStart = performance.now();
-        const PROBE_TOP_N = 3;
-        const PROBE_TIMEOUT_MS = 8000;
-        const probeResults: Array<{ filename: string; ok: boolean; reason?: string }> = [];
-        for (const c of playable.slice(0, PROBE_TOP_N)) {
-          if (cancelled) return;
-          const pr = await probeCandidate(c.directUrl!, { timeoutMs: PROBE_TIMEOUT_MS });
-          probeResults.push({ filename: c.filename, ok: pr.ok, reason: pr.ok ? undefined : pr.reason });
-          if (pr.ok) break;
-        }
-        tStage.probeMs = Math.round(performance.now() - tProbeStart);
-        const failedFilenames = new Set(probeResults.filter(p => !p.ok).map(p => p.filename));
-        if (failedFilenames.size > 0) {
-          playable = playable.filter(c => !failedFilenames.has(c.filename));
-          if (playable.length === 0) {
-            setState({ kind: 'error', reason: 'no_streams', detail: 'All probed candidates failed to parse.' });
-            return;
-          }
-        }
-        try { (window as any).__flixlyProbeResults = probeResults; } catch { /* */ }
 
         failuresRef.current = [];
         tStage.totalStage1 = Math.round(performance.now() - t0);
@@ -411,26 +367,15 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     const v = videoRef.current;
     if (!v || state.kind !== 'playing') return;
     const onLoadedMeta = () => {
-      // With the MSE pipeline, the video buffer starts at the keyframe <=
-      // requested resume position (not at 0). currentTime=0 is outside the
-      // buffered range, so the video element can't decode anything and shows
-      // black. Bump the playhead into the buffered range: prefer the
-      // captured resume position if it's inside the buffer; otherwise the
-      // first buffered timestamp.
-      const target = startTimeSecondsRef.current && startTimeSecondsRef.current > 5
-        ? startTimeSecondsRef.current
-        : (v.buffered.length > 0 ? v.buffered.start(0) : 0);
-      if (target > 0.001 && v.buffered.length > 0) {
-        const safe = Math.max(v.buffered.start(0), Math.min(target, v.buffered.end(0) - 0.1));
-        v.currentTime = safe;
+      // Resume seek: with the native pipeline + localhost proxy, setting
+      // currentTime triggers a Range request through our proxy to the CDN.
+      // The proxy passes it through transparently and the player picks up
+      // playback from that position. Much simpler than the MSE buffered-
+      // range gymnastics we used to need.
+      const r = resumePositions.value[movie.imdb_id];
+      if (r && r.position_seconds > 5 && r.position_seconds < r.duration_seconds * 0.95) {
+        v.currentTime = r.position_seconds;
       }
-      // Kick off playback on loadedmetadata too. The canplay handler races
-      // with seek state transitions when a candidate switch happens — if
-      // canplay fires while the element is mid-seek the v.play() call gets
-      // suppressed, leaving the video paused on a black frame with
-      // buffered data sitting unused. Calling play() here as well is
-      // idempotent on an already-playing element and resolves the race.
-      v.play().catch(() => { /* user-gesture / transient errors fine */ });
       try {
         const start = (window as any).__flixlyVideoSrcSetAt;
         if (typeof start === 'number') {
@@ -664,7 +609,7 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     <>
       <video
         ref={videoRef}
-        src={mseUrl ?? undefined}
+        src={proxyUrl || undefined}
         className="player__video"
         data-screen="player"
         preload="auto"
