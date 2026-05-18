@@ -382,9 +382,18 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     const v = videoRef.current;
     if (!v || state.kind !== 'playing') return;
     const onLoadedMeta = () => {
-      const r = resumePositions.value[movie.imdb_id];
-      if (r && r.position_seconds < r.duration_seconds * 0.95) {
-        v.currentTime = r.position_seconds;
+      // With the MSE pipeline, the video buffer starts at the keyframe <=
+      // requested resume position (not at 0). currentTime=0 is outside the
+      // buffered range, so the video element can't decode anything and shows
+      // black. Bump the playhead into the buffered range: prefer the
+      // captured resume position if it's inside the buffer; otherwise the
+      // first buffered timestamp.
+      const target = startTimeSecondsRef.current && startTimeSecondsRef.current > 5
+        ? startTimeSecondsRef.current
+        : (v.buffered.length > 0 ? v.buffered.start(0) : 0);
+      if (target > 0.001 && v.buffered.length > 0) {
+        const safe = Math.max(v.buffered.start(0), Math.min(target, v.buffered.end(0) - 0.1));
+        v.currentTime = safe;
       }
       try {
         const start = (window as any).__flixlyVideoSrcSetAt;
