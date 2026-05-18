@@ -395,6 +395,13 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         const safe = Math.max(v.buffered.start(0), Math.min(target, v.buffered.end(0) - 0.1));
         v.currentTime = safe;
       }
+      // Kick off playback on loadedmetadata too. The canplay handler races
+      // with seek state transitions when a candidate switch happens — if
+      // canplay fires while the element is mid-seek the v.play() call gets
+      // suppressed, leaving the video paused on a black frame with
+      // buffered data sitting unused. Calling play() here as well is
+      // idempotent on an already-playing element and resolves the race.
+      v.play().catch(() => { /* user-gesture / transient errors fine */ });
       try {
         const start = (window as any).__flixlyVideoSrcSetAt;
         if (typeof start === 'number') {
