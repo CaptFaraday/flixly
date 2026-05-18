@@ -11,6 +11,9 @@ import type { StreamCandidate } from '../types';
 import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetchSubtitlesByImdb, pickBestSubForRip, scoreSubMatch } from '../subtitles/opensubtitles';
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
+import { awaitCanPlay } from './awaitCanPlay';
+import { installPlaybackKeepalive } from './playbackKeepalive';
+import { useStreamingSource } from '../streaming/useStreamingSource';
 
 type State =
   | { kind: 'preparing'; step: string }
@@ -38,6 +41,19 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
   const videoRef = useRef<HTMLVideoElement | null>(null);
   // Track per-attempt failures so the final error screen can summarize them.
   const failuresRef = useRef<Array<{ index: number; filename: string; detail: string }>>([]);
+
+  // MSE pipeline. createStreamingSource owns the HTTP layer; the <video>
+  // element reads from a blob: MediaSource URL. This sidesteps the webOS
+  // native pipeline's idle-socket-death bug entirely (no long-lived HTTP
+  // connection for the native layer to mismanage). Resume position is
+  // passed in as startTimeSeconds so the pipeline begins at the nearest
+  // keyframe ≤ the resume target — the video element naturally starts
+  // playback at the first appended segment's timestamp, no separate
+  // currentTime seek required.
+  const playingUrl = state.kind === 'playing' ? state.stream.url : '';
+  const resumeSeconds = resumePositions.value[movie.imdb_id]?.position_seconds;
+  const startTimeSeconds = resumeSeconds && resumeSeconds > 5 ? resumeSeconds : undefined;
+  const mseUrl = useStreamingSource(playingUrl, { startTimeSeconds });
 
   // Stage 1: fetch candidates + rank. Runs once per movie.
   useEffect(() => {
@@ -348,6 +364,19 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     v.load();
   }, [state.kind === 'playing' ? state.stream.url : '']);
 
+  // Keep the webOS native pipeline from silently dropping its TCP connection.
+  // After it fills the ~30 s buffer it throttles reads and the socket to the
+  // TorBox CDN dies inside ~80 s — playback freezes with no error event.
+  // A periodic tiny backward seek forces fresh Range requests and keeps the
+  // connection alive. Verified on-device: -0.5 s every 25 s sustained
+  // playback for 5+ minutes vs the ~80 s pre-stall baseline.
+  useEffect(() => {
+    if (state.kind !== 'playing') return;
+    const v = videoRef.current;
+    if (!v) return;
+    return installPlaybackKeepalive(v);
+  }, [state.kind, movie.imdb_id]);
+
   // Apply resume position when metadata loads, then start playback when
   // the browser's media pipeline reports it can play. Per LG webOS docs and
   // Smart-TV performance guidance, the `autoPlay` attribute starts playback
@@ -439,6 +468,15 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     let cancelled = false;
     (async () => {
       try {
+        // Wait for the video element to be playable before touching the same
+        // CDN URL. computeMoviehash issues HEAD + 2 Range GETs against
+        // state.stream.url; if those fire while <video> is still pulling the
+        // initial MKV preamble, they share the TorBox edge's per-token
+        // bandwidth cap (measured ~10 Mbps) and inflate time-to-first-frame
+        // by several seconds. Deferring until canplay is user-invisible —
+        // subs only render after the video starts anyway.
+        await awaitCanPlay(v);
+        if (cancelled) return;
         // Prefer hash-matched subs: compute the OpenSubtitles moviehash from
         // the file's first/last 64KB and query OS by that hash. Subs uploaded
         // with this hash were authored against this exact rip, so timing
@@ -489,7 +527,6 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         }
         diag.chosenUrl = chosen?.url;
         try { (window as any).__flixlyLastSubs = diag; } catch { /* */ }
-        console.log('[flixly:subs]', diag);
         if (!chosen) return;
 
         // HTML <track> + WebVTT blob path. We previously tried Luna
@@ -586,7 +623,7 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     <>
       <video
         ref={videoRef}
-        src={state.stream.url}
+        src={mseUrl ?? undefined}
         className="player__video"
         data-screen="player"
         preload="auto"
