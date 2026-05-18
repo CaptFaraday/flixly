@@ -68,6 +68,15 @@ async function runPipeline(
     const audioTrack = await input.getPrimaryAudioTrack();
     if (isDisposed() || !videoTrack || !videoTrack.codec) return;
 
+    // Surface the total duration to the video element so the UI shows
+    // the right-hand timestamp. Without setting mediaSource.duration the
+    // element reports duration NaN / 0:00 until endOfStream() is called
+    // (which only happens when the full file finishes streaming).
+    const totalDuration = await input.computeDuration().catch(() => 0);
+    if (totalDuration > 0 && mediaSource.readyState === 'open') {
+      try { mediaSource.duration = totalDuration; } catch { /* */ }
+    }
+
     const videoCodecParam = await videoTrack.getCodecParameterString();
     if (!videoCodecParam) return;
     const videoSb = mediaSource.addSourceBuffer(videoMimeForCodec(videoCodecParam));
