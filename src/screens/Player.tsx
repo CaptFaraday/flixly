@@ -13,6 +13,7 @@ import { srtUrlToVttBlobUrl } from '../subtitles/render';
 import { computeMoviehash } from '../subtitles/moviehash';
 import { awaitCanPlay } from './awaitCanPlay';
 import { useStreamingSource } from '../streaming/useStreamingSource';
+import { probeCandidate } from '../streaming/probeCandidate';
 
 type State =
   | { kind: 'preparing'; step: string }
@@ -175,6 +176,34 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
           // require_subtitles check earlier in the picker would have already
           // caught the totally-no-subs case.
         }
+
+        // Pre-flight probe: parse the file header of the top candidates
+        // via Mediabunny BEFORE handing a URL to the playback pipeline. Files
+        // that hang on demux (e.g. MKVs whose header is too far into the
+        // file) or whose codecs don't match what the filename suggested
+        // get filtered out here, so the user never sees a load-then-fail
+        // cycle for them.
+        setState({ kind: 'preparing', step: 'verifying source' });
+        const tProbeStart = performance.now();
+        const PROBE_TOP_N = 3;
+        const PROBE_TIMEOUT_MS = 8000;
+        const probeResults: Array<{ filename: string; ok: boolean; reason?: string }> = [];
+        for (const c of playable.slice(0, PROBE_TOP_N)) {
+          if (cancelled) return;
+          const pr = await probeCandidate(c.directUrl!, { timeoutMs: PROBE_TIMEOUT_MS });
+          probeResults.push({ filename: c.filename, ok: pr.ok, reason: pr.ok ? undefined : pr.reason });
+          if (pr.ok) break;
+        }
+        tStage.probeMs = Math.round(performance.now() - tProbeStart);
+        const failedFilenames = new Set(probeResults.filter(p => !p.ok).map(p => p.filename));
+        if (failedFilenames.size > 0) {
+          playable = playable.filter(c => !failedFilenames.has(c.filename));
+          if (playable.length === 0) {
+            setState({ kind: 'error', reason: 'no_streams', detail: 'All probed candidates failed to parse.' });
+            return;
+          }
+        }
+        try { (window as any).__flixlyProbeResults = probeResults; } catch { /* */ }
 
         failuresRef.current = [];
         tStage.totalStage1 = Math.round(performance.now() - t0);
