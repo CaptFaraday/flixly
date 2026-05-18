@@ -15,10 +15,10 @@
 // hvc1+ac-3 combo MIME but accepts each codec in its own buffer.
 //
 // Tests: pure helpers (codecMime, sourceBufferQueue) are unit-tested.
-// This module's MSE wiring is verified on-device via scripts/probe-mse.mjs
-// — the industry pattern for MSE code (shaka, hls.js, mediabunny itself
-// all rely on real-browser integration tests rather than mocks, because
-// faithful MSE mocks are a substantial maintenance burden with weak signal).
+// This module's MSE wiring is verified on-device — the industry pattern
+// for MSE code (shaka, hls.js, mediabunny itself all rely on real-browser
+// integration tests rather than mocks, because faithful MSE mocks are a
+// substantial maintenance burden with weak signal).
 
 import {
   Input,
@@ -75,7 +75,7 @@ async function runPipeline(
   isDisposed: () => boolean,
 ): Promise<void> {
   try {
-    const input = new Input({ formats: ALL_FORMATS, source: new UrlSource(url) });
+    const input = new Input({ formats: ALL_FORMATS, source: new UrlSource(url, { getRetryDelay: (n) => Math.min(2 ** n, 16) }) });
     const videoTrack = await input.getPrimaryVideoTrack();
     const audioTrack = await input.getPrimaryAudioTrack();
     if (isDisposed() || !videoTrack || !videoTrack.codec) return;
@@ -123,6 +123,9 @@ async function pipeVideo(
   startTimeSeconds: number,
   isDisposed: () => boolean,
 ): Promise<void> {
+  const decoderConfig = await track.getDecoderConfig();
+  if (!decoderConfig) return;
+
   const sink = new EncodedPacketSink(track);
   const packetSource = new EncodedVideoPacketSource(codec);
 
@@ -142,19 +145,32 @@ async function pipeVideo(
     ? await sink.getKeyPacket(startTimeSeconds, { verifyKeyPackets: false }).catch(() => null)
     : null;
 
+  // EncodedVideoPacketSource.add() requires decoderConfig metadata on the
+  // first packet to describe the bitstream shape (codec, codedWidth/Height,
+  // colorSpace, any extradata). Subsequent packets carry no metadata.
+  let isFirst = true;
+  const addPacket = async (p: Parameters<typeof packetSource.add>[0]) => {
+    if (isFirst) {
+      isFirst = false;
+      await packetSource.add(p, { decoderConfig });
+    } else {
+      await packetSource.add(p);
+    }
+  };
+
   if (firstPacket) {
-    await packetSource.add(firstPacket);
+    await addPacket(firstPacket);
     let prev = firstPacket;
     while (!isDisposed()) {
       const next = await sink.getNextPacket(prev);
       if (!next) break;
-      await packetSource.add(next);
+      await addPacket(next);
       prev = next;
     }
   } else {
     for await (const packet of sink.packets()) {
       if (isDisposed()) break;
-      await packetSource.add(packet);
+      await addPacket(packet);
     }
   }
 
@@ -168,6 +184,9 @@ async function pipeAudio(
   queue: SourceBufferQueue,
   isDisposed: () => boolean,
 ): Promise<void> {
+  const decoderConfig = await track.getDecoderConfig();
+  if (!decoderConfig) return;
+
   const sink = new EncodedPacketSink(track);
   const packetSource = new EncodedAudioPacketSource(codec);
 
@@ -181,12 +200,21 @@ async function pipeAudio(
   output.addAudioTrack(packetSource);
   await output.start();
 
+  // EncodedAudioPacketSource.add() requires decoderConfig metadata on the
+  // first packet (codec, numberOfChannels, sampleRate, optional description).
+  let isFirst = true;
+
   // Audio decodes from any packet boundary; sequential iteration is fine.
   // MediaSource discards audio before currentTime, so a resume seek into the
   // middle of the audio will sound clean once the video keyframe lines up.
   for await (const packet of sink.packets()) {
     if (isDisposed()) break;
-    await packetSource.add(packet);
+    if (isFirst) {
+      isFirst = false;
+      await packetSource.add(packet, { decoderConfig });
+    } else {
+      await packetSource.add(packet);
+    }
   }
 
   packetSource.close();
