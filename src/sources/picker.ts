@@ -1,4 +1,5 @@
 import type { StreamCandidate, Capabilities, Settings } from '../types';
+import { releaseGroupBonus } from './release-groups';
 
 export type PickReason =
   | 'no_cached'
@@ -201,6 +202,9 @@ function score(c: StreamCandidate, settings: Settings, _caps: Capabilities): num
   // WEB-DL. Screeners are only picked when nothing cleaner exists.
   if (c.parsed.source === 'screener') s -= 200;
   else s += (SOURCE_RANK[c.parsed.source ?? ''] ?? 0) * 5;
+
+  // Release-group tier bonus/penalty (TRaSH-guides convention).
+  s += releaseGroupBonus(c.parsed.group);
 
   // Tie-breaker: more seeds = more reliably cached
   s += Math.min(c.seeds / 100, 10);

@@ -61,6 +61,23 @@ describe('rankAndPick', () => {
     if (r.kind === 'pick') expect(r.candidate.filename).toContain('eng');
   });
 
+  it('prefers a premium-group WEB-DL over a low-quality-group encode of the same source', () => {
+    // TRaSH-guides convention: known-good groups (FLUX, NTb, FraMeSToR...)
+    // get a positive score bump; known-bad groups (YTS, Tigole, MeGusta...)
+    // a negative one. Picker uses this to break ties when resolution +
+    // source are identical.
+    // Reversed order: Tigole listed first to ensure FLUX winning is from
+    // the release-group bonus, not from the array iteration order. Both
+    // use h264 so the codec filter doesn't decide it.
+    const candidates = [
+      cand('Movie.2024.1080p.WEB-DL.x264-Tigole.mkv', 4_000_000_000),
+      cand('Movie.2024.1080p.WEB-DL.x264-FLUX.mkv', 4_000_000_000),
+    ];
+    const r = rankAndPick(candidates, candidates.map((c) => c.hash), baseCaps, baseSettings, ['en'], RUNTIME_HOURS);
+    expect(r.kind).toBe('pick');
+    if (r.kind === 'pick') expect(r.candidate.parsed.group).toBe('FLUX');
+  });
+
   it('ranks a 720p WEB-DL above a 1080p CAM-tier screener', () => {
     // CAM/HDCAM/TELESYNC/SCREENER files often relabel as 1080p but the
     // image quality is unwatchable. The picker must penalize the screener
