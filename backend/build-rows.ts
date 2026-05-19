@@ -1,10 +1,10 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { TmdbClient } from './sources/tmdb';
-import type { DiscoverMovie } from './sources/tmdb';
+import type { DiscoverMovie, ReleaseDates } from './sources/tmdb';
 import { OmdbClient } from './sources/omdb';
 import { composite } from './lib/score';
-import { resolveDigitalReleaseDate } from './lib/digital-release';
+import { pickReleaseYear } from './lib/release-year';
 
 // ---------- env loading (no dotenv dep — read .env manually) ----------
 function loadDotenvIfPresent() {
@@ -50,7 +50,6 @@ interface RowsFile { generated_at: string; shelves: Shelf[]; }
 // ---------- per-run caches ----------
 const detailsCache = new Map<number, Promise<any>>();
 const omdbCache = new Map<string, Promise<{ rt: number | null; metacritic: number | null; imdb: number | null }>>();
-const releaseCache = new Map<number, Promise<string | undefined>>();
 
 const getDetails = (id: number) => {
   if (!detailsCache.has(id)) detailsCache.set(id, tmdb.getDetails(id));
@@ -71,16 +70,17 @@ async function hydrate(d: DiscoverMovie): Promise<Movie | null> {
   const [details, credits] = await Promise.all([getDetails(d.id), getCredits(d.id)]);
   if (!details.imdb_id) return null; // can't fetch OMDb without imdb_id
 
-  const [scores, digitalReleaseDate] = await Promise.all([
+  const [scores, releaseDates] = await Promise.all([
     getOmdbScores(details.imdb_id),
-    resolveDigitalReleaseDate(tmdb, d.id, releaseCache),
+    tmdb.getReleaseDates(d.id),
   ]);
+  const digitalReleaseDate = releaseDates.digital_us ?? details.release_date;
 
   return {
     imdb_id: details.imdb_id,
     tmdb_id: d.id,
     title: details.title,
-    year: Number(details.release_date?.slice(0, 4)) || 0,
+    year: pickReleaseYear(details.release_date, releaseDates.earliest),
     runtime: details.runtime ?? 0,
     genres: details.genres,
     poster: posterUrl(details.poster_path),

@@ -69,6 +69,31 @@ describe('TmdbClient', () => {
     expect(credits.cast).toEqual(['Star A', 'Star B', 'Bit']); // top 3 by order
   });
 
+  it('getReleaseDates() returns the earliest release date across all countries/types', async () => {
+    // TMDb's /movie/{id}.release_date returns the most recent theatrical
+    // event (re-release, anniversary screening, etc.), not the original.
+    // Hamilton (tt8503618) is a real example: /movie/.release_date is
+    // 2025-09-05 (a 2025 theatrical re-release) but the original Disney+
+    // release was 2020-07-03. Torrents use the original year, so the
+    // picker's title-year filter rejects sources. We need the EARLIEST
+    // date from /release_dates to anchor the year correctly.
+    fetchSpy.mockResolvedValueOnce(new Response(JSON.stringify({
+      id: 1,
+      results: [
+        { iso_3166_1: 'US', release_dates: [
+          { type: 3, release_date: '2025-09-05T00:00:00.000Z', note: '' },
+          { type: 4, release_date: '2020-07-03T00:00:00.000Z', note: 'Disney+' },
+        ]},
+        { iso_3166_1: 'AT', release_dates: [
+          { type: 4, release_date: '2020-07-03T00:00:00.000Z', note: 'Disney+' },
+        ]},
+      ],
+    })));
+    const c = new TmdbClient('test-token');
+    const d = await c.getReleaseDates(1);
+    expect(d.earliest).toBe('2020-07-03');
+  });
+
   it('getReleaseDates() filters digital-type entries', async () => {
     fetchSpy.mockResolvedValueOnce(new Response(JSON.stringify({
       id: 1,

@@ -55,6 +55,7 @@ export interface Credits {
 
 export interface ReleaseDates {
   digital_us: string | undefined;       // ISO YYYY-MM-DD or undefined
+  earliest: string | undefined;         // ISO YYYY-MM-DD: earliest release across all countries/types
 }
 
 // Module-level concurrency limiter so all TmdbClient instances share
@@ -144,6 +145,17 @@ export class TmdbClient {
     const us = (raw.results ?? []).find((r: any) => r.iso_3166_1 === 'US');
     const digital = us?.release_dates?.find((r: any) => r.type === 4);
     const digital_us = digital ? digital.release_date.slice(0, 10) : undefined;
-    return { digital_us };
+
+    // Earliest release across all countries/types. Anchors year() for
+    // titles whose /movie/.release_date points at a re-release event
+    // (Hamilton: TMDb primary date 2025-09-05, Disney+ original 2020-07-03).
+    let earliest: string | undefined;
+    for (const country of raw.results ?? []) {
+      for (const r of country.release_dates ?? []) {
+        const d = (r.release_date ?? '').slice(0, 10);
+        if (d && (!earliest || d < earliest)) earliest = d;
+      }
+    }
+    return { digital_us, earliest };
   }
 }
