@@ -61,6 +61,20 @@ describe('rankAndPick', () => {
     if (r.kind === 'pick') expect(r.candidate.filename).toContain('eng');
   });
 
+  it('rejects a Dublado (Portuguese dub) candidate in favor of an untagged English release', () => {
+    // The 10-movie smoke test surfaced this: with audio_language='en', the
+    // ranker was picking 'Project.Hail.Mary.2026.1080p.WEBRip.Dublado.mkv'
+    // because the parser fell back to ['en'] when no language tag was found.
+    // Fixed by adding 'dublado' as a Portuguese marker.
+    const candidates = [
+      cand('Project.Hail.Mary.2026.1080p.WEBRip.Dublado.mkv', 4_000_000_000),
+      cand('Project.Hail.Mary.2026.1080p.WEB-DL.x264-FLUX.mkv', 4_000_000_000),
+    ];
+    const r = rankAndPick(candidates, candidates.map((c) => c.hash), baseCaps, baseSettings, ['en'], RUNTIME_HOURS);
+    expect(r.kind).toBe('pick');
+    if (r.kind === 'pick') expect(r.candidate.filename).not.toContain('Dublado');
+  });
+
   it('returns a no-streams result when no subtitles available and require_subtitles is on', () => {
     const candidates = [cand('Movie.2024.1080p.WEB-DL.x264.eng.mkv', 4_000_000_000)];
     const r = rankAndPick(candidates, candidates.map((c) => c.hash), baseCaps, baseSettings, ['en'], RUNTIME_HOURS, /*subsAvailable*/ false);

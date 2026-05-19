@@ -34,14 +34,14 @@ const SOURCE_PATTERNS: Array<[RegExp, ParsedName['source']]> = [
 
 const LANG_PATTERNS: Array<[RegExp, string]> = [
   [/\b(english|eng)\b/i, 'en'],
-  [/\b(spanish|esp)\b/i, 'es'],
-  [/\b(french|fre|fra)\b/i, 'fr'],
-  [/\b(german|ger|deu)\b/i, 'de'],
+  [/\b(spanish|esp|latino|castellano)\b/i, 'es'],
+  [/\b(french|fre|fra|truefrench|vff|vfq|vfi|vf)\b/i, 'fr'],
+  [/\b(german|ger|deu|deutsch)\b/i, 'de'],
   [/\b(japanese|jpn|jap)\b/i, 'ja'],
   [/\b(hindi|hin)\b/i, 'hi'],
   [/\b(korean|kor)\b/i, 'ko'],
   [/\b(italian|ita)\b/i, 'it'],
-  [/\b(portuguese|por)\b/i, 'pt'],
+  [/\b(portuguese|por|dublado|nacional)\b/i, 'pt'],
 ];
 
 const CONTAINER_PATTERNS: Array<[RegExp, ParsedName['container']]> = [
@@ -58,9 +58,18 @@ function firstMatch<T>(name: string, patterns: Array<[RegExp, T]>): T | undefine
   return undefined;
 }
 
+// MULTi / DUAL audio tag — release contains multiple audio tracks. The
+// original language (typically English) is included alongside any detected
+// dub, so we add 'en' to the detected language set. Based on the conventions
+// surveyed in oleoo and parse-torrent-title's `langs` table.
+const MULTI_AUDIO_PATTERN = /\b(multi\d*|dual[\s._-]?audio|multilang)\b/i;
+
 export function parseName(name: string): ParsedName {
   const langs = LANG_PATTERNS.filter(([re]) => re.test(name)).map(([, code]) => code);
-  const audio_languages = langs.length > 0 ? Array.from(new Set(langs)) : ['en'];
+  const isMulti = MULTI_AUDIO_PATTERN.test(name);
+  const set = new Set(langs);
+  if (isMulti) set.add('en');
+  const audio_languages = set.size > 0 ? Array.from(set) : ['en'];
   return {
     resolution: firstMatch(name, RES_PATTERNS),
     video_codec: firstMatch(name, VCODEC_PATTERNS),
