@@ -1,8 +1,29 @@
+// Multi-provider subtitle cascade. Two effectively-distinct providers
+// despite the shared OpenSubtitles brand:
+//
+//   OS_BASE  — Stremio's official v3 OpenSubtitles addon. The blog post
+//              at https://blog.stremio.com/opensubtitles-addon-fixed/
+//              documents that this addon migrated to the newer
+//              OpenSubtitles.com API (May 2024 onwards). Different
+//              upload pool, different content, different rate limits
+//              than the legacy OS.org REST below.
+//
+//   OS_REST  — Legacy OpenSubtitles.org REST API. No API key required;
+//              only a "TemporaryUserAgent" header (OS's documented dev
+//              placeholder, fine for personal-scale use). Critically,
+//              this endpoint supports moviehash matching — the v3
+//              addon does not. Hash-matched subs were uploaded for the
+//              EXACT rip we're playing, so timing/cuts are guaranteed
+//              correct.
+//
+// Industry parallel: Jellyfin chains OpenSubtitles → Subscene → Addic7ed.
+// Subscene shut down in 2024 and Addic7ed has aggressive anti-bot
+// protection, so the realistic 2026 chain is OS.com + OS.org — which is
+// what we have. Adding SubDL or SubSource would add more coverage but
+// no smoke run has yet observed a movie where both OS providers return
+// empty AND the file would otherwise play; the marginal value is low
+// until that scenario appears.
 const OS_BASE = 'https://opensubtitles-v3.strem.io';
-// Legacy REST API at OpenSubtitles. No API key required; only a User-Agent
-// header. Critically, this endpoint supports moviehash matching — the v3
-// Stremio addon does not. Hash-matched subs are uploaded for the EXACT
-// rip we're playing, so timing/cuts are guaranteed correct.
 const OS_REST = 'https://rest.opensubtitles.org';
 // "TemporaryUserAgent" is OS's documented dev placeholder. For production we
 // would register a real UA at https://www.opensubtitles.org/en/dev — has
