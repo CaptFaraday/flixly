@@ -170,7 +170,15 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         // wrong file to be ruled out.
         setState({ kind: 'preparing', step: 'verifying source' });
         const tProbeStart = performance.now();
-        const PROBE_TOP_N = 5;
+        // 15, not 5. Films with several high-quality DTS-HD WEB-DL rips
+        // at the top of the ranking would all probe-fail (LG can't decode
+        // DTS) and Player fell through to the native-pipeline retry path
+        // where each failure costs ~15s of hang-detector wait. Probing
+        // deeper finds a clean candidate inside the parallel-probe phase
+        // — bounded to PROBE_WALL_BUDGET_MS — instead of 5x15s of retries.
+        // Real-world repro: "28 Years Later: The Bone Temple" went from
+        // 36s timeout to <5s with 15-probe budget.
+        const PROBE_TOP_N = 15;
         const PROBE_WALL_BUDGET_MS = 7000;
         const probeFn = (url: string, signal: AbortSignal) =>
           new Promise<{ ok: boolean; reason?: string }>((resolve) => {
@@ -316,7 +324,13 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
     // bytes will spin forever without firing error or loadedmetadata. Arm
     // on loadstart, clear on either resolution event, advance if it fires.
     let hangTimer: number | null = null;
-    const HANG_TIMEOUT_MS = 20_000;
+    // 8s, not 20s. Probe phase has already verified the candidate is
+    // codec-compatible, so the only remaining "stall" mode is a CDN edge
+    // that accepts TCP but ships zero bytes. A healthy edge issues
+    // loadedmetadata within 1-3s; 8s gives ~3x margin on that p99 path
+    // and frees us to advance to the next candidate fast when a CDN
+    // really is dead.
+    const HANG_TIMEOUT_MS = 8_000;
     const armHang = () => {
       if (hangTimer != null) window.clearTimeout(hangTimer);
       hangTimer = window.setTimeout(() => {
