@@ -7,10 +7,33 @@ export async function srtUrlToVttBlobUrl(srtUrl: string): Promise<string> {
   const r = await fetch(srtUrl);
   if (!r.ok) throw new Error(`subtitle fetch ${r.status}`);
   const text = await r.text();
-  const vtt = srtToVtt(text);
+  const cleaned = stripAdLines(text);
+  const vtt = srtToVtt(cleaned);
   const blob = new Blob([vtt], { type: 'text/vtt' });
   return URL.createObjectURL(blob);
 }
+
+/**
+ * Drop ad/promo cues from an SRT string. Splits on the blank-line cue
+ * separator, drops a cue entirely (timing + cue number) if any of its
+ * text lines matches an ad pattern. Half-stripped cues can leave
+ * dangling fragments on-screen, so we keep-or-drop the whole cue.
+ *
+ * Pattern set follows the subclean / subcleaner conventions used by
+ * Bazarr post-processors: links to subtitle sites + the OS REST API's
+ * "become a VIP member to remove ads" boilerplate.
+ */
+export function stripAdLines(srt: string): string {
+  const cues = srt.split(/\r?\n\r?\n/);
+  const kept = cues.filter((cue) => {
+    const lines = cue.split(/\r?\n/);
+    const body = lines.slice(2).join(' ');
+    return !AD_PATTERN.test(body);
+  });
+  return kept.join('\n\n');
+}
+
+const AD_PATTERN = /opensubtitles|yts|yify|subscene|addic7ed|\bsubtitles?\s+(by|:)|\btranslated?\s+by\b|\bsync(ed)?\s+and\s+correct|@(gmail|outlook|hotmail|protonmail|yahoo|pm\.me)\b/i;
 
 export function srtToVtt(srt: string): string {
   // Strip BOM
