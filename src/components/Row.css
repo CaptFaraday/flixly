@@ -26,8 +26,20 @@
   line-height: 1.1;
 }
 
+/* Horizontal scroll row. Each poster is sized to 1/6 of the viewport
+ * (minus gap allowance) so 6 are visible at once and additional posters
+ * scroll into view on D-pad Right (spatial.ts triggers scrollIntoView).
+ *
+ * Hide the scrollbar — TV doesn't have a pointer for it and the
+ * horizontal bar would push posters up. */
 .row__grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
   gap: var(--s-3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.row__grid::-webkit-scrollbar { display: none; }
+.row__grid > .poster {
+  flex: 0 0 calc((100% - 5 * var(--s-3)) / 6);
 }

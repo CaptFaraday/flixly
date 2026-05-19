@@ -50,6 +50,16 @@ describe('Row D-pad navigation', () => {
     expect(document.querySelectorAll('[data-focusable]').length).toBe(3);
   });
 
+  it('renders ALL posters when given more than 6 (no implicit cap)', () => {
+    // Previously Row sliced to the first 6 items; anything past col 5 was
+    // unreachable. Real-world bug: a movie at row 1 col 6 (Send Help in
+    // just-hit-streaming) was a black hole because the poster never even
+    // rendered.
+    const items = Array.from({ length: 10 }, (_, i) => mockMovie(i + 1));
+    render(<Row id="test" title="Test" items={items} onSelect={() => {}} />);
+    expect(document.querySelectorAll('[data-focusable]').length).toBe(10);
+  });
+
   it('right arrow moves focus from first poster to second', async () => {
     const user = userEvent.setup();
     const items = [mockMovie(1), mockMovie(2), mockMovie(3)];
