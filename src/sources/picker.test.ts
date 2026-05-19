@@ -61,6 +61,19 @@ describe('rankAndPick', () => {
     if (r.kind === 'pick') expect(r.candidate.filename).toContain('eng');
   });
 
+  it('ranks a 720p WEB-DL above a 1080p CAM-tier screener', () => {
+    // CAM/HDCAM/TELESYNC/SCREENER files often relabel as 1080p but the
+    // image quality is unwatchable. The picker must penalize the screener
+    // tier hard enough that even a lower-resolution clean source wins.
+    const candidates = [
+      cand('Movie.2024.1080p.HDCAM.x264.eng.mkv', 4_000_000_000),
+      cand('Movie.2024.720p.WEB-DL.x264.eng.mkv', 2_000_000_000),
+    ];
+    const r = rankAndPick(candidates, candidates.map((c) => c.hash), baseCaps, baseSettings, ['en'], RUNTIME_HOURS);
+    expect(r.kind).toBe('pick');
+    if (r.kind === 'pick') expect(r.candidate.filename).toContain('WEB-DL');
+  });
+
   it('rejects a Dublado (Portuguese dub) candidate in favor of an untagged English release', () => {
     // The 10-movie smoke test surfaced this: with audio_language='en', the
     // ranker was picking 'Project.Hail.Mary.2026.1080p.WEBRip.Dublado.mkv'

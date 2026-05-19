@@ -196,8 +196,11 @@ function score(c: StreamCandidate, settings: Settings, _caps: Capabilities): num
     else if (gb > 12) s -= 30; // 1080p REMUX overkill
   }
 
-  // Source quality
-  s += (SOURCE_RANK[c.parsed.source ?? ''] ?? 0) * 5;
+  // Source quality. Screener tier (CAM/HDCAM/TELESYNC/SCR/etc.) gets a
+  // large flat penalty so even a 1080p CAM upscale ranks below a 720p
+  // WEB-DL. Screeners are only picked when nothing cleaner exists.
+  if (c.parsed.source === 'screener') s -= 200;
+  else s += (SOURCE_RANK[c.parsed.source ?? ''] ?? 0) * 5;
 
   // Tie-breaker: more seeds = more reliably cached
   s += Math.min(c.seeds / 100, 10);

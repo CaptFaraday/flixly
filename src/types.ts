@@ -50,7 +50,7 @@ export interface ParsedName {
   video_codec?: 'h264' | 'h265' | 'vp9' | 'av1';
   audio_codec?: 'aac' | 'ac3' | 'eac3' | 'dts' | 'truehd' | 'flac' | 'opus';
   audio_languages: string[];   // ISO 639-1 codes parsed from filename, e.g. ['en']
-  source?: 'remux' | 'bluray' | 'webdl' | 'webrip' | 'hdtv' | 'dvdrip';
+  source?: 'remux' | 'bluray' | 'webdl' | 'webrip' | 'hdtv' | 'dvdrip' | 'screener';
   group?: string;
   container?: 'mp4' | 'mkv' | 'webm' | 'avi';
 }

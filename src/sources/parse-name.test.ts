@@ -106,4 +106,24 @@ describe('parseName', () => {
     const p = parseName('Movie.2024.1080p.Deutsch.WEB-DL.x264.mkv');
     expect(p.audio_languages).toEqual(['de']);
   });
+
+  it('detects CAM/HDCAM/CAMRIP as screener sources', () => {
+    expect(parseName('Movie.2024.1080p.CAM.x264.mkv').source).toBe('screener');
+    expect(parseName('Movie.2024.1080p.HDCAM.x264.mkv').source).toBe('screener');
+    expect(parseName('Movie.2024.CAMRIP.x264.mkv').source).toBe('screener');
+  });
+
+  it('detects TELESYNC/HDTS as screener sources (but not bare TS)', () => {
+    // "TS" alone is too short and collides with arbitrary tokens (file
+    // extensions like .ts, "scenes ts" filename fragments, etc.). Only
+    // explicit TELESYNC and HDTS forms are detected.
+    expect(parseName('Movie.2024.1080p.TELESYNC.x264.mkv').source).toBe('screener');
+    expect(parseName('Movie.2024.HDTS.x264.mkv').source).toBe('screener');
+  });
+
+  it('detects SCREENER/SCR/DVDSCR/BDSCR as screener sources', () => {
+    expect(parseName('Movie.2024.SCREENER.x264.mkv').source).toBe('screener');
+    expect(parseName('Movie.2024.DVDSCR.x264.mkv').source).toBe('screener');
+    expect(parseName('Movie.2024.BDSCR.x264.mkv').source).toBe('screener');
+  });
 });

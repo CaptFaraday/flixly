@@ -24,6 +24,9 @@ const ACODEC_PATTERNS: Array<[RegExp, ParsedName['audio_codec']]> = [
 ];
 
 const SOURCE_PATTERNS: Array<[RegExp, ParsedName['source']]> = [
+  // Screener tier comes first: a "BluRay.SCREENER" rip is a screener, not
+  // a clean BluRay, so the screener pattern must win over BluRay.
+  [/\b(cam|hdcam|camrip|telesync|hdts|screener|dvdscr|bdscr|scr)\b/i, 'screener'],
   [/\bremux\b/i, 'remux'],
   [/\b(bluray|bdrip)\b/i, 'bluray'],
   [/\bweb.?dl\b/i, 'webdl'],
