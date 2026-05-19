@@ -123,7 +123,13 @@ export function scoreSubMatch(ripFilename: string, sub: RichSubtitle): number {
 }
 
 const EDIT_TAG_PATTERNS: Array<[RegExp, string]> = [
-  [/\bREMASTER(ED)?\b/i, 'REMASTERED'],
+  // REMASTERED variants. Tigole and other modern groups often tag remasters
+  // as "RM4K" (or "4K REMASTER", "REMASTER 4K"). The plain "REMASTER" pattern
+  // alone misses these — and a 4K-remaster has different scene cuts/timing
+  // than the original release, so subs from the non-remaster ETRG/RARBG-style
+  // rips drift. Real-world bug: "In Bruges (2008) RM4K (1080p ... Tigole)"
+  // was getting "In.Bruges.2008.1080p.BluRay.x264.AC3-ETRG.eng.srt" attached.
+  [/\bREMASTER(ED)?\b|\bRM4K\b|\b4K\s*REMASTER(ED)?\b|\bREMASTER(ED)?\s*4K\b/i, 'REMASTERED'],
   [/\bEXTENDED\b|\bEXT\.?CUT\b/i, 'EXTENDED'],
   [/\bUNRATED\b|\bUNCUT\b/i, 'UNRATED'],
   [/\bDIRECTOR'?S?[\s\.\-]?CUT\b|\bDCUT\b/i, 'DIRECTORS'],
@@ -213,10 +219,21 @@ export async function fetchSubtitlesByHash(hash: string, size: number, lang = 'e
   }
 }
 
-/** Returns the set of language codes for which we have subtitles. */
+/** Returns the set of language codes for which we have subtitles.
+ *
+ * Tries the Stremio v3 OpenSubtitles mirror first (fast, cached). If it
+ * returns nothing — observed on tt33100314 / Remarkably Bright Creatures
+ * where the v3 mirror has no English subs but the REST API has plenty —
+ * fall back to the OS REST API for English specifically. Without this
+ * fallback the picker rejects the entire movie as no_subtitles and the
+ * user sees "Can't play right now" for movies that have working subs. */
 export async function preflightSubtitles(imdbId: string): Promise<string[]> {
   const tracks = await fetchSubtitlesForMovie(imdbId);
-  return Array.from(new Set(tracks.map((t) => normalizeLang(t.lang))));
+  if (tracks.length > 0) {
+    return Array.from(new Set(tracks.map((t) => normalizeLang(t.lang))));
+  }
+  const richEnglish = await fetchSubtitlesByImdb(imdbId, 'eng');
+  return richEnglish.length > 0 ? ['en'] : [];
 }
 
 function normalizeLang(lang: string): string {
