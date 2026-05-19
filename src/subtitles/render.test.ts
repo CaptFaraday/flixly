@@ -68,7 +68,7 @@ describe('srtUrlToVttBlobUrl', () => {
     const srt = '1\n00:00:01,000 --> 00:00:02,000\nVisit YTS.MX for more\n\n2\n00:00:03,000 --> 00:00:04,000\nReal dialogue\n';
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(srt, { status: 200 }));
     let captured: Blob | undefined;
-    vi.spyOn(URL, 'createObjectURL').mockImplementation((blob: Blob) => { captured = blob; return 'blob:fake'; });
+    vi.spyOn(URL, 'createObjectURL').mockImplementation((obj: Blob | MediaSource) => { captured = obj as Blob; return 'blob:fake'; });
     await srtUrlToVttBlobUrl('about:test');
     const text = await captured!.text();
     expect(text).not.toMatch(/YTS\.MX/i);
