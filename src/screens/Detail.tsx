@@ -5,6 +5,7 @@ import { TopNav } from '../components/TopNav';
 import type { Movie } from '../types';
 import { toggleWatchlist, watchlist, settings } from '../state/store';
 import { fetchTorrentioCandidates } from '../sources/torrentio';
+import { preWarmProbes } from '../sources/prewarm-probes';
 import { fetchSubtitlesByImdb } from '../subtitles/opensubtitles';
 import { recordAvailability, getAvailability } from '../state/availability';
 
@@ -35,6 +36,10 @@ export function Detail({ movie, onPlay, onNavigate }: Props) {
         // re-hitting Torrentio.
         const hasPlayable = candidates.some((c) => c.directUrl);
         recordAvailability(movie.imdb_id, hasPlayable);
+        // Pre-warm the localhost probe service so Player's Stage 1 probe
+        // phase hits the service cache (6h TTL per infohash) and returns
+        // in <100ms instead of 1-5s of CDN walks.
+        preWarmProbes(candidates, 15);
       })
       .catch(() => { /* */ });
     if (s.require_subtitles) void fetchSubtitlesByImdb(movie.imdb_id, 'eng');
