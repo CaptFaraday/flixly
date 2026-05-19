@@ -7,6 +7,7 @@ import { ensureCapabilities } from '../sources/capabilities';
 import { fetchTorrentioCandidates } from '../sources/torrentio';
 import { deleteTorrentByHash, checkCached } from '../sources/torbox';
 import { rankAll, type PickReason } from '../sources/picker';
+import { probeAndShortCircuit } from '../sources/probe';
 import type { StreamCandidate } from '../types';
 import { preflightSubtitles, fetchSubtitlesForMovie, fetchSubtitlesByHash, fetchSubtitlesByImdb, pickBestSubForRip, scoreSubMatch } from '../subtitles/opensubtitles';
 import { srtUrlToVttBlobUrl } from '../subtitles/render';
@@ -171,37 +172,20 @@ export function Player({ movie, onClose }: { movie: Movie; onClose: () => void }
         const tProbeStart = performance.now();
         const PROBE_TOP_N = 5;
         const PROBE_WALL_BUDGET_MS = 7000;
-        const top = playable.slice(0, PROBE_TOP_N);
-        const probes = top.map(async (c) => {
-          try {
-            const probeReq = new Promise<{ ok: boolean; reason?: string }>((resolve) => {
-              const t = setTimeout(() => resolve({ ok: false, reason: 'probe wall timeout' }), PROBE_WALL_BUDGET_MS);
-              fetch(`http://127.0.0.1:11470/probe?url=${encodeURIComponent(c.directUrl!)}`)
-                .then((r) => r.json())
-                .then((j) => { clearTimeout(t); resolve(j); })
-                .catch((e) => { clearTimeout(t); resolve({ ok: false, reason: e instanceof Error ? e.message : String(e) }); });
-            });
-            const r = await probeReq;
-            return { candidate: c, ok: r.ok, reason: r.ok ? undefined : r.reason };
-          } catch {
-            return { candidate: c, ok: true };
-          }
-        });
-        const probeResults = await Promise.all(probes);
+        const probeFn = (url: string, signal: AbortSignal) =>
+          new Promise<{ ok: boolean; reason?: string }>((resolve) => {
+            const t = setTimeout(() => resolve({ ok: false, reason: 'probe wall timeout' }), PROBE_WALL_BUDGET_MS);
+            fetch(`http://127.0.0.1:11470/probe?url=${encodeURIComponent(url)}`, { signal })
+              .then((r) => r.json())
+              .then((j) => { clearTimeout(t); resolve(j); })
+              .catch((e) => { clearTimeout(t); resolve({ ok: false, reason: e instanceof Error ? e.message : String(e) }); });
+          });
+        const outcome = await probeAndShortCircuit(playable, { probe: probeFn, topN: PROBE_TOP_N });
         if (cancelled) return;
         tStage.probeMs = Math.round(performance.now() - tProbeStart);
-        const verified = probeResults.filter((p) => p.ok).map((p) => p.candidate);
-        const skipped = probeResults.filter((p) => !p.ok);
-        if (verified.length > 0) {
-          // Keep the picker order: take verified candidates in their original
-          // rank, then append the rest (positions past PROBE_TOP_N that we
-          // didn't probe). Probed-and-failed candidates are dropped.
-          const probedFilenames = new Set(probeResults.map((p) => p.candidate.filename));
-          const rest = playable.filter((c) => !probedFilenames.has(c.filename));
-          playable = verified.concat(rest);
-        }
-        try { (window as any).__flixlyProbeResults = probeResults.map((p) => ({ filename: p.candidate.filename, ok: p.ok, reason: p.reason })); } catch { /* */ }
-        if (skipped.length > 0) console.log('[flixly:probe] skipped', skipped.length, 'of', probeResults.length);
+        if (outcome.playable.length > 0) playable = outcome.playable;
+        try { (window as any).__flixlyProbeResults = outcome.results; } catch { /* */ }
+        if (outcome.verifiedIndex == null) console.log('[flixly:probe] no candidate verified out of', outcome.results.length);
 
         failuresRef.current = [];
         tStage.totalStage1 = Math.round(performance.now() - t0);
