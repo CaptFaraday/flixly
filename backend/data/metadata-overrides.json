@@ -1,0 +1,8 @@
+{
+  "_comment": "Per-tmdb_id corrections for TMDB metadata that doesn't match how torrents/subtitle providers name the title. Seed: re-released films whose primary release_date points at a recent theatrical re-release, not the original. Add new entries when you find one.",
+  "556574": {
+    "_title": "Hamilton",
+    "year": 2020,
+    "_reason": "TMDB primary release_date is 2025-09-05 (theatrical re-release). Disney+ original was 2020-07-03. Torrents are named with 2020."
+  }
+}

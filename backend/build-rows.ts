@@ -5,6 +5,7 @@ import type { DiscoverMovie, ReleaseDates } from './sources/tmdb';
 import { OmdbClient } from './sources/omdb';
 import { composite } from './lib/score';
 import { pickReleaseYear } from './lib/release-year';
+import { applyOverride, loadOverrides } from './lib/metadata-overrides';
 
 // ---------- env loading (no dotenv dep — read .env manually) ----------
 function loadDotenvIfPresent() {
@@ -25,6 +26,7 @@ if (!OMDB_API_KEY) { console.error('Missing OMDB_API_KEY env'); process.exit(1);
 
 const tmdb = new TmdbClient(TMDB_TOKEN);
 const omdb = new OmdbClient(OMDB_API_KEY);
+const OVERRIDES = loadOverrides(resolve(process.cwd(), 'backend/data/metadata-overrides.json'));
 
 // ---------- shared types (matches src/types.ts contract) ----------
 interface Movie {
@@ -76,7 +78,7 @@ async function hydrate(d: DiscoverMovie): Promise<Movie | null> {
   ]);
   const digitalReleaseDate = releaseDates.digital_us ?? details.release_date;
 
-  return {
+  const movie: Movie = {
     imdb_id: details.imdb_id,
     tmdb_id: d.id,
     title: details.title,
@@ -95,6 +97,7 @@ async function hydrate(d: DiscoverMovie): Promise<Movie | null> {
     ...(credits.director ? { director: credits.director } : {}),
     cast: credits.cast,
   };
+  return applyOverride(movie, OVERRIDES);
 }
 
 // ---------- row builders ----------
