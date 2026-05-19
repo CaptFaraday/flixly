@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T12:14:22.705Z",
+  "generated_at": "2026-05-19T15:50:02.851Z",
   "shelves": [
     {
       "id": "just-hit-streaming",
@@ -708,7 +708,7 @@
             "Crime"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/qQclTgLMDvGBuUBFGHRipxkEwWR.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/qO55CD8tgVL1T4WKn6zYFFiD6lL.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/cccXiN28CPjcMVhji5LnogF4Njp.jpg",
           "overview": "As Frank Castle searches for meaning beyond revenge, an unexpected force pulls him back into the fight.",
           "scores": {},
           "digital_release_date": "2026-05-12",
@@ -2868,7 +2868,7 @@
             "Crime"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/qQclTgLMDvGBuUBFGHRipxkEwWR.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/qO55CD8tgVL1T4WKn6zYFFiD6lL.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/cccXiN28CPjcMVhji5LnogF4Njp.jpg",
           "overview": "As Frank Castle searches for meaning beyond revenge, an unexpected force pulls him back into the fight.",
           "scores": {},
           "digital_release_date": "2026-05-12",
@@ -2926,7 +2926,7 @@
             "imdb": 8.4
           },
           "digital_release_date": "2018-07-31",
-          "director": "Joe Russo",
+          "director": "Anthony Russo",
           "cast": [
             "Robert Downey Jr.",
             "Chris Evans",
@@ -2953,7 +2953,7 @@
             "imdb": 8.4
           },
           "digital_release_date": "2019-07-30",
-          "director": "Joe Russo",
+          "director": "Anthony Russo",
           "cast": [
             "Robert Downey Jr.",
             "Chris Evans",
@@ -3418,7 +3418,7 @@
             "imdb": 6.9
           },
           "digital_release_date": "2019-12-03",
-          "director": "Matt Bettinelli-Olpin",
+          "director": "Tyler Gillett",
           "cast": [
             "Samara Weaving",
             "Adam Brody",
