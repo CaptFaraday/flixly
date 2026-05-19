@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T05:15:30.216Z",
+  "generated_at": "2026-05-19T12:14:22.705Z",
   "shelves": [
     {
       "id": "just-hit-streaming",
@@ -7,6 +7,31 @@
       "title": "Just Hit Streaming",
       "subtitle": "Theatrical → home, last 60 days",
       "items": [
+        {
+          "imdb_id": "tt37287335",
+          "tmdb_id": 1339713,
+          "title": "Obsession",
+          "year": 2025,
+          "runtime": 108,
+          "genres": [
+            "Horror"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/5kY3Aw2abeqr3YCJB6xourYMoma.jpg",
+          "overview": "After breaking the mysterious \"One Wish Willow\" to win his crush's heart, a hopeless romantic finds himself getting exactly what he asked for but soon discovers that some desires come at a dark, sinister price.",
+          "scores": {
+            "rt": 96,
+            "metacritic": 78,
+            "imdb": 7.6
+          },
+          "digital_release_date": "2026-06-02",
+          "director": "Curry Barker",
+          "cast": [
+            "Michael Johnston",
+            "Inde Navarrette",
+            "Cooper Tomlinson"
+          ]
+        },
         {
           "imdb_id": "tt12042730",
           "tmdb_id": 687163,
@@ -123,8 +148,7 @@
           "genres": [
             "Animation",
             "Comedy",
-            "Family",
-            "Action"
+            "Family"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/wfuqMlaExcoYiUEvKfVpUTt1v4u.jpg",
           "backdrop": "https://image.tmdb.org/t/p/original/tq3h43fZy0H80vzf47MAY7R9Mxo.jpg",
@@ -324,8 +348,7 @@
           "genres": [
             "Animation",
             "Comedy",
-            "Family",
-            "Action"
+            "Family"
           ],
           "poster": "https://image.tmdb.org/t/p/w500/wfuqMlaExcoYiUEvKfVpUTt1v4u.jpg",
           "backdrop": "https://image.tmdb.org/t/p/original/tq3h43fZy0H80vzf47MAY7R9Mxo.jpg",
@@ -548,6 +571,31 @@
           ]
         },
         {
+          "imdb_id": "tt32612507",
+          "tmdb_id": 1304313,
+          "title": "Lee Cronin's The Mummy",
+          "year": 2026,
+          "runtime": 133,
+          "genres": [
+            "Horror",
+            "Mystery"
+          ],
+          "poster": "https://image.tmdb.org/t/p/w500/lTQoEczVEnkuxHFEGgWYfJB98tL.jpg",
+          "backdrop": "https://image.tmdb.org/t/p/original/wMrV8SLne1jHLeYS0lLrA1Tf86P.jpg",
+          "overview": "The young daughter of a journalist disappears into the desert without a trace—eight years later, the broken family is shocked when she is returned to them, as what should be a joyful reunion turns into a living nightmare.",
+          "scores": {
+            "metacritic": 48,
+            "imdb": 6.5
+          },
+          "digital_release_date": "2026-05-19",
+          "director": "Lee Cronin",
+          "cast": [
+            "Jack Reynor",
+            "Laia Costa",
+            "May Calamawy"
+          ]
+        },
+        {
           "imdb_id": "tt33714084",
           "tmdb_id": 1367642,
           "title": "Reminders of Him",
@@ -692,29 +740,6 @@
             "Karl Urban",
             "Adeline Rudolph",
             "Jessica McNamee"
-          ]
-        },
-        {
-          "imdb_id": "tt22740896",
-          "tmdb_id": 1034716,
-          "title": "People We Meet on Vacation",
-          "year": 2026,
-          "runtime": 116,
-          "genres": [
-            "Comedy",
-            "Romance",
-            "Drama"
-          ],
-          "poster": "https://image.tmdb.org/t/p/w500/peG6482ALJQ9Tbvv2P38BquVk0f.jpg",
-          "backdrop": "https://image.tmdb.org/t/p/original/qa3oDSDZSJKSdIdBgQgEAxO0N88.jpg",
-          "overview": "Poppy's a free spirit. Alex loves a plan. After years of summer vacations, these polar-opposite pals wonder if they could be a perfect romantic match.",
-          "scores": {},
-          "digital_release_date": "2026-01-09",
-          "director": "Brett Haley",
-          "cast": [
-            "Emily Bader",
-            "Tom Blyth",
-            "Sarah Catherine Hook"
           ]
         }
       ]
@@ -1144,7 +1169,7 @@
             "imdb": 7.1
           },
           "digital_release_date": "2025-07-01",
-          "director": "Danny Philippou",
+          "director": "Michael Philippou",
           "cast": [
             "Billy Barratt",
             "Sally Hawkins",
@@ -1250,7 +1275,7 @@
             "metacritic": 60,
             "imdb": 4
           },
-          "digital_release_date": "2026-04-16",
+          "digital_release_date": "2026-05-19",
           "director": "David Lowery",
           "cast": [
             "Anne Hathaway",
@@ -2901,7 +2926,7 @@
             "imdb": 8.4
           },
           "digital_release_date": "2018-07-31",
-          "director": "Anthony Russo",
+          "director": "Joe Russo",
           "cast": [
             "Robert Downey Jr.",
             "Chris Evans",
@@ -2928,7 +2953,7 @@
             "imdb": 8.4
           },
           "digital_release_date": "2019-07-30",
-          "director": "Anthony Russo",
+          "director": "Joe Russo",
           "cast": [
             "Robert Downey Jr.",
             "Chris Evans",
